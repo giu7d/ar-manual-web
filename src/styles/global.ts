@@ -36,9 +36,17 @@ export default createGlobalStyle<{ theme: ITheme }>`
 		-ms-user-select: none;
 		user-select: none;
 		-webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
+		transition: 300ms all ease-out;
 
 		::-moz-focus-inner {
 			border: none;
 		}
+
+		
+  :active {
+    opacity: 0.5; 
+		transition: 300ms all ease-out;
+		border-style: none;
+  }
 	}
 `;
