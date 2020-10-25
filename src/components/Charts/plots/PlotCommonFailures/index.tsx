@@ -23,12 +23,8 @@ interface IProps {
 
 export const PlotCommonFailures: React.FC<IProps> = ({ data = [] }) => {
   const innerData = useMemo<ICommonFailure[]>(() => [...data], [data]);
-  const renderCustomizedLabel = ({
-    x = 0,
-    y = 0,
-    width = 0,
-    value = "",
-  }: LabelProps) => {
+
+  const renderCustomizedLabel = ({ x = 0, y = 0, value = "" }: LabelProps) => {
     return (
       <text
         x={x}
@@ -43,6 +39,7 @@ export const PlotCommonFailures: React.FC<IProps> = ({ data = [] }) => {
       </text>
     );
   };
+
   const renderCustomizedQtd = ({
     x = 0,
     y = 0,
@@ -64,8 +61,9 @@ export const PlotCommonFailures: React.FC<IProps> = ({ data = [] }) => {
       </text>
     );
   };
+
   return (
-    <ResponsiveContainer width="100%" aspect={4.0 / 3.0}>
+    <ResponsiveContainer width="99%" aspect={1.5}>
       <BarChart layout="vertical" data={innerData}>
         <Bar
           isAnimationActive={false}
@@ -73,7 +71,6 @@ export const PlotCommonFailures: React.FC<IProps> = ({ data = [] }) => {
           minPointSize={15}
           barSize={20}
           radius={4}
-          fill="#413ea0"
         >
           {innerData.map((entry, index) => (
             <Cell key={`cell-${index}`} fill={entry.color || "#413ea0"} />

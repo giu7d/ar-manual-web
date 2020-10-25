@@ -23,6 +23,7 @@ export const Wrapper = styled.div<IWrapperProps>`
   align-items: flex-start;
   justify-content: space-between;
 
+  width: 150px;
   min-width: 150px;
   border-radius: ${({ theme }) => theme.roundness}px;
 

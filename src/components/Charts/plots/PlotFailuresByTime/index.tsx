@@ -31,7 +31,7 @@ export const PlotFailureByTime: React.FC<IProps> = ({
   };
 
   return (
-    <ResponsiveContainer width="100%" aspect={4.0 / 3.0}>
+    <ResponsiveContainer width="99%" aspect={1.5}>
       <AreaChart data={innerData}>
         <defs>
           <linearGradient id="failure-area" x1="0" y1="0" x2="0" y2="1">

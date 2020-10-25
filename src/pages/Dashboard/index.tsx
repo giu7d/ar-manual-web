@@ -9,7 +9,7 @@ import { Indicator } from "../../components/Indicator";
 import { SideScroll } from "../../components/SideScroll";
 import { ITheme } from "../../theme";
 
-import { ChartsWrapper, Wrapper } from "./styles";
+import { ChartsWrapper, ChardsFlexWrapper, Wrapper } from "./styles";
 import { PlotCommonFailures } from "../../components/Charts/plots/PlotCommonFailures";
 
 import { CommonFailures, FailureXTimeData, Indicators } from "../../server";
@@ -29,21 +29,38 @@ export const Dashboard: React.FC<IProps> = (props) => {
       </SideScroll>
       <ChartsWrapper>
         <ChartFilter />
-        <ChartCard title="Common Failures">
-          <PlotCommonFailures data={CommonFailures} />
-        </ChartCard>
-        <ChartCard
-          title={
-            <>
-              Failures <small>x</small> Time
-            </>
-          }
-        >
-          <PlotFailureByTime
-            color={theme.colors.primary}
-            data={FailureXTimeData}
-          />
-        </ChartCard>
+        <ChardsFlexWrapper>
+          <ChartCard title="Common Failures">
+            <PlotCommonFailures data={CommonFailures} />
+          </ChartCard>
+          <ChartCard
+            title={
+              <>
+                Failures <small>x</small> Time
+              </>
+            }
+          >
+            <PlotFailureByTime
+              color={theme.colors.primary}
+              data={FailureXTimeData}
+            />
+          </ChartCard>
+          <ChartCard title="Common Failures">
+            <PlotCommonFailures data={CommonFailures} />
+          </ChartCard>
+          <ChartCard
+            title={
+              <>
+                Failures <small>x</small> Time
+              </>
+            }
+          >
+            <PlotFailureByTime
+              color={theme.colors.primary}
+              data={FailureXTimeData}
+            />
+          </ChartCard>
+        </ChardsFlexWrapper>
       </ChartsWrapper>
     </Wrapper>
   );
