@@ -19,12 +19,17 @@ export const ChartsWrapper = styled.section<IThemeProps>`
   max-width: 1000px;
   flex-direction: column;
   align-self: center;
+
+  @media only screen and (min-width: 1500px) {
+    max-width: 1200px;
+  }
 `;
 
 export const ChardsFlexWrapper = styled.section<IThemeProps>`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  margin: 24px 0;
 
   @media only screen and (min-width: 760px) {
     flex-direction: row;

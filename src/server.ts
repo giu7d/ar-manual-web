@@ -74,3 +74,13 @@ export const CommonFailures = [
     color: "#FB5555",
   },
 ];
+
+export const UserByFailures = [
+  { failures: 20, user: { initial: "l", name: "lorem ipsum" } },
+  {
+    failures: 10,
+    user: { initial: "g", name: "giuseppe setem" },
+  },
+  { failures: 5, user: { initial: "a", name: "another user" } },
+  { failures: 2, user: { initial: "w", name: "wagner ipsum" } },
+];
