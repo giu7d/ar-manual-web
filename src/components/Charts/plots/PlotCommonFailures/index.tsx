@@ -1,5 +1,4 @@
 import React, { useMemo } from "react";
-
 import {
   ResponsiveContainer,
   BarChart,
@@ -10,6 +9,9 @@ import {
   LabelList,
   LabelProps,
 } from "recharts";
+
+import { CommonFailuresLabel } from "./CommonFailuresLabel";
+import { CommonFailuresQuantity } from "./CommonFailuresQuantity";
 
 interface ICommonFailure {
   failure: string;
@@ -23,44 +25,6 @@ interface IProps {
 
 export const PlotCommonFailures: React.FC<IProps> = ({ data = [] }) => {
   const innerData = useMemo<ICommonFailure[]>(() => [...data], [data]);
-
-  const renderCustomizedLabel = ({ x = 0, y = 0, value = "" }: LabelProps) => {
-    return (
-      <text
-        x={x}
-        y={y}
-        dy={-8}
-        fill="#333"
-        opacity={0.75}
-        fontWeight="400"
-        fontSize={16}
-      >
-        {value}
-      </text>
-    );
-  };
-
-  const renderCustomizedQtd = ({
-    x = 0,
-    y = 0,
-    width = 0,
-    value = "",
-  }: LabelProps) => {
-    return (
-      <text
-        x={x}
-        y={y}
-        dy={15}
-        dx={width + x}
-        fill="#333"
-        opacity={0.75}
-        fontWeight="600"
-        fontSize={14}
-      >
-        {value}
-      </text>
-    );
-  };
 
   return (
     <ResponsiveContainer width="99%" aspect={1.5}>
@@ -78,12 +42,14 @@ export const PlotCommonFailures: React.FC<IProps> = ({ data = [] }) => {
           <LabelList
             dataKey="failure"
             position="top"
-            content={renderCustomizedLabel}
+            content={(label: LabelProps) => <CommonFailuresLabel {...label} />}
           />
           <LabelList
             dataKey="quantity"
             position="right"
-            content={renderCustomizedQtd}
+            content={(label: LabelProps) => (
+              <CommonFailuresQuantity {...label} />
+            )}
           />
         </Bar>
         <XAxis type="number" hide />

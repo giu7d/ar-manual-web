@@ -24,6 +24,11 @@ export const Title = styled.h1<IThemeProps>`
   align-items: flex-end;
   justify-content: center;
 
+  @media only screen and (min-width: 760px) {
+    justify-content: flex-start;
+    margin-left: 24px;
+  }
+
   .icon {
     margin-right: 0.5rem;
     font-size: 3rem;

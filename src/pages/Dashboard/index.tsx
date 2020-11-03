@@ -6,62 +6,65 @@ import { ChartCard } from "../../components/Charts/ChartCard";
 import { PlotFailureByTime } from "../../components/Charts/plots/PlotFailuresByTime";
 import { ChartFilter } from "../../components/Charts/ChartFilter";
 import { Indicator } from "../../components/Indicator";
-import { SideScroll } from "../../components/SideScroll";
 import { ITheme } from "../../theme";
-
-import { ChartsWrapper, ChardsFlexWrapper, Wrapper } from "./styles";
 import { PlotCommonFailures } from "../../components/Charts/plots/PlotCommonFailures";
-
+import { PlotUserByFailures } from "../../components/Charts/plots/PlotUserByFailures";
 import { CommonFailures, FailureXTimeData, Indicators } from "../../server";
+import { ChartsWrapper, ChardsFlexWrapper, Wrapper } from "./styles";
+import { SideScroll } from "../../components/SideScroll";
 
-interface IProps {}
-
-export const Dashboard: React.FC<IProps> = (props) => {
+export const Dashboard = () => {
   const theme = useTheme() as ITheme;
 
   return (
-    <Wrapper>
+    <>
       <AppBar />
-      <SideScroll>
-        {Indicators.map((item) => (
-          <Indicator key={item.id} {...item} />
-        ))}
-      </SideScroll>
-      <ChartsWrapper>
-        <ChartFilter />
-        <ChardsFlexWrapper>
-          <ChartCard title="Common Failures">
-            <PlotCommonFailures data={CommonFailures} />
-          </ChartCard>
-          <ChartCard
-            title={
-              <>
-                Failures <small>x</small> Time
-              </>
-            }
-          >
-            <PlotFailureByTime
-              color={theme.colors.primary}
-              data={FailureXTimeData}
-            />
-          </ChartCard>
-          <ChartCard title="Common Failures">
-            <PlotCommonFailures data={CommonFailures} />
-          </ChartCard>
-          <ChartCard
-            title={
-              <>
-                Failures <small>x</small> Time
-              </>
-            }
-          >
-            <PlotFailureByTime
-              color={theme.colors.primary}
-              data={FailureXTimeData}
-            />
-          </ChartCard>
-        </ChardsFlexWrapper>
-      </ChartsWrapper>
-    </Wrapper>
+      <Wrapper>
+        <SideScroll>
+          {Indicators.map((item) => (
+            <Indicator key={item.id} {...item} />
+          ))}
+        </SideScroll>
+        <ChartsWrapper>
+          <ChartFilter />
+          <ChardsFlexWrapper>
+            <ChartCard title="Common Failures">
+              <PlotCommonFailures data={CommonFailures} />
+            </ChartCard>
+            <ChartCard
+              title={
+                <>
+                  Failures <small>x</small> Time
+                </>
+              }
+            >
+              <PlotFailureByTime
+                color={theme.colors.primary}
+                data={FailureXTimeData}
+              />
+            </ChartCard>
+            <ChartCard
+              title={
+                <>
+                  Failures <small>x</small> User
+                </>
+              }
+            >
+              <PlotUserByFailures
+                data={[
+                  { failures: 20, user: { initial: "l", name: "lorem ipsum" } },
+                  {
+                    failures: 10,
+                    user: { initial: "g", name: "giuseppe setem" },
+                  },
+                  { failures: 5, user: { initial: "a", name: "another user" } },
+                  { failures: 2, user: { initial: "w", name: "wagner ipsum" } },
+                ]}
+              />
+            </ChartCard>
+          </ChardsFlexWrapper>
+        </ChartsWrapper>
+      </Wrapper>
+    </>
   );
 };

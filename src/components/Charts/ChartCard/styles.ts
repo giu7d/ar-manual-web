@@ -30,4 +30,9 @@ export const Wrapper = styled.div<IWrapperProps>`
   .content {
     margin: 0 14px 24px 14px;
   }
+
+  @media only screen and (min-width: 760px) {
+    min-width: 350px;
+    max-width: 370px;
+  }
 `;
