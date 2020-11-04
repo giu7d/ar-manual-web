@@ -26,7 +26,7 @@ export const PlotCommonFailures: React.FC<IProps> = ({ data = [] }) => {
 
   return (
     <ResponsiveContainer width="99%" aspect={1.5}>
-      <BarChart layout="vertical" data={innerData}>
+      <BarChart layout="vertical" margin={{ top: 24 }} data={innerData}>
         <Bar
           isAnimationActive={false}
           dataKey="qtd"
