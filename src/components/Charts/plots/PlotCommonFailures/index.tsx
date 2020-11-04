@@ -9,35 +9,33 @@ import {
   LabelList,
   LabelProps,
 } from "recharts";
+import { getColor } from "../../../../utils";
 
 import { CommonFailuresLabel } from "./CommonFailuresLabel";
 import { CommonFailuresQuantity } from "./CommonFailuresQuantity";
 
-interface ICommonFailure {
-  failure: string;
-  quantity: number;
-  color?: string;
-}
-
 interface IProps {
-  data?: ICommonFailure[];
+  data?: {
+    failure: string;
+    qtd: number;
+  }[];
 }
 
 export const PlotCommonFailures: React.FC<IProps> = ({ data = [] }) => {
-  const innerData = useMemo<ICommonFailure[]>(() => [...data], [data]);
+  const innerData = useMemo(() => [...data], [data]);
 
   return (
     <ResponsiveContainer width="99%" aspect={1.5}>
       <BarChart layout="vertical" data={innerData}>
         <Bar
           isAnimationActive={false}
-          dataKey="quantity"
+          dataKey="qtd"
           minPointSize={15}
           barSize={20}
           radius={4}
         >
           {innerData.map((entry, index) => (
-            <Cell key={`cell-${index}`} fill={entry.color || "#413ea0"} />
+            <Cell key={`cell-${index}`} fill={getColor() || "#413ea0"} />
           ))}
           <LabelList
             dataKey="failure"
@@ -45,7 +43,7 @@ export const PlotCommonFailures: React.FC<IProps> = ({ data = [] }) => {
             content={(label: LabelProps) => <CommonFailuresLabel {...label} />}
           />
           <LabelList
-            dataKey="quantity"
+            dataKey="qtd"
             position="right"
             content={(label: LabelProps) => (
               <CommonFailuresQuantity {...label} />

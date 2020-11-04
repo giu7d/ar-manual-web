@@ -28,59 +28,7 @@ export const Indicators: IIndicator[] = [
   {
     id: "3",
     title: "Manuals Available",
-    value: "34",
+    value: "2",
     color: "text",
   },
-];
-
-export const FailureXTimeData = [
-  {
-    failures: 25,
-    date: new Date(2020, 10, 2).toString(),
-  },
-  {
-    failures: 15,
-    date: new Date(2020, 10, 4).toString(),
-  },
-  {
-    failures: 55,
-    date: new Date(2020, 10, 5).toString(),
-  },
-  {
-    failures: 3,
-    date: new Date(2020, 10, 7).toString(),
-  },
-];
-
-export const CommonFailures = [
-  {
-    failure: "surface deformation",
-    quantity: 512,
-    color: "#0070F3",
-  },
-  {
-    failure: "grip",
-    quantity: 256,
-    color: "#FC0080",
-  },
-  {
-    failure: "sharp edges",
-    quantity: 128,
-    color: "#79FCE0",
-  },
-  {
-    failure: "material overlap",
-    quantity: 256,
-    color: "#FB5555",
-  },
-];
-
-export const UserByFailures = [
-  { failures: 20, user: { initial: "l", name: "lorem ipsum" } },
-  {
-    failures: 10,
-    user: { initial: "g", name: "giuseppe setem" },
-  },
-  { failures: 5, user: { initial: "a", name: "another user" } },
-  { failures: 2, user: { initial: "w", name: "wagner ipsum" } },
 ];

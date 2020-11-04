@@ -13,11 +13,11 @@ import { getColor, maskInitial } from "../../../../utils";
 
 interface IPlotUserByFailuresProps {
   data?: {
-    failures: number;
-    user: {
-      initial: string;
-      name: string;
+    account: {
+      id: string;
+      fullName: string;
     };
+    failures: number;
   }[];
 }
 
@@ -30,7 +30,7 @@ export const PlotUserByFailures: React.FC<IPlotUserByFailuresProps> = ({
     <ResponsiveContainer width="99%" aspect={1.5}>
       <BarChart data={innerData}>
         <XAxis
-          dataKey="user.name"
+          dataKey="account.fullName"
           axisLine={false}
           tickLine={false}
           tickFormatter={maskInitial}

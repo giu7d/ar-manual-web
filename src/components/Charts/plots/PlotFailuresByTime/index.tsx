@@ -14,7 +14,7 @@ interface IPlotFailureByTimeProps {
   color?: string;
   data?: {
     failures: number;
-    date: string;
+    timestamp: string;
   }[];
 }
 
@@ -34,7 +34,7 @@ export const PlotFailureByTime: React.FC<IPlotFailureByTimeProps> = ({
           </linearGradient>
         </defs>
         <XAxis
-          dataKey="date"
+          dataKey="timestamp"
           axisLine={false}
           tickFormatter={maskDateDayAndMonth}
         />
