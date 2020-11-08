@@ -1,12 +1,6 @@
 import styled from "styled-components";
 
-import { ITheme } from "../../../theme";
-
-interface IThemeProps {
-  theme: ITheme;
-}
-
-export const Wrapper = styled.section<IThemeProps>`
+export const Wrapper = styled.section<IDefaultStyledProps>`
   display: flex;
   padding: 24px;
   width: 100%;
@@ -19,7 +13,7 @@ export const Wrapper = styled.section<IThemeProps>`
   }
 `;
 
-export const ChartsWrapper = styled.section<IThemeProps>`
+export const ChartsWrapper = styled.section<IDefaultStyledProps>`
   display: flex;
   flex-direction: column;
   justify-content: center;

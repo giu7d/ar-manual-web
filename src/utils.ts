@@ -1,4 +1,4 @@
-import { Theme } from "./theme";
+import { Theme } from "./themes";
 
 export const maskInitial = (content: string) => {
   return content.toUpperCase()[0];

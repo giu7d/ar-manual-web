@@ -1,13 +1,7 @@
 import styled from "styled-components";
 import { rgba } from "polished";
 
-import { ITheme } from "../../theme";
-
-interface IThemeProps {
-  theme: ITheme;
-}
-
-export const Wrapper = styled.div<IThemeProps>`
+export const Wrapper = styled.div<IDefaultStyledProps>`
   display: flex;
   flex-direction: row;
   padding: 24px;
@@ -15,7 +9,7 @@ export const Wrapper = styled.div<IThemeProps>`
   justify-content: space-between;
 `;
 
-export const Title = styled.h1<IThemeProps>`
+export const Title = styled.h1<IDefaultStyledProps>`
   display: flex;
   flex: 1;
   font-weight: 600;

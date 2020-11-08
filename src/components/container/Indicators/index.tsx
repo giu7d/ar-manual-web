@@ -1,9 +1,10 @@
 import React from "react";
-import { Indicator } from "../../Indicator";
-import { SideScroll } from "../../SideScroll";
-import { Indicators as data } from "../../../server";
+
+import { Indicator } from "../../fragments/Indicator";
+import { SideScroll } from "../../fragments/SideScroll";
+import { IndicatorsShimmer } from "../../fragments/Shimmer/IndicatorsShimmer";
 import { useStatistics } from "../../../hooks/useStatistics";
-import { IndicatorsShimmer } from "../../Shimmer/IndicatorsShimmer";
+import { Indicators as data } from "../../../server";
 
 export const Indicators = () => {
   const { isLoading, isError } = useStatistics(

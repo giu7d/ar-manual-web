@@ -1,12 +1,7 @@
 import { rgba } from "polished";
 import styled from "styled-components";
 
-import { ITheme } from "../../../theme";
-
-interface IWrapperProps {
-  theme: ITheme;
-}
-export const Wrapper = styled.div<IWrapperProps>`
+export const Wrapper = styled.div<IDefaultStyledProps>`
   display: flex;
   flex-direction: column;
   flex: 1;

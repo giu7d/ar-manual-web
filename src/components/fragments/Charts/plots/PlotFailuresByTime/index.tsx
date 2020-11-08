@@ -8,7 +8,7 @@ import {
   XAxis,
 } from "recharts";
 
-import { maskDateDayAndMonth } from "../../../../utils";
+import { maskDateDayAndMonth } from "../../../../../utils";
 
 interface IPlotFailureByTimeProps {
   color?: string;

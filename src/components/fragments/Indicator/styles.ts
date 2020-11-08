@@ -1,17 +1,8 @@
 import styled from "styled-components";
 
-import { ITheme } from "../../theme";
-
 interface IWrapperProps {
   theme: ITheme;
-  color:
-    | "primary"
-    | "secondary"
-    | "danger"
-    | "text"
-    | "info"
-    | "success"
-    | "warn";
+  color: Omit<IThemeColors, "background" | "foreground">;
 }
 
 export const Wrapper = styled.div<IWrapperProps>`

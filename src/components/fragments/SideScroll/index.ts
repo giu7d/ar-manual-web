@@ -1,11 +1,6 @@
 import styled from "styled-components";
 
-import { ITheme } from "../../theme";
-
-interface IThemeProps {
-  theme: ITheme;
-}
-export const SideScroll = styled.div<IThemeProps>`
+export const SideScroll = styled.div<IDefaultStyledProps>`
   display: flex;
   margin: 24px 0;
   flex-direction: row;

@@ -2,13 +2,8 @@ import styled from "styled-components";
 import { rgba } from "polished";
 
 import { IconButton } from "../IconButton";
-import { ITheme } from "../../../theme";
 
-interface IThemeProps {
-  theme: ITheme;
-}
-
-export const AvatarButton = styled(IconButton)<IThemeProps>`
+export const AvatarButton = styled(IconButton)<IDefaultStyledProps>`
   font-weight: bold;
   color: ${({ theme }) => rgba(theme.colors.text, 0.75)};
   background-color: ${({ theme }) => rgba(theme.colors.foreground, 1)};

@@ -1,13 +1,7 @@
 import { rgba } from "polished";
 import styled from "styled-components";
 
-import { ITheme } from "../../../theme";
-
-interface IThemeProps {
-  theme: ITheme;
-}
-
-export const Wrapper = styled.div<IThemeProps>`
+export const Wrapper = styled.div<IDefaultStyledProps>`
   display: flex;
   flex-direction: row;
   align-items: center;

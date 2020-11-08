@@ -9,7 +9,7 @@ import {
   LabelList,
   LabelProps,
 } from "recharts";
-import { getColor } from "../../../../utils";
+import { getColor } from "../../../../../utils";
 
 import { CommonFailuresLabel } from "./CommonFailuresLabel";
 import { CommonFailuresQuantity } from "./CommonFailuresQuantity";

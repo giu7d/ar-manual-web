@@ -1,14 +1,13 @@
 import React from "react";
 import { useTheme } from "styled-components";
 
+import { ChartCard } from "../../fragments/Charts/ChartCard";
+import { ChartFilter } from "../../fragments/Charts/ChartFilter";
+import { PlotCommonFailures } from "../../fragments/Charts/plots/PlotCommonFailures";
+import { PlotFailureByTime } from "../../fragments/Charts/plots/PlotFailuresByTime";
+import { PlotUserByFailures } from "../../fragments/Charts/plots/PlotUserByFailures";
+import { CardShimmer } from "../../fragments/Shimmer/CardShimmer";
 import { useStatistics } from "../../../hooks/useStatistics";
-import { ITheme } from "../../../theme";
-import { ChartCard } from "../../Charts/ChartCard";
-import { ChartFilter } from "../../Charts/ChartFilter";
-import { PlotCommonFailures } from "../../Charts/plots/PlotCommonFailures";
-import { PlotFailureByTime } from "../../Charts/plots/PlotFailuresByTime";
-import { PlotUserByFailures } from "../../Charts/plots/PlotUserByFailures";
-import { CardShimmer } from "../../Shimmer/CardShimmer";
 import { ChartsWrapper, Wrapper } from "./styles";
 
 export const Statistics = () => {

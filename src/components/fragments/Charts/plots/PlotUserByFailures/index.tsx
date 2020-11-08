@@ -9,7 +9,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { getColor, maskInitial } from "../../../../utils";
+import { getColor, maskInitial } from "../../../../../utils";
 
 interface IPlotUserByFailuresProps {
   data?: {
