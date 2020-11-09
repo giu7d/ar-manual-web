@@ -1,11 +1,11 @@
 import React, { useEffect } from "react";
 
 import { Indicators } from "../../components/container/Indicators";
+import { SideBar } from "../../components/container/SideBar";
 import { Statistics } from "../../components/container/Statistics";
-
-import { AppBar } from "../../components/fragments/AppBar";
+import { AppBar } from "../../components/container/AppBar";
 import { login } from "../../services/api";
-import { Wrapper } from "./styles";
+import { Wrapper, InnerWrapper } from "./styles";
 
 export const Dashboard = () => {
   useEffect(() => {
@@ -13,12 +13,13 @@ export const Dashboard = () => {
   }, []);
 
   return (
-    <>
-      <AppBar />
-      <Wrapper>
+    <Wrapper>
+      <SideBar />
+      <InnerWrapper>
+        <AppBar />
         <Indicators />
         <Statistics />
-      </Wrapper>
-    </>
+      </InnerWrapper>
+    </Wrapper>
   );
 };
