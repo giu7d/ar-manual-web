@@ -8,6 +8,7 @@ export const Routes = () => {
     <BrowserRouter>
       <Switch>
         <Route path="/" component={Dashboard} exact />
+        <Route path="/manuals" component={Dashboard} exact />
       </Switch>
     </BrowserRouter>
   );

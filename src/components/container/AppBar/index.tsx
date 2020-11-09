@@ -17,7 +17,7 @@ export const AppBar = observer(() => {
       </IconButton>
       <Title>
         <FiBarChart2 className="icon" />
-        Dashboard {globalStore.navigationBar + " "}
+        Dashboard
       </Title>
       <AvatarButton onClick={() => {}}>G</AvatarButton>
     </Wrapper>
