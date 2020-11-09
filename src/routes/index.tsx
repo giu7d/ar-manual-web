@@ -1,14 +1,15 @@
 import React from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 
-import { Dashboard } from "../pages/Dashboard";
+import { pages } from "./pages";
 
 export const Routes = () => {
   return (
     <BrowserRouter>
       <Switch>
-        <Route path="/" component={Dashboard} exact />
-        <Route path="/manuals" component={Dashboard} exact />
+        {pages.map(({ component, route }) => (
+          <Route key={route} path={route} component={component} exact />
+        ))}
       </Switch>
     </BrowserRouter>
   );

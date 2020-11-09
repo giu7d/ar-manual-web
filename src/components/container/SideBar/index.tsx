@@ -1,41 +1,35 @@
 import React from "react";
 import { observer } from "mobx-react-lite";
+import { useRouteMatch, useHistory } from "react-router-dom";
 
-import { Wrapper } from "./styles";
 import { useStores } from "../../../hooks/useStores";
 import { NavigationButton } from "../../fragments/Buttons/NavigationButton";
-import { FiBarChart2, FiLayers } from "react-icons/fi";
-import { useRouteMatch } from "react-router-dom";
-
-const routes = [
-  {
-    icon: <FiBarChart2 size={18} />,
-    title: "Dashboard",
-    route: "/",
-  },
-  {
-    icon: <FiLayers size={18} />,
-    title: "Manuals",
-    route: "/manuals",
-  },
-];
+import { pages } from "../../../routes/pages";
+import { SideBarVariants } from "./variants";
+import { Wrapper } from "./styles";
 
 export const SideBar = observer(() => {
   const { globalStore } = useStores();
   const { path } = useRouteMatch();
+  const history = useHistory();
+
+  const handleNavigation = (path: string) => {
+    history.push(path);
+  };
 
   return (
     <Wrapper
-      initial={{
-        width: globalStore.navigationBar ? "250px" : "auto",
-      }}
-      animate={{
-        width: globalStore.navigationBar ? "250px" : "auto",
-      }}
+      initial={globalStore.navigationBar ? "expanded" : "collapsed"}
+      animate={globalStore.navigationBar ? "expanded" : "collapsed"}
+      variants={SideBarVariants}
     >
-      {routes.map(({ icon, title, route }) => (
-        <NavigationButton key={route} selected={path === route}>
-          {icon}
+      {pages.map(({ icon, title, route }) => (
+        <NavigationButton
+          key={route}
+          onClick={() => handleNavigation(route)}
+          selected={path === route}
+        >
+          {icon({ size: 18 })}
           {globalStore.navigationBar && <span>{title}</span>}
         </NavigationButton>
       ))}

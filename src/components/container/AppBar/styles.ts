@@ -24,7 +24,7 @@ export const Title = styled.h1<IDefaultStyledProps>`
   }
 
   .icon {
-    margin-right: 0.5rem;
+    margin-right: 1rem;
     font-size: 3rem;
     color: ${({ theme }) => rgba(theme.colors.primary, 1)};
   }

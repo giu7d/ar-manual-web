@@ -6,8 +6,16 @@ export const InnerWrapper = styled.main<IDefaultStyledProps>`
   flex: 1 1;
 `;
 
-export const Wrapper = styled.main<IDefaultStyledProps>`
+export const ScrollWrapper = styled.div<IDefaultStyledProps>`
+  display: flex;
+  flex-direction: column;
+  flex: 1 1;
+  overflow: auto;
+`;
+
+export const Wrapper = styled.div<IDefaultStyledProps>`
   display: flex;
   flex-direction: row;
   height: 100%;
+  overflow: hidden;
 `;

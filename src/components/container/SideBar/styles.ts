@@ -7,8 +7,9 @@ export const Wrapper = styled(motion.nav)<IDefaultStyledProps>`
   flex-direction: column;
   background-color: ${({ theme }) => theme.colors.foreground};
   padding: 24px 14px;
+  overflow: hidden;
 
   button {
-    margin-bottom: 24px;
+    margin-bottom: 14px;
   }
 `;
