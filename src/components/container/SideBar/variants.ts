@@ -1,5 +1,5 @@
 const COLLAPSED_WIDTH = "auto";
-const EXPANDED_WIDTH = 200;
+const EXPANDED_WIDTH = 250;
 
 export const SideBarVariants = {
   expanded: () => ({

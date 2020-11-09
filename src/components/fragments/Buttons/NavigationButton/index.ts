@@ -10,7 +10,7 @@ export const NavigationButton = styled.button<INavigationButtonProps>`
   display: flex;
   padding: 8px 14px;
   height: 48px;
-  border-radius: 14px;
+  border-radius: 8px;
   align-items: center;
   justify-content: flex-start;
 
