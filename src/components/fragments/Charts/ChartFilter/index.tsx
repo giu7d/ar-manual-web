@@ -9,12 +9,16 @@ interface IProps {
     label: string;
     value: string;
   }[];
+  onClick?: () => void;
 }
 
-export const ChartFilter: React.FC<IProps> = ({ filters = [] }) => {
+export const ChartFilter: React.FC<IProps> = ({
+  filters = [],
+  onClick = () => {},
+}) => {
   return (
     <Wrapper>
-      <IconButton>
+      <IconButton onClick={onClick}>
         <FiSliders className="icon" />
       </IconButton>
       {filters.map((filter, index) => (

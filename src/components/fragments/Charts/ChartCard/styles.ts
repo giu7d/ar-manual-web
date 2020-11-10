@@ -28,6 +28,6 @@ export const Wrapper = styled.div<IDefaultStyledProps>`
 
   @media only screen and (min-width: 760px) {
     min-width: 350px;
-    max-width: 370px;
+    max-width: 700px;
   }
 `;

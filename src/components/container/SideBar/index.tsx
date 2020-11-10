@@ -21,6 +21,7 @@ export const SideBar = observer(() => {
     <Wrapper
       initial={globalStore.navigationBar ? "expanded" : "collapsed"}
       animate={globalStore.navigationBar ? "expanded" : "collapsed"}
+      transition={{ bounceStiffness: 600, bounceDamping: 10 }}
       variants={SideBarVariants}
     >
       {pages.map(({ icon, title, route }) => (

@@ -7,9 +7,6 @@ export const InnerWrapper = styled.main<IDefaultStyledProps>`
 `;
 
 export const ScrollWrapper = styled.div<IDefaultStyledProps>`
-  display: flex;
-  flex-direction: column;
-  flex: 1 1;
   overflow: auto;
 `;
 

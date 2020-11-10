@@ -9,10 +9,12 @@ import { PlotUserByFailures } from "../../fragments/Charts/plots/PlotUserByFailu
 import { CardShimmer } from "../../fragments/Shimmer/CardShimmer";
 import { useStatistics } from "../../../hooks/useStatistics";
 import { ChartsWrapper, Wrapper } from "./styles";
+import { useStores } from "../../../hooks/useStores";
+import { observer } from "mobx-react";
 
-export const Statistics = () => {
+export const Statistics = observer(() => {
   const theme = useTheme() as ITheme;
-
+  const { globalStore } = useStores();
   const { statistics, isLoading, isError } = useStatistics(
     "72c515f7-3fea-426e-88a9-870aa659a1d2"
   );
@@ -33,6 +35,7 @@ export const Statistics = () => {
   return (
     <Wrapper>
       <ChartFilter
+        onClick={() => globalStore.setBottomSheet(true)}
         filters={[
           { label: "Components", value: "1697135X" },
           { label: "Period", value: "2020" },
@@ -70,4 +73,4 @@ export const Statistics = () => {
       </ChartsWrapper>
     </Wrapper>
   );
-};
+});
