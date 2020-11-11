@@ -16,9 +16,11 @@ export const Wrapper = styled(motion.div)<IDefaultStyledProps>`
   z-index: 999;
 
   @media only screen and (min-width: 760px) {
-    width: 50%;
-    left: calc(50% - (50% / 2));
+    width: fit-content;
+    margin: auto auto;
+    left: 50%;
     bottom: 24px;
+    transform: translateX(-50%);
   }
 
   & > .divider {
