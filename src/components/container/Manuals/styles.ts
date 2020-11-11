@@ -7,6 +7,11 @@ export const Wrapper = styled.section<IDefaultStyledProps>`
   max-width: 1000px;
   flex-direction: column;
 
+  & > button {
+    padding: 0 24px;
+    width: fit-content;
+  }
+
   @media only screen and (min-width: 1500px) {
     max-width: 1200px;
   }

@@ -5,6 +5,8 @@ import React from "react";
 import { ManualsWrapper, Wrapper } from "./styles";
 import { observer } from "mobx-react";
 import { Manual } from "../../fragments/Manual";
+import { NavigationButton } from "../../fragments/Buttons/NavigationButton";
+import { FiPlus } from "react-icons/fi";
 
 export const Manuals = observer(() => {
   // const { isLoading, isError } = useStatistics(
@@ -26,6 +28,10 @@ export const Manuals = observer(() => {
 
   return (
     <Wrapper>
+      <NavigationButton selected>
+        <FiPlus size={18} />
+        <span>Create Manual</span>
+      </NavigationButton>
       <ManualsWrapper>
         <Manual componentSeries="1697135X" />
         <Manual componentSeries="1697135X" />
