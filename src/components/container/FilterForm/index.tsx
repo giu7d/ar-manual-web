@@ -1,10 +1,20 @@
 import React from "react";
+import { useStores } from "../../../hooks/useStores";
 
 import { NavigationButton } from "../../fragments/Buttons/NavigationButton";
 import { Input, Label } from "../../fragments/Input";
 import { ActionWrapper, FormInput, FormWrapper } from "./styles";
 
 export const FilterForm = () => {
+  const { globalStore } = useStores();
+
+  const handleClose = () => {
+    globalStore.setBottomSheet(false);
+  };
+
+  const handleSubmit = () => {
+    globalStore.setBottomSheet(false);
+  };
   return (
     <>
       <FormWrapper>
@@ -28,8 +38,10 @@ export const FilterForm = () => {
         </div>
       </FormWrapper>
       <ActionWrapper>
-        <NavigationButton>Cancel</NavigationButton>
-        <NavigationButton selected>Save</NavigationButton>
+        <NavigationButton onClick={handleClose}>Cancel</NavigationButton>
+        <NavigationButton onClick={handleSubmit} selected>
+          Save
+        </NavigationButton>
       </ActionWrapper>
     </>
   );

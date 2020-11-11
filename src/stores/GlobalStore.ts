@@ -3,7 +3,7 @@ import { makeAutoObservable } from "mobx";
 export const GlobalStore = () =>
   makeAutoObservable({
     navigationBar: false,
-    bottomSheet: true,
+    bottomSheet: false,
     toggleNavigationBar() {
       this.navigationBar = !this.navigationBar;
     },
