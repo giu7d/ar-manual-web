@@ -1,6 +1,6 @@
 import { observer } from "mobx-react-lite";
 import React from "react";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
 import { useStores } from "../hooks/useStores";
 import { Login } from "../pages/Login";
 
@@ -20,6 +20,7 @@ export const Routes = observer(() => {
       ) : (
         <Switch>
           <Route path="/" component={Login} exact />
+          <Redirect to="/" />
         </Switch>
       )}
     </BrowserRouter>
