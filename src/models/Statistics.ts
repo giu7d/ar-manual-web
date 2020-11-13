@@ -1,15 +1,15 @@
 export class Statistics {
-  commonFailures: {
+  commonFailures!: {
     failure: string;
     qtd: number;
   }[];
 
-  failuresByTime: {
+  failuresByTime!: {
     failures: number;
     timestamp: string;
   }[];
 
-  failuresByUsers: {
+  failuresByUsers!: {
     account: {
       id: string;
       fullName: string;
@@ -17,7 +17,7 @@ export class Statistics {
     failures: number;
   }[];
 
-  usersByTime: {
+  usersByTime!: {
     account: {
       id: string;
       fullName: string;
@@ -27,9 +27,6 @@ export class Statistics {
   }[];
 
   constructor(props: Statistics) {
-    this.commonFailures = props.commonFailures;
-    this.failuresByTime = props.failuresByTime;
-    this.failuresByUsers = props.failuresByUsers;
-    this.usersByTime = props.usersByTime;
+    Object.assign(this, props);
   }
 }

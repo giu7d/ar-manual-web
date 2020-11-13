@@ -6,13 +6,24 @@ import { Wrapper, ContentWrapper } from "./styles";
 
 interface IManualProps {
   componentSeries: string;
+  thumbnailSrc: string;
+  onOpenQRCode?: () => void;
+  onOpenManual?: () => void;
 }
 
-export const Manual: React.FC<IManualProps> = ({ componentSeries }) => {
+export const Manual: React.FC<IManualProps> = ({
+  componentSeries,
+  thumbnailSrc,
+  onOpenQRCode = () => {},
+  onOpenManual = () => {},
+}) => {
   return (
     <Wrapper>
       <div className="cover">
-        <img src="https://via.placeholder.com/150" alt="manual" />
+        <img
+          src={thumbnailSrc}
+          alt={`manual for component ${componentSeries} `}
+        />
       </div>
       <ContentWrapper>
         <div className="content">
@@ -20,10 +31,10 @@ export const Manual: React.FC<IManualProps> = ({ componentSeries }) => {
           <h3>{componentSeries}</h3>
         </div>
         <div className="actions">
-          <IconButton>
+          <IconButton onClick={onOpenQRCode}>
             <AiOutlineQrcode size={24} />
           </IconButton>
-          <IconButton>
+          <IconButton onClick={onOpenManual}>
             <FiExternalLink size={24} />
           </IconButton>
         </div>
