@@ -8,9 +8,12 @@ export const Wrapper = styled.div<IDefaultStyledProps>`
   margin: 24px 0;
   border-radius: ${({ theme }) => theme.roundness}px;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
 
   & > .cover {
     width: 100%;
+    height: 200px;
+
     overflow: hidden;
     img {
       width: 100%;
