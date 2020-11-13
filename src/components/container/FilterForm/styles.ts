@@ -26,12 +26,6 @@ export const FormWrapper = styled.form<IDefaultStyledProps>`
   }
 `;
 
-export const FormInput = styled.div<IDefaultStyledProps>`
-  display: flex;
-  flex-direction: column;
-  margin: 8px 0;
-`;
-
 export const ActionWrapper = styled.div<IDefaultStyledProps>`
   display: flex;
   flex-direction: row;

@@ -1,5 +1,6 @@
 import React from "react";
 import { FiExternalLink } from "react-icons/fi";
+import { AiOutlineQrcode } from "react-icons/ai";
 import { IconButton } from "../Buttons/IconButton";
 import { Wrapper, ContentWrapper } from "./styles";
 
@@ -18,9 +19,14 @@ export const Manual: React.FC<IManualProps> = ({ componentSeries }) => {
           <small>Component</small>
           <h3>{componentSeries}</h3>
         </div>
-        <IconButton>
-          <FiExternalLink size={24} />
-        </IconButton>
+        <div className="actions">
+          <IconButton>
+            <AiOutlineQrcode size={24} />
+          </IconButton>
+          <IconButton>
+            <FiExternalLink size={24} />
+          </IconButton>
+        </div>
       </ContentWrapper>
     </Wrapper>
   );

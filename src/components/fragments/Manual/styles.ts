@@ -50,7 +50,7 @@ export const ContentWrapper = styled.div<IDefaultStyledProps>`
     }
   }
 
-  & > button {
+  & > .actions > button {
     font-size: 24px;
     color: ${({ theme }) => rgba(theme.colors.text, 0.5)};
   }
