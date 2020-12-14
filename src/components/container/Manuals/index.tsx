@@ -2,6 +2,7 @@ import React from "react";
 import { FiPlus } from "react-icons/fi";
 import { observer } from "mobx-react";
 import { v4 as uuid } from "uuid";
+import { useHistory } from "react-router-dom";
 
 import { CardShimmer } from "../../fragments/Shimmer/CardShimmer";
 import { Manual } from "../../fragments/Manual";
@@ -11,6 +12,7 @@ import { ActionsWrapper, ManualsWrapper, Wrapper } from "./styles";
 
 export const Manuals = observer(() => {
   const { testBenches, isLoading, isError } = useTestBenches();
+  const history = useHistory();
 
   if (isLoading || isError) {
     return (
@@ -28,7 +30,10 @@ export const Manuals = observer(() => {
   return (
     <Wrapper>
       <ActionsWrapper>
-        <NavigationButton selected>
+        <NavigationButton
+          onClick={() => history.push("/manuals/manager")}
+          selected
+        >
           <FiPlus size={18} />
           <span>Create Manual</span>
         </NavigationButton>

@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { rgba } from "polished";
 
-export const Wrapper = styled.div<IDefaultStyledProps>`
+export const Wrapper = styled.div`
   display: flex;
   flex-direction: row;
   padding: 24px;
@@ -9,12 +9,11 @@ export const Wrapper = styled.div<IDefaultStyledProps>`
   justify-content: space-between;
 `;
 
-export const Title = styled.h1<IDefaultStyledProps>`
+export const TitleWrapper = styled.div`
   display: flex;
   flex: 1;
-  font-weight: 600;
-  font-size: 2.5rem;
-  color: ${({ theme }) => rgba(theme.colors.text, 1)};
+  gap: 1rem;
+  flex-direction: row;
   align-items: flex-end;
   justify-content: center;
 
@@ -24,8 +23,19 @@ export const Title = styled.h1<IDefaultStyledProps>`
   }
 
   .icon {
-    margin-right: 1rem;
     font-size: 3rem;
     color: ${({ theme }) => rgba(theme.colors.primary, 1)};
   }
+`;
+
+export const Title = styled.h1`
+  font-weight: 600;
+  font-size: 2.5rem;
+  color: ${({ theme }) => rgba(theme.colors.text, 1)};
+`;
+
+export const SubTitle = styled.h2`
+  font-weight: 600;
+  font-size: 2rem;
+  color: ${({ theme }) => rgba(theme.colors.text, 0.5)};
 `;

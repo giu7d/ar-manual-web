@@ -51,7 +51,7 @@ export const LoginForm = observer(() => {
             onChange: (e) => handleInput("email", e),
             placeholder: "you@domain.com",
           }}
-        ></FormInput>
+        />
         <FormInput
           label="Password"
           inputProps={{

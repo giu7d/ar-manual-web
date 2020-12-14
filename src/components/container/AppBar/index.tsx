@@ -6,12 +6,16 @@ import { useRouteMatch } from "react-router-dom";
 import { AvatarButton } from "../../fragments/Buttons/AvatarButton";
 import { IconButton } from "../../fragments/Buttons/IconButton";
 import { useStores } from "../../../hooks/useStores";
-import { Wrapper, Title } from "./styles";
+import { Wrapper, Title, SubTitle, TitleWrapper } from "./styles";
 import { pages } from "../../../routes/pages";
 import { IconType } from "react-icons/lib";
 
 export const AppBar = observer(() => {
-  const [page, setPage] = useState<{ icon: IconType; title: string }>();
+  const [page, setPage] = useState<{
+    icon: IconType;
+    title: string;
+    subtitle?: string;
+  }>();
   const { globalStore } = useStores();
   const { path } = useRouteMatch();
 
@@ -26,10 +30,11 @@ export const AppBar = observer(() => {
       <IconButton onClick={() => globalStore.toggleNavigationBar()}>
         <FiMenu size={24} />
       </IconButton>
-      <Title>
+      <TitleWrapper>
         {page?.icon({ className: "icon" })}
-        {page?.title}
-      </Title>
+        <Title>{page?.title}</Title>
+        {page?.subtitle && <SubTitle>{page.subtitle}</SubTitle>}
+      </TitleWrapper>
       <AvatarButton onClick={() => {}}>G</AvatarButton>
     </Wrapper>
   );

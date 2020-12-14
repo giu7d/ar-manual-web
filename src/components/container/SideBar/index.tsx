@@ -24,16 +24,18 @@ export const SideBar = observer(() => {
       transition={{ bounceStiffness: 600, bounceDamping: 10 }}
       variants={SideBarVariants}
     >
-      {pages.map(({ icon, title, route }) => (
-        <NavigationButton
-          key={route}
-          onClick={() => handleNavigation(route)}
-          selected={path === route}
-        >
-          {icon({ size: 18 })}
-          {globalStore.navigationBar && <span>{title}</span>}
-        </NavigationButton>
-      ))}
+      {pages
+        .filter(({ sidebar }) => sidebar === true)
+        .map(({ icon, title, route }) => (
+          <NavigationButton
+            key={route}
+            onClick={() => handleNavigation(route)}
+            selected={path === route}
+          >
+            {icon({ size: 18 })}
+            {globalStore.navigationBar && <span>{title}</span>}
+          </NavigationButton>
+        ))}
     </Wrapper>
   );
 });
