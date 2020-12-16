@@ -1,14 +1,12 @@
 import React, { useEffect } from "react";
 
-import { Indicators } from "../components/container/Indicators";
-import { Statistics } from "../components/container/Statistics";
-import { CommonLayout } from "../components/layouts/CommonLayout";
+import { InstructionForm } from "../components/container/InstructionForm";
+import { ManualForm } from "../components/container/ManualForm";
 import { BottomSheet } from "../components/fragments/BottomSheet";
-import { observer } from "mobx-react";
+import { CommonLayout } from "../components/layouts/CommonLayout";
 import { useStores } from "../hooks/useStores";
-import { FilterForm } from "../components/container/FilterForm";
 
-export const Dashboard = observer(() => {
+export const ManualManager = () => {
   const { globalStore } = useStores();
 
   useEffect(() => {
@@ -18,15 +16,14 @@ export const Dashboard = observer(() => {
   return (
     <>
       <CommonLayout>
-        <Indicators />
-        <Statistics />
+        <ManualForm />
       </CommonLayout>
       <BottomSheet
         visible={globalStore.bottomSheet}
         onClose={() => globalStore.setBottomSheet(false)}
       >
-        <FilterForm />
+        <InstructionForm />
       </BottomSheet>
     </>
   );
-});
+};

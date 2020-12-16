@@ -1,7 +1,7 @@
 import { FiBarChart2, FiLayers } from "react-icons/fi";
 
 import { Dashboard } from "../pages/Dashboard";
-import { ManageManual } from "../pages/ManageManual";
+import { ManualManager } from "../pages/ManualManager";
 import { Manuals } from "../pages/Manuals";
 
 export const pages = [
@@ -21,7 +21,7 @@ export const pages = [
   },
   {
     icon: FiLayers,
-    component: ManageManual,
+    component: ManualManager,
     title: "Manuals",
     subtitle: "Manager",
     route: "/manuals/manager",
