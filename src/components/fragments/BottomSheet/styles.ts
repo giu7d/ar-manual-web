@@ -36,5 +36,7 @@ export const Wrapper = styled(motion.div)<IDefaultStyledProps>`
     display: flex;
     flex-direction: column;
     padding: 14px;
+    max-height: 90vh;
+    overflow: auto;
   }
 `;
