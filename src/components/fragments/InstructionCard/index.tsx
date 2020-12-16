@@ -1,5 +1,7 @@
 import React from "react";
 import { FiChevronDown, FiChevronUp, FiEdit2 } from "react-icons/fi";
+import { v4 as uuid } from "uuid";
+
 import { Badge } from "../Badge";
 import { IconButton } from "../Buttons/IconButton";
 import { ContentWrapper, Wrapper } from "./styles";
@@ -38,7 +40,7 @@ export const InstructionCard: React.FC<IInstructionCardProps> = ({
         <div className="footer">
           <div className="badges">
             {badges.map((badge) => (
-              <Badge icon={badge.qtd} background={badge.color}>
+              <Badge key={uuid()} icon={badge.qtd} background={badge.color}>
                 {badge.title}
               </Badge>
             ))}

@@ -2,6 +2,7 @@ import React, { useRef } from "react";
 
 import { Wrapper } from "./styles";
 import { PanInfo, useDragControls } from "framer-motion";
+import { useWindowSize } from "../../../hooks/useWindowResize";
 
 interface IBottomSheetProps {
   visible?: boolean;
@@ -13,8 +14,9 @@ export const BottomSheet: React.FC<IBottomSheetProps> = ({
   visible = false,
   onClose = () => {},
 }) => {
-  const wrapperRef = useRef(null);
+  const wrapperRef = useRef<HTMLDivElement>(null);
   const dragControls = useDragControls();
+  const windowSize = useWindowSize();
 
   const handleDrag = (event: any, info: PanInfo) => {
     if (info.offset.y > 10) {
@@ -26,12 +28,12 @@ export const BottomSheet: React.FC<IBottomSheetProps> = ({
     <Wrapper
       ref={wrapperRef}
       initial={{
-        y: visible ? 0 : window.innerHeight,
+        y: visible ? 0 : windowSize.height,
         x: 0,
         translateX: "-50%",
       }}
       animate={{
-        y: visible ? 0 : window.innerHeight,
+        y: visible ? 0 : windowSize.height,
         x: 0,
         translateX: "-50%",
       }}
