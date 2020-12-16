@@ -1,11 +1,12 @@
 import React from "react";
-import { useStores } from "../../../hooks/useStores";
+import { observer } from "mobx-react";
 
-import { NavigationButton } from "../../fragments/Buttons/NavigationButton";
+import { useStores } from "../../../hooks/useStores";
 import { FormInput } from "../../fragments/Form/FormInput";
+import { NavigationButton } from "../../fragments/Buttons/NavigationButton";
 import { ActionWrapper, FormWrapper } from "./styles";
 
-export const FilterForm = () => {
+export const FilterForm = observer(() => {
   const { globalStore } = useStores();
 
   const handleClose = () => {
@@ -15,6 +16,7 @@ export const FilterForm = () => {
   const handleSubmit = () => {
     globalStore.setBottomSheet(false);
   };
+
   return (
     <>
       <FormWrapper>
@@ -43,4 +45,4 @@ export const FilterForm = () => {
       </ActionWrapper>
     </>
   );
-};
+});
