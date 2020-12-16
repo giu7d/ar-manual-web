@@ -1,4 +1,7 @@
 import React from "react";
+import { FiPlus } from "react-icons/fi";
+import { useTheme } from "styled-components";
+import { observer } from "mobx-react";
 
 import { Wrapper } from "./styles";
 import { Typography } from "../../fragments/Typography";
@@ -7,11 +10,9 @@ import { FormUpload } from "../../fragments/Form/FormUpload";
 import { Label } from "../../fragments/Input";
 import { InstructionCard } from "../../fragments/InstructionCard";
 import { IconButton } from "../../fragments/Buttons/IconButton";
-import { FiPlus } from "react-icons/fi";
-import { useTheme } from "styled-components";
 import { useStores } from "../../../hooks/useStores";
 
-export const ManualForm = () => {
+export const ManualForm = observer(() => {
   const theme = useTheme() as ITheme;
   const { globalStore } = useStores();
 
@@ -75,4 +76,4 @@ export const ManualForm = () => {
       </div>
     </Wrapper>
   );
-};
+});

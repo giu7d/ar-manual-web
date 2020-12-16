@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 
 import { Indicators } from "../components/container/Indicators";
 import { Statistics } from "../components/container/Statistics";
@@ -10,10 +10,6 @@ import { FilterForm } from "../components/container/FilterForm";
 
 export const Dashboard = observer(() => {
   const { globalStore } = useStores();
-
-  useEffect(() => {
-    return () => globalStore.setBottomSheet(false);
-  });
 
   return (
     <>

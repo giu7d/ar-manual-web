@@ -1,17 +1,14 @@
-import React, { useEffect } from "react";
+import React from "react";
+import { observer } from "mobx-react";
 
-import { InstructionForm } from "../components/container/InstructionForm";
+import { useStores } from "../hooks/useStores";
 import { ManualForm } from "../components/container/ManualForm";
 import { BottomSheet } from "../components/fragments/BottomSheet";
 import { CommonLayout } from "../components/layouts/CommonLayout";
-import { useStores } from "../hooks/useStores";
+import { InstructionForm } from "../components/container/InstructionForm";
 
-export const ManualManager = () => {
+export const ManualManager = observer(() => {
   const { globalStore } = useStores();
-
-  useEffect(() => {
-    return () => globalStore.setBottomSheet(false);
-  });
 
   return (
     <>
@@ -26,4 +23,4 @@ export const ManualManager = () => {
       </BottomSheet>
     </>
   );
-};
+});

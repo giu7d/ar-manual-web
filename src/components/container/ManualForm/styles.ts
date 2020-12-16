@@ -19,16 +19,15 @@ export const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
     gap: 14px;
-    width: 350px;
     align-self: center;
   }
 
   & > .instructions-form {
+    margin-top: 8px;
     grid-area: layout-instructions;
     display: flex;
     flex-direction: column;
     gap: 14px;
-    width: 350px;
     align-self: center;
 
     .instructions {
@@ -49,6 +48,7 @@ export const Wrapper = styled.div`
     & > .general-form,
     & > .instructions-form {
       align-self: flex-start;
+      max-width: 450px;
     }
   }
 `;
