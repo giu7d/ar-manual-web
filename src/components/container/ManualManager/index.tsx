@@ -4,10 +4,15 @@ import { Wrapper } from "./styles";
 import { Typography } from "../../fragments/Typography";
 import { FormInput } from "../../fragments/Form/FormInput";
 import { FormUpload } from "../../fragments/Form/FormUpload";
+import { Label } from "../../fragments/Input";
+import { InstructionCard } from "../../fragments/InstructionCard";
+import { IconButton } from "../../fragments/Buttons/IconButton";
+import { FiPlus } from "react-icons/fi";
+import { useTheme } from "styled-components";
 
-interface Props {}
+export const ManualManager = () => {
+  const theme = useTheme() as ITheme;
 
-export const ManualManager = (props: Props) => {
   return (
     <Wrapper>
       <div className="header">
@@ -35,6 +40,27 @@ export const ManualManager = (props: Props) => {
           label="Component 3D Model"
           subLabel="Add Collada Format model with animations."
         />
+      </div>
+
+      <div className="instructions-form">
+        <Label>Instructions</Label>
+        <Typography.SubTitle>
+          Create and order the instructions in the correct order.
+        </Typography.SubTitle>
+        <div className="instructions">
+          <IconButton style={{ color: theme.colors.primary }}>
+            <FiPlus size={24} />
+          </IconButton>
+          <InstructionCard
+            step={1}
+            title="Lorem ipsum ipsum ipsum"
+            description="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsa saepe pariatur autem reprehenderit! Ab optio ipsum reprehenderit id quasi porro ea, sit, modi at laudantium asperiores aperiam, maxime tenetur molestias."
+            badges={[
+              { qtd: 2, title: "Images" },
+              { title: "Animations", color: theme.colors.secondary },
+            ]}
+          />
+        </div>
       </div>
     </Wrapper>
   );

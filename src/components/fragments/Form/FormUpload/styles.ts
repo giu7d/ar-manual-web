@@ -20,7 +20,6 @@ export const Wrapper = styled.div<IDefaultStyledProps>`
   }
 
   & > .upload {
-    background-color: ${({ theme }) => rgba(theme.colors.foreground, 0.5)};
     padding: 48px 24px;
 
     font-size: 2rem;

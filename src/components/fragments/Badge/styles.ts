@@ -3,12 +3,14 @@ import styled from "styled-components";
 
 interface IWrapperProps {
   background?: string;
+  hasIcon?: boolean;
 }
 
 export const Wrapper = styled.div<IWrapperProps>`
   display: flex;
   width: fit-content;
   padding: 8px;
+  padding-left: ${({ hasIcon = false }) => (hasIcon ? 8 : 14)}px;
   padding-right: 14px;
   gap: 14px;
   background-color: ${({ background, theme }) =>

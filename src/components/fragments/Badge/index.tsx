@@ -14,7 +14,7 @@ export const Badge: React.FC<IBadgeProps> = ({
   onClick = () => {},
 }) => {
   return (
-    <Wrapper background={background}>
+    <Wrapper hasIcon={icon !== undefined} background={background}>
       {icon && (
         <div className="icon" onClick={onClick}>
           {icon}
