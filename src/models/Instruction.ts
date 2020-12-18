@@ -4,9 +4,8 @@ export interface Warning {
   description: string;
 }
 
-export interface InstructionSource {
+export interface InstructionImageSource {
   id: string;
-  type: "image" | "video" | "AR";
   src: string;
   file?: File;
 }
@@ -20,7 +19,9 @@ export class Instruction {
 
   step!: number;
 
-  sources!: InstructionSource[];
+  images!: InstructionImageSource[];
+
+  animation!: string;
 
   warnings!: Warning[];
 

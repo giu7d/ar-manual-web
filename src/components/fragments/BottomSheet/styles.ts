@@ -13,15 +13,7 @@ export const Wrapper = styled(motion.div)<IDefaultStyledProps>`
   padding: 0 14px;
   border-radius: 14px;
   bottom: 0;
-  z-index: 999;
-
-  @media only screen and (min-width: 760px) {
-    width: fit-content;
-    margin: auto auto;
-    left: 50%;
-    bottom: 24px;
-    transform: translateX(-50%);
-  }
+  z-index: 99;
 
   & > .divider {
     margin: 14px;
@@ -38,5 +30,17 @@ export const Wrapper = styled(motion.div)<IDefaultStyledProps>`
     padding: 14px;
     max-height: 90vh;
     overflow: auto;
+  }
+
+  @media only screen and (min-width: 760px) {
+    display: flex;
+    width: fit-content;
+    max-width: 80%;
+
+    align-self: center;
+    justify-self: center;
+
+    left: 25%;
+    bottom: 24px;
   }
 `;

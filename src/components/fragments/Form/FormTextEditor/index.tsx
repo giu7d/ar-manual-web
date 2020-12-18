@@ -1,30 +1,39 @@
 import "draft-js/dist/Draft.css";
 
 import React, { KeyboardEvent, useState } from "react";
-import { Editor, EditorState, RichUtils, getDefaultKeyBinding } from "draft-js";
+import {
+  Editor,
+  EditorState,
+  RichUtils,
+  getDefaultKeyBinding,
+  convertFromHTML,
+  ContentState,
+} from "draft-js";
 import { convertToHTML } from "draft-convert";
 
+import { Label } from "../../Input";
+import { Wrapper, TextInputWrapper } from "./styles";
 import { BlockStyleControls } from "./BlockStyleControls";
 import { InlineStyleControls } from "./InlineStyleControls";
-import { Wrapper, TextInputWrapper } from "./styles";
-import { Label } from "../../Input";
 
 interface IFormTextEditorProps {
   label?: string;
   inputProps?: {
     placeholder: string;
-    value: string;
+    defaultValue: string;
     onChange: (value: string) => void;
   };
 }
 
 export const FormTextEditor: React.FC<IFormTextEditorProps> = ({
   label,
-  inputProps = { onChange: () => {}, value: "", placeholder: "" },
+  inputProps = { onChange: () => {}, defaultValue: "", placeholder: "" },
 }) => {
-  const [editorState, setEditorState] = useState(() =>
-    EditorState.createEmpty()
-  );
+  const [editorState, setEditorState] = useState(() => {
+    const html = convertFromHTML(inputProps.defaultValue);
+    const content = ContentState.createFromBlockArray(html.contentBlocks);
+    return EditorState.createWithContent(content);
+  });
 
   const handleKeyCommand = (command: string, editorState: EditorState) => {
     const newState = RichUtils.handleKeyCommand(editorState, command);
@@ -57,6 +66,14 @@ export const FormTextEditor: React.FC<IFormTextEditorProps> = ({
     setEditorState(RichUtils.toggleInlineStyle(editorState, inlineStyle));
   };
 
+  const handleChange = (e: EditorState) => {
+    setEditorState(e);
+
+    const content = editorState.getCurrentContent();
+    const html = convertToHTML({})(content);
+    inputProps.onChange(html);
+  };
+
   return (
     <Wrapper>
       {label && <Label>{label}</Label>}
@@ -73,14 +90,7 @@ export const FormTextEditor: React.FC<IFormTextEditorProps> = ({
         </div>
         <Editor
           editorState={editorState}
-          onChange={(e) => {
-            setEditorState(e);
-
-            const content = editorState.getCurrentContent();
-            const html = convertToHTML({})(content);
-
-            inputProps.onChange(html);
-          }}
+          onChange={handleChange}
           handleKeyCommand={handleKeyCommand}
           keyBindingFn={mapKeyToEditorCommand}
           placeholder={inputProps.placeholder}
