@@ -14,9 +14,10 @@ export const Wrapper = styled.div<IDefaultStyledProps>`
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    max-width: 500px;
     margin: 8px 0;
 
-    gap: 4px;
+    gap: 8px;
   }
 
   & > .upload {

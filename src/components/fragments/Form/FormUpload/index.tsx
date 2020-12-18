@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React from "react";
 import { useDropzone } from "react-dropzone";
 import { FiX } from "react-icons/fi";
 import { v4 as uuid } from "uuid";
@@ -12,24 +12,23 @@ interface IFormUploadProps {
   label?: string;
   subLabel?: string;
   limit?: number;
+  files?: { id: string; src: string }[];
+  onChange?: (acceptedFiles: File[]) => void;
+  onRemove?: (fileName: string) => void;
 }
 
 export const FormUpload: React.FC<IFormUploadProps> = ({
   label,
   subLabel,
   limit,
+  files = [],
+  onChange = () => {},
+  onRemove = () => {},
 }) => {
-  const onDrop = useCallback((acceptedFiles: File[]) => {
-    // Do something with the files
-    console.log(acceptedFiles);
-  }, []);
-
-  const {
-    acceptedFiles,
-    getRootProps,
-    getInputProps,
-    isDragActive,
-  } = useDropzone({ onDrop, maxFiles: limit });
+  const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
+    onDrop: onChange,
+    maxFiles: limit,
+  });
 
   const isLimit = !limit ? true : acceptedFiles.length < limit ? true : false;
 
@@ -39,13 +38,9 @@ export const FormUpload: React.FC<IFormUploadProps> = ({
       {subLabel && <Typography.SubTitle>{subLabel}</Typography.SubTitle>}
 
       <div className="badges">
-        {acceptedFiles.map(({ name }) => (
-          <Badge
-            key={uuid()}
-            icon={<FiX />}
-            onClick={() => console.log("Remove")}
-          >
-            {name}
+        {files.map(({ id, src }) => (
+          <Badge key={uuid()} icon={<FiX />} onClick={() => onRemove(id)}>
+            {src}
           </Badge>
         ))}
       </div>
@@ -53,14 +48,10 @@ export const FormUpload: React.FC<IFormUploadProps> = ({
       {isLimit && (
         <div className="upload" {...getRootProps()}>
           <input {...getInputProps()} />
-          {isDragActive ? (
-            <p>Drop the file here!</p>
-          ) : (
-            <p>
-              <b>Drag 'n' drop files here</b>, or click to select files.
-              {limit && `${limit} files maximum.`}
-            </p>
-          )}
+          <p>
+            <b>Drag 'n' drop files here</b>, or click to select files.
+            {limit && `${limit} files maximum.`}
+          </p>
         </div>
       )}
     </Wrapper>

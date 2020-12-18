@@ -23,7 +23,7 @@ export const pages = [
     icon: FiLayers,
     component: ManualManager,
     title: "Manuals",
-    subtitle: "Manager",
+    // subtitle: "Manager",
     route: "/manuals/manager",
     sidebar: false,
   },

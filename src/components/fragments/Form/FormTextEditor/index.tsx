@@ -1,6 +1,9 @@
 import "draft-js/dist/Draft.css";
+
 import React, { KeyboardEvent, useState } from "react";
 import { Editor, EditorState, RichUtils, getDefaultKeyBinding } from "draft-js";
+import { convertToHTML } from "draft-convert";
+
 import { BlockStyleControls } from "./BlockStyleControls";
 import { InlineStyleControls } from "./InlineStyleControls";
 import { Wrapper, TextInputWrapper } from "./styles";
@@ -8,9 +11,17 @@ import { Label } from "../../Input";
 
 interface IFormTextEditorProps {
   label?: string;
+  inputProps?: {
+    placeholder: string;
+    value: string;
+    onChange: (value: string) => void;
+  };
 }
 
-export const FormTextEditor: React.FC<IFormTextEditorProps> = ({ label }) => {
+export const FormTextEditor: React.FC<IFormTextEditorProps> = ({
+  label,
+  inputProps = { onChange: () => {}, value: "", placeholder: "" },
+}) => {
   const [editorState, setEditorState] = useState(() =>
     EditorState.createEmpty()
   );
@@ -62,10 +73,17 @@ export const FormTextEditor: React.FC<IFormTextEditorProps> = ({ label }) => {
         </div>
         <Editor
           editorState={editorState}
-          onChange={setEditorState}
+          onChange={(e) => {
+            setEditorState(e);
+
+            const content = editorState.getCurrentContent();
+            const html = convertToHTML({})(content);
+
+            inputProps.onChange(html);
+          }}
           handleKeyCommand={handleKeyCommand}
           keyBindingFn={mapKeyToEditorCommand}
-          placeholder="Enter some text..."
+          placeholder={inputProps.placeholder}
         />
       </TextInputWrapper>
     </Wrapper>

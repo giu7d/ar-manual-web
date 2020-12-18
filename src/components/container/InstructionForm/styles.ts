@@ -23,7 +23,7 @@ export const Wrapper = styled.div`
   }
 `;
 
-export const ActionWrapper = styled.div<IDefaultStyledProps>`
+export const ActionWrapper = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: flex-end;

@@ -17,6 +17,12 @@ export const TextInputWrapper = styled.div`
   padding: 14px;
   font-size: 2rem;
 
+  .DraftEditor-editorContainer {
+    overflow: auto;
+    min-height: 100px;
+    max-height: 300px;
+  }
+
   .RichEditor-editor {
     margin: 24px;
     font-size: 1.75rem;
