@@ -5,6 +5,7 @@ interface IManualManagerStore {
   instructions: Instruction[];
   addInstruction: (instruction: Instruction) => void;
   switchInstructionStep: (oldStep: number, newStep: number) => void;
+  clearInstruction: () => void;
 }
 
 export const ManualManagerStore = () =>
@@ -12,6 +13,9 @@ export const ManualManagerStore = () =>
     instructions: [],
     addInstruction(instruction) {
       this.instructions.push(instruction);
+    },
+    clearInstruction() {
+      this.instructions = [];
     },
     switchInstructionStep(oldStep, newStep) {
       const currentInstructionIndex = this.instructions.findIndex(

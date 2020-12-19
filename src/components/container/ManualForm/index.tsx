@@ -1,4 +1,9 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useState,
+  useLayoutEffect,
+} from "react";
 import { FiPlus } from "react-icons/fi";
 import { observer } from "mobx-react";
 import { useTheme } from "styled-components";
@@ -29,6 +34,12 @@ export const ManualForm = observer(() => {
   const { globalStore, manualManagerStore } = useStores();
   const [manual, setManual] = useState(createNewManual());
 
+  useLayoutEffect(() => {
+    return () => {
+      manualManagerStore.clearInstruction();
+    };
+  }, [manualManagerStore]);
+
   useEffect(() => {
     setManual((state) => ({
       ...state,
@@ -44,15 +55,13 @@ export const ManualForm = observer(() => {
   };
 
   const handleUpload = useCallback((key: string, files: File[]) => {
-    const file: FileSource = {
-      id: uuid(),
-      src: files[0].name,
-      file: files[0],
-    };
-
     setManual((state) => ({
       ...state,
-      [key]: file,
+      [key]: {
+        id: uuid(),
+        src: files[0].name,
+        file: files[0],
+      },
     }));
   }, []);
 
