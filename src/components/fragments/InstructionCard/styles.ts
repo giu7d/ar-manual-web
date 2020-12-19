@@ -1,9 +1,11 @@
 import { rgba } from "polished";
+import { motion } from "framer-motion";
 import styled from "styled-components";
 
-export const Wrapper = styled.div`
+export const Wrapper = styled(motion.div)`
   display: flex;
   flex-direction: row;
+  min-width: 100%;
 
   .actions {
     display: none;
@@ -24,9 +26,9 @@ export const Wrapper = styled.div`
 export const ContentWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  flex: 1;
-
+  min-width: 100%;
   padding: 14px;
+  background-color: ${({ theme }) => theme.colors.background};
 
   border-radius: ${({ theme }) => theme.roundness}px;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
@@ -50,10 +52,20 @@ export const ContentWrapper = styled.div`
     }
 
     .description {
+      display: flex;
+      flex-direction: column;
       font-size: 2rem;
-      height: 54px;
+      max-height: 54px;
       overflow: hidden;
       color: ${({ theme }) => theme.colors.text};
+      background: linear-gradient(
+        180deg,
+        rgba(0, 0, 0, 0.65) 60%,
+        rgba(0, 0, 0, 0)
+      );
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
   }
 

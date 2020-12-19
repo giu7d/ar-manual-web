@@ -13,7 +13,7 @@ export const BottomSheet: React.FC<IBottomSheetProps> = ({
   visible = false,
   onClose = () => {},
 }) => {
-  const wrapperRef = useRef<HTMLDivElement>(null);
+  const wrapperRef = useRef(null);
   const dragControls = useDragControls();
 
   const handleDrag = (event: any, info: PanInfo) => {

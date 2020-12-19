@@ -1,20 +1,28 @@
 import React from "react";
 import { FiPlus } from "react-icons/fi";
-import { useTheme } from "styled-components";
 import { observer } from "mobx-react";
+import { useTheme } from "styled-components";
+import { v4 as uuid } from "uuid";
 
 import { Wrapper } from "./styles";
+import { Label } from "../../fragments/Input";
+import { useStores } from "../../../hooks/useStores";
 import { Typography } from "../../fragments/Typography";
 import { FormInput } from "../../fragments/Form/FormInput";
 import { FormUpload } from "../../fragments/Form/FormUpload";
-import { Label } from "../../fragments/Input";
 import { InstructionCard } from "../../fragments/InstructionCard";
 import { IconButton } from "../../fragments/Buttons/IconButton";
-import { useStores } from "../../../hooks/useStores";
 
 export const ManualForm = observer(() => {
   const theme = useTheme() as ITheme;
-  const { globalStore } = useStores();
+  const { globalStore, manualManagerStore } = useStores();
+
+  const handleInstructionMovement = (movement: "up" | "down", step: number) => {
+    manualManagerStore.switchInstructionStep(
+      step,
+      movement === "up" ? step - 1 : step + 1
+    );
+  };
 
   return (
     <Wrapper>
@@ -58,18 +66,18 @@ export const ManualForm = observer(() => {
             <FiPlus size={24} />
           </IconButton>
 
-          {Array(5)
-            .fill("")
-            .map((e, i) => (
+          {manualManagerStore.instructions
+            .slice()
+            .sort((a, b) => a.step - b.step)
+            .map((instruction) => (
               <InstructionCard
-                key={i}
-                step={1}
-                title="Lorem ipsum ipsum ipsum"
-                description="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsa saepe pariatur autem reprehenderit! Ab optio ipsum reprehenderit id quasi porro ea, sit, modi at laudantium asperiores aperiam, maxime tenetur molestias."
-                badges={[
-                  { qtd: 2, title: "Images" },
-                  { title: "Animations", color: theme.colors.secondary },
-                ]}
+                key={uuid()}
+                step={instruction.step}
+                title={instruction.title}
+                description={instruction.description}
+                imageBadge={instruction.images.length}
+                animationBadge={instruction.animation !== ""}
+                onMovement={handleInstructionMovement}
               />
             ))}
         </div>
