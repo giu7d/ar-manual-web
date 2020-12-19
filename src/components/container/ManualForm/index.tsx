@@ -8,18 +8,17 @@ import { FiPlus } from "react-icons/fi";
 import { observer } from "mobx-react";
 import { useTheme } from "styled-components";
 import { v4 as uuid } from "uuid";
+import { toJS } from "mobx";
 
 import { Wrapper } from "./styles";
 import { Label } from "../../fragments/Input";
+import { Manual } from "../../../models/Manual";
 import { useStores } from "../../../hooks/useStores";
 import { Typography } from "../../fragments/Typography";
 import { FormInput } from "../../fragments/Form/FormInput";
 import { FormUpload } from "../../fragments/Form/FormUpload";
-import { InstructionCard } from "../../fragments/InstructionCard";
 import { IconButton } from "../../fragments/Buttons/IconButton";
-import { Manual } from "../../../models/Manual";
-import { toJS } from "mobx";
-import { FileSource } from "../../../models/Instruction";
+import { InstructionCard } from "../../fragments/InstructionCard";
 import { NavigationButton } from "../../fragments/Buttons/NavigationButton";
 
 const createNewManual = () =>
