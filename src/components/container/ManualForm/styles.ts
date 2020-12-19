@@ -10,7 +10,9 @@ export const Wrapper = styled.div`
   & > .header {
     grid-area: layout-header;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
     gap: 8px;
   }
 

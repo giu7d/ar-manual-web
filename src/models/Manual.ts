@@ -8,9 +8,9 @@ export class Manual {
 
   componentSerialNumber!: string;
 
-  thumbnail!: FileSource;
+  thumbnail?: FileSource;
 
-  model!: FileSource;
+  model?: FileSource;
 
   instructions!: Instruction[];
 
