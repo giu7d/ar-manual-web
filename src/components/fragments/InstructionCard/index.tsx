@@ -31,7 +31,7 @@ export const InstructionCard: React.FC<IInstructionCardProps> = ({
   const theme = useTheme() as ITheme;
 
   const handleDrag = (event: any, pan: PanInfo) => {
-    const THRESHOLD = 10;
+    const THRESHOLD = 150;
 
     if (pan.offset.y < THRESHOLD) {
       onMovement("up", step);
@@ -45,11 +45,10 @@ export const InstructionCard: React.FC<IInstructionCardProps> = ({
   return (
     <Wrapper
       ref={wrapperRef}
-      transition={{ bounceStiffness: 600, bounceDamping: 10 }}
       drag="y"
       dragConstraints={wrapperRef}
       dragControls={dragControls}
-      dragElastic={0.5}
+      dragElastic={0.8}
       onDragEnd={handleDrag}
     >
       <ContentWrapper>

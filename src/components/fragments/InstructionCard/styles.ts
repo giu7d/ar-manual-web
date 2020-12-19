@@ -6,20 +6,22 @@ export const Wrapper = styled(motion.div)`
   display: flex;
   flex-direction: row;
   min-width: 100%;
+  cursor: grab;
 
   .actions {
-    display: none;
-  }
-
-  &:hover > .actions {
     display: flex;
     flex-direction: column;
     align-self: center;
     width: 0;
-
+    opacity: 0;
     button {
       font-size: 2rem;
     }
+    transition: opacity 200ms ease-in-out;
+  }
+
+  &:hover > .actions {
+    opacity: 1;
   }
 `;
 
@@ -33,6 +35,11 @@ export const ContentWrapper = styled.div`
   border-radius: ${({ theme }) => theme.roundness}px;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
   overflow: hidden;
+  transition: background-color 200ms ease-in-out;
+
+  &:hover {
+    background-color: ${({ theme }) => theme.colors.foreground};
+  }
 
   & > .content {
     display: flex;
