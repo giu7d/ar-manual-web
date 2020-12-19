@@ -3,13 +3,15 @@ import { Instruction } from "../models/Instruction";
 
 interface IManualManagerStore {
   instructions: Instruction[];
-  setInstruction: (instructions: Instruction[]) => void;
+  addInstruction: (instruction: Instruction) => void;
 }
 
 export const ManualManagerStore = () =>
   makeAutoObservable<IManualManagerStore>({
     instructions: [],
-    setInstruction(instructions) {
-      this.instructions = instructions;
+    addInstruction(instruction) {
+      console.log(instruction);
+      this.instructions.push(instruction);
+      console.log(this.instructions);
     },
   });

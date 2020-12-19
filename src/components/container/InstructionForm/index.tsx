@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { observer } from "mobx-react";
 import { v4 as uuid } from "uuid";
 
@@ -9,10 +9,7 @@ import { FormInput } from "../../fragments/Form/FormInput";
 import { FormUpload } from "../../fragments/Form/FormUpload";
 import { FormTextEditor } from "../../fragments/Form/FormTextEditor";
 import { NavigationButton } from "../../fragments/Buttons/NavigationButton";
-import {
-  Instruction,
-  InstructionImageSource,
-} from "../../../models/Instruction";
+import { Instruction, FileSource } from "../../../models/Instruction";
 
 const createNewInstruction = () =>
   new Instruction({
@@ -35,16 +32,20 @@ export const InstructionForm: React.FC<IProps> = observer(
       externalInstruction || createNewInstruction()
     );
 
+    useEffect(() => {
+      setInstruction((state) => ({
+        ...state,
+        step: manualManagerStore.instructions.length + 1,
+      }));
+    }, [manualManagerStore.instructions]);
+
     // Inputs
     const handleImageUpload = useCallback((files: File[]) => {
-      const newImages = files.map(
-        (file) =>
-          ({
-            id: uuid(),
-            src: file.name,
-            file,
-          } as InstructionImageSource)
-      );
+      const newImages: FileSource[] = files.map((file) => ({
+        id: uuid(),
+        src: file.name,
+        file,
+      }));
 
       setInstruction((state) => ({
         ...state,
@@ -83,13 +84,10 @@ export const InstructionForm: React.FC<IProps> = observer(
     };
 
     const handleSubmit = () => {
-      setInstruction((state) => ({
-        ...state,
-        step: manualManagerStore.instructions.length,
-      }));
-
-      console.log("submit", instruction);
-      handleClose();
+      if (instruction) {
+        manualManagerStore.addInstruction(instruction);
+        handleClose();
+      }
     };
 
     return (
