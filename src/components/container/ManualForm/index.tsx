@@ -1,9 +1,4 @@
-import React, {
-  useCallback,
-  useEffect,
-  useState,
-  useLayoutEffect,
-} from "react";
+import React, { useCallback, useState, useLayoutEffect } from "react";
 import { FiPlus } from "react-icons/fi";
 import { observer } from "mobx-react";
 import { useTheme } from "styled-components";
@@ -20,6 +15,8 @@ import { FormUpload } from "../../fragments/Form/FormUpload";
 import { IconButton } from "../../fragments/Buttons/IconButton";
 import { InstructionCard } from "../../fragments/InstructionCard";
 import { NavigationButton } from "../../fragments/Buttons/NavigationButton";
+import { ValidationError } from "yup";
+import { ManualSchema } from "./validation";
 
 const createNewManual = () =>
   new Manual({
@@ -32,19 +29,19 @@ export const ManualForm = observer(() => {
   const theme = useTheme() as ITheme;
   const { globalStore, manualManagerStore } = useStores();
   const [manual, setManual] = useState(createNewManual());
+  const [error, setError] = useState({
+    componentSerialNumber: undefined,
+    testBenchSerialNumber: undefined,
+    instructions: undefined,
+    thumbnail: undefined,
+    model: undefined,
+  });
 
   useLayoutEffect(() => {
     return () => {
       manualManagerStore.clearInstruction();
     };
   }, [manualManagerStore]);
-
-  useEffect(() => {
-    setManual((state) => ({
-      ...state,
-      instructions: toJS(manualManagerStore.instructions),
-    }));
-  }, [manualManagerStore.instructions]);
 
   const handleMovement = (movement: "up" | "down", step: number) => {
     manualManagerStore.switchInstructionStep(
@@ -78,8 +75,35 @@ export const ManualForm = observer(() => {
     }));
   }, []);
 
-  const handleSubmit = () => {
-    console.log("submit upload or edit it!");
+  const handleSubmit = async () => {
+    setError({
+      componentSerialNumber: undefined,
+      testBenchSerialNumber: undefined,
+      instructions: undefined,
+      thumbnail: undefined,
+      model: undefined,
+    });
+
+    try {
+      console.log(manual, toJS(manualManagerStore.instructions));
+      await ManualSchema.validate(
+        { ...manual, instructions: toJS(manualManagerStore.instructions) },
+        {
+          abortEarly: false,
+        }
+      );
+
+      console.log("success");
+    } catch (error) {
+      if (error instanceof ValidationError) {
+        error.inner.forEach(({ path = "", message }) =>
+          setError((state) => ({
+            ...state,
+            [path]: message,
+          }))
+        );
+      }
+    }
   };
 
   return (
@@ -99,6 +123,7 @@ export const ManualForm = observer(() => {
       <div className="general-form">
         <FormInput
           label="Component Series"
+          error={error.componentSerialNumber}
           inputProps={{
             placeholder: "Component identification series",
             value: manual.componentSerialNumber,
@@ -108,6 +133,7 @@ export const ManualForm = observer(() => {
         />
         <FormInput
           label="Test Bench Series"
+          error={error.testBenchSerialNumber}
           inputProps={{
             placeholder: "Test bench identification series",
             value: manual.testBenchSerialNumber,
@@ -117,6 +143,7 @@ export const ManualForm = observer(() => {
         />
         <FormUpload
           label="Component Thumbnail"
+          error={error.thumbnail}
           limit={1}
           files={manual.thumbnail ? [manual.thumbnail] : undefined}
           onChange={(files) => handleUpload("thumbnail", files)}
@@ -125,6 +152,7 @@ export const ManualForm = observer(() => {
         <FormUpload
           label="Component 3D Model"
           subLabel="Add Collada Format model with animations."
+          error={error.model}
           limit={1}
           files={manual.model ? [manual.model] : undefined}
           onChange={(files) => handleUpload("model", files)}
@@ -137,6 +165,9 @@ export const ManualForm = observer(() => {
         <Typography.SubTitle>
           Create and order the instructions in the correct order.
         </Typography.SubTitle>
+        {error.instructions && (
+          <Typography.Warning>{error.instructions}</Typography.Warning>
+        )}
         <div className="instructions">
           <IconButton
             onClick={() => globalStore.setBottomSheet(true)}

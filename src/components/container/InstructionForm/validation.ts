@@ -1,6 +1,6 @@
 import * as Yup from "yup";
 
-const FileSourceSchema = Yup.object().shape({
+export const FileSourceSchema = Yup.object().shape({
   id: Yup.string().required(),
   src: Yup.string().required(),
   file: Yup.object().nullable(),

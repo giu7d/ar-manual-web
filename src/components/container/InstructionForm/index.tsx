@@ -47,7 +47,6 @@ export const InstructionForm: React.FC<IProps> = observer(
       }));
     }, [manualManagerStore.instructions]);
 
-    // Inputs
     const handleImageUpload = useCallback((files: File[]) => {
       const newImages: FileSource[] = files.map((file) => ({
         id: uuid(),
