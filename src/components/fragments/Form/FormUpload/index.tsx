@@ -12,6 +12,7 @@ import { FileSource } from "../../../../models/Instruction";
 interface IFormUploadProps {
   label?: string;
   subLabel?: string;
+  error?: string;
   limit?: number;
   files?: FileSource[];
   onChange?: (acceptedFiles: File[]) => void;
@@ -21,6 +22,7 @@ interface IFormUploadProps {
 export const FormUpload: React.FC<IFormUploadProps> = ({
   label,
   subLabel,
+  error,
   limit,
   files = [],
   onChange = () => {},
@@ -37,6 +39,7 @@ export const FormUpload: React.FC<IFormUploadProps> = ({
     <Wrapper>
       {label && <Label>{label}</Label>}
       {subLabel && <Typography.SubTitle>{subLabel}</Typography.SubTitle>}
+      {error && <Typography.Warning>{error}</Typography.Warning>}
 
       <div className="badges">
         {files.map(({ id, src }) => (

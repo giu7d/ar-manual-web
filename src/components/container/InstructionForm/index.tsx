@@ -10,6 +10,8 @@ import { FormUpload } from "../../fragments/Form/FormUpload";
 import { FormTextEditor } from "../../fragments/Form/FormTextEditor";
 import { NavigationButton } from "../../fragments/Buttons/NavigationButton";
 import { Instruction, FileSource } from "../../../models/Instruction";
+import { InstructionSchema } from "./validation";
+import { ValidationError } from "yup";
 
 const createNewInstruction = () =>
   new Instruction({
@@ -31,6 +33,12 @@ export const InstructionForm: React.FC<IProps> = observer(
     const [instruction, setInstruction] = useState(
       externalInstruction || createNewInstruction()
     );
+    const [error, setError] = useState({
+      title: undefined,
+      description: undefined,
+      images: undefined,
+      animation: undefined,
+    });
 
     useEffect(() => {
       setInstruction((state) => ({
@@ -83,10 +91,30 @@ export const InstructionForm: React.FC<IProps> = observer(
       globalStore.setBottomSheet(false);
     };
 
-    const handleSubmit = () => {
-      if (instruction) {
+    const handleSubmit = async () => {
+      setError({
+        title: undefined,
+        description: undefined,
+        images: undefined,
+        animation: undefined,
+      });
+
+      try {
+        await InstructionSchema.validate(instruction, {
+          abortEarly: false,
+        });
+
         manualManagerStore.addInstruction(instruction);
         handleClose();
+      } catch (error) {
+        if (error instanceof ValidationError) {
+          error.inner.forEach(({ path = "", message }) =>
+            setError((state) => ({
+              ...state,
+              [path]: message,
+            }))
+          );
+        }
       }
     };
 
@@ -102,6 +130,7 @@ export const InstructionForm: React.FC<IProps> = observer(
           <div className="form">
             <FormInput
               label="Title"
+              error={error.title}
               inputProps={{
                 placeholder: "Instruction title",
                 value: instruction.title,
@@ -110,6 +139,7 @@ export const InstructionForm: React.FC<IProps> = observer(
             />
             <FormTextEditor
               label="Description"
+              error={error.description}
               inputProps={{
                 placeholder: "Enter a description...",
                 defaultValue: instruction.description,
@@ -120,6 +150,7 @@ export const InstructionForm: React.FC<IProps> = observer(
           <div className="form">
             <FormUpload
               label="Instruction Image"
+              error={error.images}
               limit={3}
               files={instruction.images}
               onChange={handleImageUpload}
@@ -127,6 +158,7 @@ export const InstructionForm: React.FC<IProps> = observer(
             />
             <FormInput
               label="Animation ID"
+              error={error.animation}
               inputProps={{
                 placeholder:
                   "Animation timeline identification. (Ex: Default,...)",

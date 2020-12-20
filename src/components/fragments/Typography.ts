@@ -12,7 +12,17 @@ const SubTitle = styled.p`
   color: ${({ theme }) => rgba(theme.colors.text, 0.75)};
 `;
 
+const Warning = styled.p`
+  font-size: 1.75rem;
+  color: ${({ theme }) => rgba(theme.colors.info, 0.75)};
+
+  &::before {
+    content: "*";
+  }
+`;
+
 export const Typography = {
   Title,
   SubTitle,
+  Warning,
 };

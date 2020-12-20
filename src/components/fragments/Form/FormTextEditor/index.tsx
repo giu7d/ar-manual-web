@@ -15,9 +15,11 @@ import { Label } from "../../Input";
 import { Wrapper, TextInputWrapper } from "./styles";
 import { BlockStyleControls } from "./BlockStyleControls";
 import { InlineStyleControls } from "./InlineStyleControls";
+import { Typography } from "../../Typography";
 
 interface IFormTextEditorProps {
   label?: string;
+  error?: string;
   inputProps?: {
     placeholder: string;
     defaultValue: string;
@@ -27,6 +29,7 @@ interface IFormTextEditorProps {
 
 export const FormTextEditor: React.FC<IFormTextEditorProps> = ({
   label,
+  error,
   inputProps = { onChange: () => {}, defaultValue: "", placeholder: "" },
 }) => {
   const [editorState, setEditorState] = useState(() => {
@@ -77,6 +80,7 @@ export const FormTextEditor: React.FC<IFormTextEditorProps> = ({
   return (
     <Wrapper>
       {label && <Label>{label}</Label>}
+      {error && <Typography.Warning>{error}</Typography.Warning>}
       <TextInputWrapper>
         <div>
           <BlockStyleControls
