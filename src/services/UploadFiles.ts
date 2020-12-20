@@ -1,0 +1,57 @@
+import { uploadFiles } from "./api";
+import { FileSource, Instruction } from "../models/Instruction";
+import { Manual } from "../models/Manual";
+
+export const uploadThumbnail = async (thumbnail: FileSource) => {
+  if (thumbnail.file) {
+    const [response] = await uploadFiles("thumbnails", [thumbnail.file]);
+    thumbnail.src = response.url;
+  }
+
+  return thumbnail;
+};
+
+export const uploadModel = async (model: FileSource) => {
+  if (model.file) {
+    const [response] = await uploadFiles("instructions", [model.file]);
+    model.src = response.url;
+  }
+
+  return model;
+};
+
+export const uploadInstruction = async (instruction: Instruction) => {
+  instruction.images = await Promise.all(
+    instruction.images.map(async (image) => {
+      if (image.file) {
+        const [response] = await uploadFiles("instructions", [image.file]);
+        image.src = response.url;
+      }
+      return image;
+    })
+  );
+
+  return instruction;
+};
+
+export const uploadInstructions = async (instructions: Instruction[]) => {
+  return await Promise.all(
+    instructions.map((instruction) => uploadInstruction(instruction))
+  );
+};
+
+export const uploadManual = async (manual: Manual) => {
+  try {
+    if (manual.thumbnail)
+      manual.thumbnail = await uploadThumbnail(manual.thumbnail);
+
+    if (manual.model) manual.model = await uploadModel(manual.model);
+
+    manual.instructions = await uploadInstructions(manual.instructions);
+
+    return manual;
+  } catch (error) {
+    console.log(error);
+    throw new Error("Something happens in uploadManual");
+  }
+};

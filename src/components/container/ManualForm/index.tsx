@@ -17,6 +17,7 @@ import { InstructionCard } from "../../fragments/InstructionCard";
 import { NavigationButton } from "../../fragments/Buttons/NavigationButton";
 import { ValidationError } from "yup";
 import { ManualSchema } from "./validation";
+import { useManual } from "../../../hooks/useManual";
 
 const createNewManual = () =>
   new Manual({
@@ -28,6 +29,7 @@ const createNewManual = () =>
 export const ManualForm = observer(() => {
   const theme = useTheme() as ITheme;
   const { globalStore, manualManagerStore } = useStores();
+  const { createManual } = useManual();
   const [manual, setManual] = useState(createNewManual());
   const [error, setError] = useState({
     componentSerialNumber: undefined,
@@ -85,13 +87,16 @@ export const ManualForm = observer(() => {
     });
 
     try {
-      console.log(manual, toJS(manualManagerStore.instructions));
-      await ManualSchema.validate(
-        { ...manual, instructions: toJS(manualManagerStore.instructions) },
-        {
-          abortEarly: false,
-        }
-      );
+      const data = {
+        ...manual,
+        instructions: toJS(manualManagerStore.instructions),
+      };
+
+      await ManualSchema.validate(data, {
+        abortEarly: false,
+      });
+
+      await createManual(data);
 
       console.log("success");
     } catch (error) {
