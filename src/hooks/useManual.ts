@@ -1,9 +1,7 @@
+import * as UploadFiles from "../services/UploadFiles";
 import { createTestBench } from "../services/api";
 import { Manual } from "../models/Manual";
-import * as UploadFiles from "../services/UploadFiles";
 
-// Adapter
-// CreateManual
 const adaptPayload = (manual: Manual) => {
   return {
     testBenchSerialNumber: manual.testBenchSerialNumber,
@@ -26,11 +24,9 @@ const adaptPayload = (manual: Manual) => {
   };
 };
 
-export const useManual = (id?: string) => {
+export const useManual = () => {
   const createManual = async (manual: Manual) => {
     try {
-      if (id) throw new Error("Unable to create a duplicated manual!");
-
       const manualWithUploadedFiles = await UploadFiles.uploadManual(manual);
       const payload = adaptPayload(manualWithUploadedFiles);
 

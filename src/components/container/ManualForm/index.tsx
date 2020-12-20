@@ -18,6 +18,7 @@ import { NavigationButton } from "../../fragments/Buttons/NavigationButton";
 import { ValidationError } from "yup";
 import { ManualSchema } from "./validation";
 import { useManual } from "../../../hooks/useManual";
+import { useHistory } from "react-router-dom";
 
 const createNewManual = () =>
   new Manual({
@@ -26,177 +27,189 @@ const createNewManual = () =>
     instructions: [],
   });
 
-export const ManualForm = observer(() => {
-  const theme = useTheme() as ITheme;
-  const { globalStore, manualManagerStore } = useStores();
-  const { createManual } = useManual();
-  const [manual, setManual] = useState(createNewManual());
-  const [error, setError] = useState({
-    componentSerialNumber: undefined,
-    testBenchSerialNumber: undefined,
-    instructions: undefined,
-    thumbnail: undefined,
-    model: undefined,
-  });
-
-  useLayoutEffect(() => {
-    return () => {
-      manualManagerStore.clearInstruction();
-    };
-  }, [manualManagerStore]);
-
-  const handleMovement = (movement: "up" | "down", step: number) => {
-    manualManagerStore.switchInstructionStep(
-      step,
-      movement === "up" ? step - 1 : step + 1
-    );
-  };
-
-  const handleUpload = useCallback((key: string, files: File[]) => {
-    setManual((state) => ({
-      ...state,
-      [key]: {
-        id: uuid(),
-        src: files[0].name,
-        file: files[0],
-      },
-    }));
-  }, []);
-
-  const handleClearUpload = useCallback((key: string) => {
-    setManual((state) => ({
-      ...state,
-      [key]: undefined,
-    }));
-  }, []);
-
-  const handleInput = useCallback((key: string, value: string) => {
-    setManual((state) => ({
-      ...state,
-      [key]: value,
-    }));
-  }, []);
-
-  const handleSubmit = async () => {
-    setError({
-      componentSerialNumber: undefined,
-      testBenchSerialNumber: undefined,
-      instructions: undefined,
-      thumbnail: undefined,
-      model: undefined,
-    });
-
-    try {
-      const data = {
-        ...manual,
-        instructions: toJS(manualManagerStore.instructions),
-      };
-
-      await ManualSchema.validate(data, {
-        abortEarly: false,
-      });
-
-      await createManual(data);
-
-      console.log("success");
-    } catch (error) {
-      if (error instanceof ValidationError) {
-        error.inner.forEach(({ path = "", message }) =>
-          setError((state) => ({
-            ...state,
-            [path]: message,
-          }))
-        );
-      }
-    }
-  };
-
-  return (
-    <Wrapper>
-      <div className="header">
-        <div>
-          <Typography.Title>Create Manual</Typography.Title>
-          <Typography.SubTitle>
-            Complete the form below to create a new manual.
-          </Typography.SubTitle>
-        </div>
-        <NavigationButton onClick={handleSubmit} selected>
-          Save
-        </NavigationButton>
-      </div>
-
-      <div className="general-form">
-        <FormInput
-          label="Component Series"
-          error={error.componentSerialNumber}
-          inputProps={{
-            placeholder: "Component identification series",
-            value: manual.componentSerialNumber,
-            onChange: (e) =>
-              handleInput("componentSerialNumber", e.target.value),
-          }}
-        />
-        <FormInput
-          label="Test Bench Series"
-          error={error.testBenchSerialNumber}
-          inputProps={{
-            placeholder: "Test bench identification series",
-            value: manual.testBenchSerialNumber,
-            onChange: (e) =>
-              handleInput("testBenchSerialNumber", e.target.value),
-          }}
-        />
-        <FormUpload
-          label="Component Thumbnail"
-          error={error.thumbnail}
-          limit={1}
-          files={manual.thumbnail ? [manual.thumbnail] : undefined}
-          onChange={(files) => handleUpload("thumbnail", files)}
-          onRemove={() => handleClearUpload("thumbnail")}
-        />
-        <FormUpload
-          label="Component 3D Model"
-          subLabel="Add Collada Format model with animations."
-          error={error.model}
-          limit={1}
-          files={manual.model ? [manual.model] : undefined}
-          onChange={(files) => handleUpload("model", files)}
-          onRemove={() => handleClearUpload("model")}
-        />
-      </div>
-
-      <div className="instructions-form">
-        <Label>Instructions</Label>
-        <Typography.SubTitle>
-          Create and order the instructions in the correct order.
-        </Typography.SubTitle>
-        {error.instructions && (
-          <Typography.Warning>{error.instructions}</Typography.Warning>
-        )}
-        <div className="instructions">
-          <IconButton
-            onClick={() => globalStore.setBottomSheet(true)}
-            style={{ color: theme.colors.primary }}
-          >
-            <FiPlus size={24} />
-          </IconButton>
-
-          {manualManagerStore.instructions
-            .slice()
-            .sort((a, b) => a.step - b.step)
-            .map((instruction) => (
-              <InstructionCard
-                key={uuid()}
-                step={instruction.step}
-                title={instruction.title}
-                description={instruction.description}
-                imageBadge={instruction.images.length}
-                animationBadge={instruction.animation !== ""}
-                onMovement={handleMovement}
-              />
-            ))}
-        </div>
-      </div>
-    </Wrapper>
-  );
+const createEmptyManualErrors = () => ({
+  componentSerialNumber: undefined,
+  testBenchSerialNumber: undefined,
+  instructions: undefined,
+  thumbnail: undefined,
+  model: undefined,
 });
+
+export const ManualForm: React.FC<{ externalManual?: Manual }> = observer(
+  ({ externalManual }) => {
+    // Router
+    const route = useHistory();
+    // Services
+    const { createManual, editManual } = useManual();
+    // Utils
+    const theme = useTheme() as ITheme;
+    // States
+    const { globalStore, manualManagerStore } = useStores();
+    const [manual, setManual] = useState(externalManual || createNewManual());
+    const [error, setError] = useState(createEmptyManualErrors());
+
+    useLayoutEffect(() => {
+      return () => {
+        manualManagerStore.clearInstruction();
+      };
+    }, [manualManagerStore]);
+
+    const handleMovement = (movement: "up" | "down", step: number) => {
+      manualManagerStore.switchInstructionStep(
+        step,
+        movement === "up" ? step - 1 : step + 1
+      );
+    };
+
+    const handleUpload = useCallback((key: string, files: File[]) => {
+      setManual((state) => ({
+        ...state,
+        [key]: {
+          id: uuid(),
+          src: files[0].name,
+          file: files[0],
+        },
+      }));
+    }, []);
+
+    const handleClearUpload = useCallback((key: string) => {
+      setManual((state) => ({
+        ...state,
+        [key]: undefined,
+      }));
+    }, []);
+
+    const handleInput = useCallback((key: string, value: string) => {
+      setManual((state) => ({
+        ...state,
+        [key]: value,
+      }));
+    }, []);
+
+    const handleSubmit = async () => {
+      setError(createEmptyManualErrors());
+
+      try {
+        const data = {
+          ...manual,
+          instructions: toJS(manualManagerStore.instructions),
+        };
+
+        await ManualSchema.validate(data, {
+          abortEarly: false,
+        });
+
+        if (!externalManual) {
+          await createManual(data);
+        } else {
+          await editManual(data);
+        }
+
+        console.log("success");
+        route.goBack();
+      } catch (error) {
+        if (error instanceof ValidationError) {
+          error.inner.forEach(({ path = "", message }) =>
+            setError((state) => ({
+              ...state,
+              [path]: message,
+            }))
+          );
+        }
+      }
+    };
+
+    return (
+      <Wrapper>
+        <div className="header">
+          <div>
+            <Typography.Title>Create Manual</Typography.Title>
+            <Typography.SubTitle>
+              Complete the form below to create a new manual.
+            </Typography.SubTitle>
+          </div>
+          <NavigationButton onClick={handleSubmit} selected>
+            Save
+          </NavigationButton>
+        </div>
+
+        <div className="general-form">
+          <FormInput
+            label="Component Series"
+            error={error.componentSerialNumber}
+            inputProps={{
+              placeholder: "Component identification series",
+              value: manual.componentSerialNumber,
+              onChange: (e) =>
+                handleInput("componentSerialNumber", e.target.value),
+            }}
+          />
+          <FormInput
+            label="Test Bench Series"
+            error={error.testBenchSerialNumber}
+            inputProps={{
+              placeholder: "Test bench identification series",
+              value: manual.testBenchSerialNumber,
+              onChange: (e) =>
+                handleInput("testBenchSerialNumber", e.target.value),
+            }}
+          />
+          <FormUpload
+            label="Component Thumbnail"
+            error={error.thumbnail}
+            limit={1}
+            files={manual.thumbnail ? [manual.thumbnail] : undefined}
+            onChange={(files) => handleUpload("thumbnail", files)}
+            onRemove={() => handleClearUpload("thumbnail")}
+          />
+          <FormUpload
+            label="Component 3D Model"
+            subLabel="Add Collada Format model with animations."
+            error={error.model}
+            limit={1}
+            files={manual.model ? [manual.model] : undefined}
+            onChange={(files) => handleUpload("model", files)}
+            onRemove={() => handleClearUpload("model")}
+          />
+        </div>
+
+        <div className="instructions-form">
+          <Label>Instructions</Label>
+          <Typography.SubTitle>
+            Create and order the instructions in the correct order.
+          </Typography.SubTitle>
+          {error.instructions && (
+            <Typography.Warning>{error.instructions}</Typography.Warning>
+          )}
+          <div className="instructions">
+            <IconButton
+              onClick={() => globalStore.setBottomSheet(true)}
+              style={{ color: theme.colors.primary }}
+            >
+              <FiPlus size={24} />
+            </IconButton>
+
+            {manualManagerStore.instructions
+              .slice()
+              .sort((a, b) => a.step - b.step)
+              .map((instruction) => (
+                <InstructionCard
+                  key={uuid()}
+                  step={instruction.step}
+                  title={instruction.title}
+                  description={instruction.description}
+                  imageBadge={instruction.images.length}
+                  animationBadge={instruction.animation !== ""}
+                  onMovement={handleMovement}
+                  onEdit={() => {
+                    manualManagerStore.setSelectedInstructionId(instruction.id);
+                    globalStore.setBottomSheet(true);
+                  }}
+                />
+              ))}
+          </div>
+        </div>
+      </Wrapper>
+    );
+  }
+);
