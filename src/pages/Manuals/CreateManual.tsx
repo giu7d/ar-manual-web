@@ -9,6 +9,7 @@ import { InstructionForm } from "../../components/container/InstructionForm";
 
 export const CreateManual = observer(() => {
   const { globalStore, manualManagerStore } = useStores();
+
   return (
     <>
       <CommonLayout>
