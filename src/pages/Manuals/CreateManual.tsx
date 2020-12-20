@@ -8,7 +8,7 @@ import { CommonLayout } from "../../components/layouts/CommonLayout";
 import { InstructionForm } from "../../components/container/InstructionForm";
 
 export const CreateManual = observer(() => {
-  const { globalStore } = useStores();
+  const { globalStore, manualManagerStore } = useStores();
 
   return (
     <>
@@ -19,7 +19,9 @@ export const CreateManual = observer(() => {
         visible={globalStore.bottomSheet}
         onClose={() => globalStore.setBottomSheet(false)}
       >
-        <InstructionForm />
+        <InstructionForm
+          externalInstruction={manualManagerStore.selectedInstruction}
+        />
       </BottomSheet>
     </>
   );
