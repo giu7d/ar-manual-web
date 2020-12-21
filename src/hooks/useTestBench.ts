@@ -77,7 +77,7 @@ export const useTestBench = (id: string) => {
         adaptResponseToManual(data).instructions
       );
     }
-  }, [data]);
+  }, [data, manualManagerStore]);
 
   return {
     manual: data ? adaptResponseToManual(data) : undefined,

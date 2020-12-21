@@ -119,6 +119,10 @@ export const ManualForm: React.FC<{ externalManual?: Manual }> = observer(
       }
     };
 
+    const handleCancel = () => {
+      route.goBack();
+    };
+
     return (
       <Wrapper>
         <div className="header">
@@ -128,9 +132,12 @@ export const ManualForm: React.FC<{ externalManual?: Manual }> = observer(
               Complete the form below to create a new manual.
             </Typography.SubTitle>
           </div>
-          <NavigationButton onClick={handleSubmit} selected>
-            Save
-          </NavigationButton>
+          <div>
+            <NavigationButton onClick={handleCancel}>Cancel</NavigationButton>
+            <NavigationButton onClick={handleSubmit} selected>
+              Save
+            </NavigationButton>
+          </div>
         </div>
 
         <div className="general-form">

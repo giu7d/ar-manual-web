@@ -23,6 +23,13 @@ const createNewInstruction = () =>
     step: 0,
   });
 
+const createEmptyError = () => ({
+  title: undefined,
+  description: undefined,
+  images: undefined,
+  animation: undefined,
+});
+
 interface IProps {
   externalInstruction?: Instruction;
 }
@@ -33,19 +40,16 @@ export const InstructionForm: React.FC<IProps> = observer(
     const [instruction, setInstruction] = useState(
       externalInstruction || createNewInstruction()
     );
-    const [error, setError] = useState({
-      title: undefined,
-      description: undefined,
-      images: undefined,
-      animation: undefined,
-    });
+    const [error, setError] = useState(createEmptyError());
 
     useEffect(() => {
-      setInstruction((state) => ({
-        ...state,
-        step: manualManagerStore.instructions.length + 1,
-      }));
-    }, [manualManagerStore.instructions]);
+      if (!externalInstruction) {
+        setInstruction((state) => ({
+          ...state,
+          step: manualManagerStore.instructions.length + 1,
+        }));
+      }
+    }, [externalInstruction, manualManagerStore.instructions]);
 
     const handleImageUpload = useCallback((files: File[]) => {
       const newImages: FileSource[] = files.map((file) => ({
@@ -91,19 +95,19 @@ export const InstructionForm: React.FC<IProps> = observer(
     };
 
     const handleSubmit = async () => {
-      setError({
-        title: undefined,
-        description: undefined,
-        images: undefined,
-        animation: undefined,
-      });
+      setError(createEmptyError());
 
       try {
         await InstructionSchema.validate(instruction, {
           abortEarly: false,
         });
 
-        manualManagerStore.addInstruction(instruction);
+        if (!externalInstruction) {
+          manualManagerStore.addInstruction(instruction);
+        } else {
+          manualManagerStore.editInstruction(instruction);
+        }
+
         handleClose();
       } catch (error) {
         if (error instanceof ValidationError) {
