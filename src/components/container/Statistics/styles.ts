@@ -6,7 +6,7 @@ export const Wrapper = styled.section<IDefaultStyledProps>`
   width: 100%;
   max-width: 1000px;
   flex-direction: column;
-  align-self: center;
+  margin: auto;
 
   @media only screen and (min-width: 1500px) {
     max-width: 1200px;

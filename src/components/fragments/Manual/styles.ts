@@ -4,7 +4,6 @@ import styled from "styled-components";
 export const Wrapper = styled.div<IDefaultStyledProps>`
   display: flex;
   flex-direction: column;
-  flex: 1;
   margin: 24px 0;
   border-radius: ${({ theme }) => theme.roundness}px;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);

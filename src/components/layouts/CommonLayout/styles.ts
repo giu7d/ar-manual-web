@@ -8,6 +8,8 @@ export const InnerWrapper = styled.main<IDefaultStyledProps>`
 
 export const ScrollWrapper = styled.div<IDefaultStyledProps>`
   overflow: auto;
+  width: 100%;
+  height: 100%;
 `;
 
 export const Wrapper = styled.div<IDefaultStyledProps>`
