@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { observer } from "mobx-react";
 import { v4 as uuid } from "uuid";
 
@@ -9,10 +9,9 @@ import { FormInput } from "../../fragments/Form/FormInput";
 import { FormUpload } from "../../fragments/Form/FormUpload";
 import { FormTextEditor } from "../../fragments/Form/FormTextEditor";
 import { NavigationButton } from "../../fragments/Buttons/NavigationButton";
-import {
-  Instruction,
-  InstructionImageSource,
-} from "../../../models/Instruction";
+import { Instruction, FileSource } from "../../../models/Instruction";
+import { InstructionSchema } from "./validation";
+import { ValidationError } from "yup";
 
 const createNewInstruction = () =>
   new Instruction({
@@ -24,6 +23,13 @@ const createNewInstruction = () =>
     step: 0,
   });
 
+const createEmptyError = () => ({
+  title: undefined,
+  description: undefined,
+  images: undefined,
+  animation: undefined,
+});
+
 interface IProps {
   externalInstruction?: Instruction;
 }
@@ -34,17 +40,23 @@ export const InstructionForm: React.FC<IProps> = observer(
     const [instruction, setInstruction] = useState(
       externalInstruction || createNewInstruction()
     );
+    const [error, setError] = useState(createEmptyError());
 
-    // Inputs
+    useEffect(() => {
+      if (!externalInstruction) {
+        setInstruction((state) => ({
+          ...state,
+          step: manualManagerStore.instructions.length + 1,
+        }));
+      }
+    }, [externalInstruction, manualManagerStore.instructions]);
+
     const handleImageUpload = useCallback((files: File[]) => {
-      const newImages = files.map(
-        (file) =>
-          ({
-            id: uuid(),
-            src: file.name,
-            file,
-          } as InstructionImageSource)
-      );
+      const newImages: FileSource[] = files.map((file) => ({
+        id: uuid(),
+        src: file.name,
+        file,
+      }));
 
       setInstruction((state) => ({
         ...state,
@@ -82,14 +94,31 @@ export const InstructionForm: React.FC<IProps> = observer(
       globalStore.setBottomSheet(false);
     };
 
-    const handleSubmit = () => {
-      setInstruction((state) => ({
-        ...state,
-        step: manualManagerStore.instructions.length,
-      }));
+    const handleSubmit = async () => {
+      setError(createEmptyError());
 
-      console.log("submit", instruction);
-      handleClose();
+      try {
+        await InstructionSchema.validate(instruction, {
+          abortEarly: false,
+        });
+
+        if (!externalInstruction) {
+          manualManagerStore.addInstruction(instruction);
+        } else {
+          manualManagerStore.editInstruction(instruction);
+        }
+
+        handleClose();
+      } catch (error) {
+        if (error instanceof ValidationError) {
+          error.inner.forEach(({ path = "", message }) =>
+            setError((state) => ({
+              ...state,
+              [path]: message,
+            }))
+          );
+        }
+      }
     };
 
     return (
@@ -104,6 +133,7 @@ export const InstructionForm: React.FC<IProps> = observer(
           <div className="form">
             <FormInput
               label="Title"
+              error={error.title}
               inputProps={{
                 placeholder: "Instruction title",
                 value: instruction.title,
@@ -112,6 +142,7 @@ export const InstructionForm: React.FC<IProps> = observer(
             />
             <FormTextEditor
               label="Description"
+              error={error.description}
               inputProps={{
                 placeholder: "Enter a description...",
                 defaultValue: instruction.description,
@@ -122,6 +153,7 @@ export const InstructionForm: React.FC<IProps> = observer(
           <div className="form">
             <FormUpload
               label="Instruction Image"
+              error={error.images}
               limit={3}
               files={instruction.images}
               onChange={handleImageUpload}
@@ -129,6 +161,7 @@ export const InstructionForm: React.FC<IProps> = observer(
             />
             <FormInput
               label="Animation ID"
+              error={error.animation}
               inputProps={{
                 placeholder:
                   "Animation timeline identification. (Ex: Default,...)",

@@ -4,7 +4,7 @@ export interface Warning {
   description: string;
 }
 
-export interface InstructionImageSource {
+export interface FileSource {
   id: string;
   src: string;
   file?: File;
@@ -19,7 +19,7 @@ export class Instruction {
 
   step!: number;
 
-  images!: InstructionImageSource[];
+  images!: FileSource[];
 
   animation!: string;
 

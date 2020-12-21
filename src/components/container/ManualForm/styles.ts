@@ -3,15 +3,28 @@ import styled from "styled-components";
 export const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 24px;
-  margin: 24px 48px;
+  gap: 48px;
+  margin: 24px;
   align-self: center;
 
   & > .header {
     grid-area: layout-header;
     display: flex;
-    flex-direction: column;
-    gap: 8px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+
+    div:first-child {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    div:last-child {
+      display: flex;
+      flex-direction: row;
+      gap: 14px;
+    }
   }
 
   & > .general-form {
@@ -20,6 +33,7 @@ export const Wrapper = styled.div`
     flex-direction: column;
     gap: 14px;
     align-self: center;
+    width: 100%;
   }
 
   & > .instructions-form {
@@ -35,6 +49,7 @@ export const Wrapper = styled.div`
       flex-direction: column;
       align-items: center;
       gap: 24px;
+      width: 100%;
     }
   }
 
@@ -44,11 +59,11 @@ export const Wrapper = styled.div`
     margin: 24px 48px;
     gap: 48px;
     justify-content: center;
+    max-width: 1000px;
 
     & > .general-form,
     & > .instructions-form {
       align-self: flex-start;
-      max-width: 450px;
     }
   }
 `;

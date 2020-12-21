@@ -31,7 +31,7 @@ export const Manuals = observer(() => {
     <Wrapper>
       <ActionsWrapper>
         <NavigationButton
-          onClick={() => history.push("/manuals/manager")}
+          onClick={() => history.push("/manuals/create")}
           selected
         >
           <FiPlus size={18} />
@@ -44,9 +44,8 @@ export const Manuals = observer(() => {
             key={uuid()}
             thumbnailSrc={testBench.thumbnailSrc}
             componentSeries={testBench.componentSerialNumber}
-            onOpenQRCode={() => {
-              window.open(testBench.qrCodeSrc);
-            }}
+            onOpenQRCode={() => window.open(testBench.qrCodeSrc)}
+            onOpenManual={() => history.push(`/manuals/edit/${testBench.id}`)}
           />
         ))}
       </ManualsWrapper>

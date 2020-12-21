@@ -7,35 +7,39 @@ import { Typography } from "../../Typography";
 import { Badge } from "../../Badge";
 import { Label } from "../../Input";
 import { Wrapper } from "./styles";
+import { FileSource } from "../../../../models/Instruction";
 
 interface IFormUploadProps {
   label?: string;
   subLabel?: string;
+  error?: string;
   limit?: number;
-  files?: { id: string; src: string }[];
+  files?: FileSource[];
   onChange?: (acceptedFiles: File[]) => void;
-  onRemove?: (fileName: string) => void;
+  onRemove?: (id: string) => void;
 }
 
 export const FormUpload: React.FC<IFormUploadProps> = ({
   label,
   subLabel,
+  error,
   limit,
   files = [],
   onChange = () => {},
   onRemove = () => {},
 }) => {
-  const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
+  const { getRootProps, getInputProps } = useDropzone({
     onDrop: onChange,
     maxFiles: limit,
   });
 
-  const isLimit = !limit ? true : acceptedFiles.length < limit ? true : false;
+  const isLimit = !limit ? true : files.length < limit ? true : false;
 
   return (
     <Wrapper>
       {label && <Label>{label}</Label>}
       {subLabel && <Typography.SubTitle>{subLabel}</Typography.SubTitle>}
+      {error && <Typography.Warning>{error}</Typography.Warning>}
 
       <div className="badges">
         {files.map(({ id, src }) => (

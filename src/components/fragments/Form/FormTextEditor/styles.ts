@@ -9,17 +9,26 @@ export const Wrapper = styled.div<IDefaultStyledProps>`
 `;
 
 export const TextInputWrapper = styled.div`
+  margin: 4px 0;
+  padding: 14px 24px;
+  font-size: 2rem;
+  background-color: ${({ theme }) => theme.colors.background};
+  border: 1px solid ${({ theme }) => rgba(theme.colors.text, 0.25)};
+  border-radius: 8px;
+  transition: all 200ms ease-in-out;
+
+  &:focus-within {
+    border: 1px solid ${({ theme }) => rgba(theme.colors.primary, 0.75)};
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  }
+
   display: flex;
   flex-direction: column;
   gap: 24px;
-  background: ${({ theme }) => theme.colors.foreground};
-  border-radius: 8px;
-  padding: 14px;
-  font-size: 2rem;
 
   .DraftEditor-editorContainer {
     overflow: auto;
-    min-height: 100px;
+    min-height: 60px;
     max-height: 300px;
   }
 

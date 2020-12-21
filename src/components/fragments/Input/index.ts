@@ -1,17 +1,23 @@
 import { rgba } from "polished";
 import styled from "styled-components";
 
-export const Label = styled.label<IDefaultStyledProps>`
-  font-size: 14px;
+export const Label = styled.label`
+  font-size: 1.8rem;
   font-weight: 600;
-  color: ${({ theme }) => rgba(theme.colors.text, 0.5)};
+  color: ${({ theme }) => rgba(theme.colors.text, 0.75)};
 `;
 
-export const Input = styled.input<IDefaultStyledProps>`
+export const Input = styled.input`
   margin: 4px 0;
   padding: 14px 24px;
-  font-size: 14px;
-  background-color: ${({ theme }) => theme.colors.foreground};
-  border: 1px solid ${({ theme }) => theme.colors.foreground};
+  font-size: 2rem;
+  background-color: ${({ theme }) => theme.colors.background};
+  border: 1px solid ${({ theme }) => rgba(theme.colors.text, 0.25)};
   border-radius: 8px;
+  transition: all 200ms ease-in-out;
+
+  &:focus {
+    border: 1px solid ${({ theme }) => rgba(theme.colors.primary, 0.75)};
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  }
 `;
