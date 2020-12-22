@@ -7,25 +7,37 @@ import { RenderCanvas } from "../pages/RenderCanvas";
 
 import { pages } from "./pages";
 
+export const PublicRoutes = () => {
+  return (
+    <BrowserRouter>
+      <Switch>
+        <Route path="/render/:folder/:file" component={RenderCanvas} exact />
+        <Route path="/" component={Login} exact />
+        <Redirect to="/" />
+      </Switch>
+    </BrowserRouter>
+  );
+};
+
+export const PrivateRoutes = () => {
+  return (
+    <BrowserRouter>
+      <Switch>
+        <Route path="/render/:folder/:file" component={RenderCanvas} exact />
+        {pages.map(({ component, route }) => (
+          <Route key={route} path={route} component={component} exact />
+        ))}
+      </Switch>
+    </BrowserRouter>
+  );
+};
+
 export const Routes = observer(() => {
   const { globalStore } = useStores();
 
   if (!globalStore.account.token) {
-    <Switch>
-      <Route path="/render/:folder/:file" component={RenderCanvas} exact />
-      <Route path="/" component={Login} exact />
-      <Redirect to="/" />
-    </Switch>;
+    return <PublicRoutes />;
   }
 
-  return (
-    <BrowserRouter>
-      <Switch>
-        {pages.map(({ component, route }) => (
-          <Route key={route} path={route} component={component} exact />
-        ))}
-        <Route path="/render/:folder/:file" component={RenderCanvas} exact />
-      </Switch>
-    </BrowserRouter>
-  );
+  return <PrivateRoutes />;
 });
