@@ -25,7 +25,7 @@ export const GlobalStore = () =>
       this.account = account;
     },
     // TestBench
-    selectedTestBenchId: "",
+    selectedTestBenchId: undefined as string | undefined,
     setSelectedTestBenchId(id: string) {
       this.selectedTestBenchId = id;
     },

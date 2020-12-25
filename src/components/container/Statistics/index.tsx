@@ -16,10 +16,16 @@ export const Statistics = observer(() => {
   const theme = useTheme() as ITheme;
   const { globalStore } = useStores();
   const { statistics, isLoading, isError } = useStatistics(
-    globalStore.selectedTestBenchId
+    globalStore.selectedTestBenchId || ""
   );
 
-  if (isLoading || isError) {
+  if (isError) {
+    return (
+      <div>Problems on load testBench, verify if a testbench was created</div>
+    );
+  }
+
+  if (isLoading) {
     return (
       <Wrapper>
         <ChartsWrapper>

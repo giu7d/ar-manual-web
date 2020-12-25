@@ -10,9 +10,17 @@ import { useStores } from "../../../hooks/useStores";
 
 export const Indicators = observer(() => {
   const { globalStore } = useStores();
-  const { isLoading, isError } = useStatistics(globalStore.selectedTestBenchId);
+  const { isLoading, isError } = useStatistics(
+    globalStore.selectedTestBenchId || ""
+  );
 
-  if (isLoading || isError) {
+  if (isError) {
+    return (
+      <div>Problems on load testBench, verify if a testbench was created</div>
+    );
+  }
+
+  if (isLoading) {
     return <IndicatorsShimmer />;
   }
 
