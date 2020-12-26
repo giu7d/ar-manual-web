@@ -9,6 +9,7 @@ import { useStores } from "../../../hooks/useStores";
 import { Wrapper, Title, SubTitle, TitleWrapper } from "./styles";
 import { pages } from "../../../routes/pages";
 import { IconType } from "react-icons/lib";
+import { useToken } from "../../../hooks/useToken";
 
 export const AppBar = observer(() => {
   const [page, setPage] = useState<{
@@ -18,6 +19,7 @@ export const AppBar = observer(() => {
   }>();
   const { globalStore } = useStores();
   const { path } = useRouteMatch();
+  const { clearToken } = useToken();
 
   useEffect(() => {
     const matchPage = pages.find(({ route }) => path === route);
@@ -35,7 +37,7 @@ export const AppBar = observer(() => {
         <Title>{page?.title}</Title>
         {page?.subtitle && <SubTitle>{page.subtitle}</SubTitle>}
       </TitleWrapper>
-      <AvatarButton onClick={() => {}}>G</AvatarButton>
+      <AvatarButton onClick={clearToken}>G</AvatarButton>
     </Wrapper>
   );
 });

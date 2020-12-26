@@ -1,6 +1,7 @@
 import { observer } from "mobx-react";
 import React, { ChangeEvent, FormEvent, useState } from "react";
 import { useStores } from "../../../hooks/useStores";
+import { useToken } from "../../../hooks/useToken";
 import {
   authenticateAccount,
   fetchLatestTestBench,
@@ -17,6 +18,7 @@ export const LoginForm = observer(() => {
     password: REACT_APP_PASSWORD || "",
   });
   const { globalStore } = useStores();
+  const { setToken } = useToken();
 
   const handleInput = (key: string, event: ChangeEvent<HTMLInputElement>) => {
     setForm((state) => ({
@@ -36,6 +38,7 @@ export const LoginForm = observer(() => {
       globalStore.setSelectedTestBenchId(latestTestBench.id);
     }
 
+    setToken(data.token);
     globalStore.setAccount({
       initial: "G",
       token: data.token,

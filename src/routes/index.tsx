@@ -1,7 +1,7 @@
-import { observer } from "mobx-react-lite";
+import { observer } from "mobx-react";
 import React from "react";
 import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
-import { useStores } from "../hooks/useStores";
+import { useToken } from "../hooks/useToken";
 import { Login } from "../pages/Login";
 import { RenderCanvas } from "../pages/RenderCanvas";
 
@@ -33,9 +33,9 @@ export const PrivateRoutes = () => {
 };
 
 export const Routes = observer(() => {
-  const { globalStore } = useStores();
+  const { token } = useToken();
 
-  if (!globalStore.account.token) {
+  if (!token) {
     return <PublicRoutes />;
   }
 
