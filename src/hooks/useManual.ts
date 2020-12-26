@@ -1,39 +1,16 @@
 import * as UploadFiles from "../services/UploadFiles";
-import { createTestBench } from "../services/api";
 import { Manual } from "../models/Manual";
-
-const adaptPayload = (manual: Manual) => {
-  return {
-    testBenchSerialNumber: manual.testBenchSerialNumber,
-    componentSerialNumber: manual.componentSerialNumber,
-    thumbnailSrc: manual.thumbnail?.src,
-    cao: {
-      description: "hello world",
-      items: [],
-    },
-    instructions: manual.instructions.map((instruction) => ({
-      title: instruction.title,
-      description: instruction.description,
-      step: instruction.step,
-      sources: [
-        ...instruction.images.map((image) => ({
-          type: "image",
-          src: image.src,
-        })),
-        ...instruction.animations.map((animation) => ({
-          type: "3D",
-          src: animation.src,
-        })),
-      ],
-    })),
-  };
-};
+import { createTestBench, editTestBench } from "../services/api";
+import {
+  CreateTestBenchAdapter,
+  ModifyTestBenchAdapter,
+} from "../services/adapters";
 
 export const useManual = () => {
   const createManual = async (manual: Manual) => {
     try {
       const manualWithUploadedFiles = await UploadFiles.uploadManual(manual);
-      const payload = adaptPayload(manualWithUploadedFiles);
+      const payload = CreateTestBenchAdapter(manualWithUploadedFiles);
 
       await createTestBench(payload);
       console.log("createManual", "ok");
@@ -42,8 +19,16 @@ export const useManual = () => {
     }
   };
 
-  const editManual = async (manual: Partial<Manual>) => {
-    console.log(manual);
+  const editManual = async (manual: Manual) => {
+    try {
+      const manualWithUploadedFiles = await UploadFiles.uploadManual(manual);
+      const payload = ModifyTestBenchAdapter(manualWithUploadedFiles);
+
+      await editTestBench(manual.id, payload);
+      console.log("editManual", "ok");
+    } catch (error) {
+      console.log("editManual", "error", error);
+    }
   };
 
   return {

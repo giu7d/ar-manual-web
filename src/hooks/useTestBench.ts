@@ -26,6 +26,7 @@ interface ITestBenchResponse {
     id: string;
     step: number;
     nextInstructionId?: string;
+    title: string;
     description: string;
     sources: {
       id: string;
@@ -60,7 +61,7 @@ const adaptResponseToManual = (data: ITestBenchResponse): Manual => {
               })),
             step: instruction.step,
             warnings: instruction.warning,
-            title: "Hello World",
+            title: instruction.title,
             animations: instruction.sources
               .filter(({ type }) => type === "3D")
               .map((src) => ({

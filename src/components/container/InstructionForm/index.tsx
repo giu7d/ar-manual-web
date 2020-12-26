@@ -91,8 +91,8 @@ export const InstructionForm: React.FC<IProps> = observer(
     };
 
     const handleSubmit = async (e: FormEvent) => {
-      setError(createEmptyError());
       e.preventDefault();
+      setError(createEmptyError());
 
       try {
         await InstructionSchema.validate(instruction, {
@@ -122,7 +122,9 @@ export const InstructionForm: React.FC<IProps> = observer(
       <form onSubmit={handleSubmit}>
         <Wrapper>
           <div className="header">
-            <Typography.Title>Create Instruction</Typography.Title>
+            <Typography.Title>
+              {!externalInstruction ? "Create" : "Edit"} Instruction
+            </Typography.Title>
             <Typography.SubTitle>
               Complete the form below to create a new instruction.
             </Typography.SubTitle>

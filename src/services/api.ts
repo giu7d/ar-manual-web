@@ -47,6 +47,15 @@ export const createTestBench = async (payload: any) => {
   }
 };
 
+export const editTestBench = async (id: string, payload: any) => {
+  try {
+    await API.put(`/testbenches/${id}`, payload);
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
 // Files
 export const uploadFiles = async (
   type: "instructions" | "failures" | "thumbnails",

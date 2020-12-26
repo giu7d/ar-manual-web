@@ -10,7 +10,7 @@ interface IManualManagerStore {
   setInstruction: (instructions: Instruction[]) => void;
   switchInstructionStep: (oldStep: number, newStep: number) => void;
   clearInstruction: () => void;
-  setSelectedInstructionId: (id: string) => void;
+  setSelectedInstructionId: (id?: string) => void;
 }
 
 export const ManualManagerStore = () =>
