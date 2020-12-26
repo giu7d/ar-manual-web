@@ -45,8 +45,6 @@ export const uploadManual = async (manual: Manual) => {
     if (manual.thumbnail)
       manual.thumbnail = await uploadThumbnail(manual.thumbnail);
 
-    if (manual.model) manual.model = await uploadModel(manual.model);
-
     manual.instructions = await uploadInstructions(manual.instructions);
 
     return manual;

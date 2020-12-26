@@ -9,5 +9,4 @@ export const ManualSchema = Yup.object().shape({
   testBenchSerialNumber: Yup.string().min(4).required(),
   instructions: Yup.array(InstructionSchema).min(1).required(),
   thumbnail: FileSourceSchema.required(),
-  model: FileSourceSchema,
 });

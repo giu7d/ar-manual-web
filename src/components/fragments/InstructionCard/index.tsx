@@ -12,7 +12,7 @@ interface IInstructionCardProps {
   title: string;
   description: string;
   imageBadge?: number;
-  animationBadge?: boolean;
+  animationBadge?: number;
   onEdit?: () => void;
   onMovement?: (movement: "up" | "down", step: number) => void;
 }
@@ -64,7 +64,9 @@ export const InstructionCard: React.FC<IInstructionCardProps> = ({
           <div className="badges">
             {imageBadge && <Badge icon={imageBadge}>Images</Badge>}
             {animationBadge && (
-              <Badge background={theme.colors.secondary}>Animation</Badge>
+              <Badge icon={animationBadge} background={theme.colors.secondary}>
+                Animation
+              </Badge>
             )}
           </div>
           <IconButton onClick={onEdit}>

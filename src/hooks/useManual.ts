@@ -7,7 +7,6 @@ const adaptPayload = (manual: Manual) => {
     testBenchSerialNumber: manual.testBenchSerialNumber,
     componentSerialNumber: manual.componentSerialNumber,
     thumbnailSrc: manual.thumbnail?.src,
-    //modelSrc: manual.model?.src,
     cao: {
       description: "hello world",
       items: [],

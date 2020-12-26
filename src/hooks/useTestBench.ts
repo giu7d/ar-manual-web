@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import useSWR from "swr";
 import { v4 } from "uuid";
+import { Instruction } from "../models/Instruction";
 
 import { Manual } from "../models/Manual";
 import { fetcher } from "../services/api";
@@ -46,20 +47,30 @@ const adaptResponseToManual = (data: ITestBenchResponse): Manual => {
       id: v4(),
       src: data.thumbnailSrc,
     },
-    instructions: data.instructions.map((instruction) => ({
-      id: instruction.id,
-      description: instruction.description,
-      images: instruction.sources
-        .filter(({ type }) => type === "image")
-        .map((src) => ({
-          id: src.id,
-          src: src.src,
-        })),
-      step: instruction.step,
-      warnings: instruction.warning,
-      title: "Hello World",
-      animation: "",
-    })),
+    instructions: data.instructions.map(
+      (instruction) =>
+        new Instruction(
+          {
+            description: instruction.description,
+            images: instruction.sources
+              .filter(({ type }) => type === "image")
+              .map((src) => ({
+                id: src.id,
+                src: src.src,
+              })),
+            step: instruction.step,
+            warnings: instruction.warning,
+            title: "Hello World",
+            animations: instruction.sources
+              .filter(({ type }) => type === "AR")
+              .map((src) => ({
+                id: src.id,
+                src: src.src,
+              })),
+          },
+          instruction.id
+        )
+    ),
   };
 };
 
