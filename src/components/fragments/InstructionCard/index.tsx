@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 import { PanInfo, useDragControls } from "framer-motion";
-import { FiChevronDown, FiChevronUp, FiEdit2 } from "react-icons/fi";
+import { FiChevronDown, FiChevronUp, FiEdit2, FiTrash2 } from "react-icons/fi";
 import { useTheme } from "styled-components";
 
 import { Badge } from "../Badge";
@@ -14,6 +14,7 @@ interface IInstructionCardProps {
   imageBadge?: number;
   animationBadge?: number;
   onEdit?: () => void;
+  onRemove?: () => void;
   onMovement?: (movement: "up" | "down", step: number) => void;
 }
 
@@ -24,6 +25,7 @@ export const InstructionCard: React.FC<IInstructionCardProps> = ({
   imageBadge,
   animationBadge,
   onEdit = () => {},
+  onRemove = () => {},
   onMovement = () => {},
 }) => {
   const wrapperRef = useRef(null);
@@ -69,6 +71,9 @@ export const InstructionCard: React.FC<IInstructionCardProps> = ({
               </Badge>
             )}
           </div>
+          <IconButton onClick={onRemove}>
+            <FiTrash2 />
+          </IconButton>
           <IconButton onClick={onEdit}>
             <FiEdit2 />
           </IconButton>

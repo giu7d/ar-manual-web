@@ -202,6 +202,9 @@ export const ManualForm: React.FC<{ externalManual?: Manual }> = observer(
                     manualManagerStore.setSelectedInstructionId(instruction.id);
                     globalStore.setBottomSheet(true);
                   }}
+                  onRemove={() => {
+                    manualManagerStore.deleteInstruction(instruction.id);
+                  }}
                 />
               ))}
           </div>

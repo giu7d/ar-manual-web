@@ -7,10 +7,11 @@ interface IManualManagerStore {
   selectedInstruction?: Instruction;
   addInstruction: (instruction: Instruction) => void;
   editInstruction: (instruction: Instruction) => void;
+  deleteInstruction: (id: string) => void;
   setInstruction: (instructions: Instruction[]) => void;
-  switchInstructionStep: (oldStep: number, newStep: number) => void;
   clearInstruction: () => void;
   setSelectedInstructionId: (id?: string) => void;
+  switchInstructionStep: (oldStep: number, newStep: number) => void;
 }
 
 export const ManualManagerStore = () =>
@@ -34,6 +35,12 @@ export const ManualManagerStore = () =>
         ({ id }) => instruction.id === id
       );
       this.instructions[index] = instruction;
+    },
+    deleteInstruction(id) {
+      const index = this.instructions.findIndex(
+        (instruction) => instruction.id === id
+      );
+      this.instructions.splice(index, 1);
     },
     setInstruction(instructions) {
       this.instructions = instructions;
