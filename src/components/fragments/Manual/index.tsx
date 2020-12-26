@@ -1,5 +1,5 @@
 import React from "react";
-import { FiExternalLink } from "react-icons/fi";
+import { FiExternalLink, FiTrash2 } from "react-icons/fi";
 import { AiOutlineQrcode } from "react-icons/ai";
 import { IconButton } from "../Buttons/IconButton";
 import { Wrapper, ContentWrapper } from "./styles";
@@ -9,6 +9,7 @@ interface IManualProps {
   thumbnailSrc: string;
   onOpenQRCode?: () => void;
   onOpenManual?: () => void;
+  onRemove?: () => void;
 }
 
 export const Manual: React.FC<IManualProps> = ({
@@ -16,6 +17,7 @@ export const Manual: React.FC<IManualProps> = ({
   thumbnailSrc,
   onOpenQRCode = () => {},
   onOpenManual = () => {},
+  onRemove = () => {},
 }) => {
   return (
     <Wrapper>
@@ -33,6 +35,9 @@ export const Manual: React.FC<IManualProps> = ({
         <div className="actions">
           <IconButton onClick={onOpenQRCode}>
             <AiOutlineQrcode size={24} />
+          </IconButton>
+          <IconButton onClick={onRemove}>
+            <FiTrash2 size={24} />
           </IconButton>
           <IconButton onClick={onOpenManual}>
             <FiExternalLink size={24} />

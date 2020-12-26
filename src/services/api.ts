@@ -56,6 +56,15 @@ export const editTestBench = async (id: string, payload: any) => {
   }
 };
 
+export const deleteTestBench = async (id: string) => {
+  try {
+    await API.delete(`/testbenches/${id}`);
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
 // Files
 export const uploadFiles = async (
   type: "instructions" | "failures" | "thumbnails",
