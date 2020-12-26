@@ -12,13 +12,19 @@ const adaptPayload = (manual: Manual) => {
       items: [],
     },
     instructions: manual.instructions.map((instruction) => ({
+      title: instruction.title,
       description: instruction.description,
       step: instruction.step,
-      sources: instruction.images.map((image) => ({
-        type: "image",
-        src: image.src,
-      })),
-      // warnings: [],
+      sources: [
+        ...instruction.images.map((image) => ({
+          type: "image",
+          src: image.src,
+        })),
+        ...instruction.animations.map((animation) => ({
+          type: "3D",
+          src: animation.src,
+        })),
+      ],
     })),
   };
 };

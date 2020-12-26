@@ -29,7 +29,7 @@ interface ITestBenchResponse {
     description: string;
     sources: {
       id: string;
-      type: "image" | "AR";
+      type: "image" | "3D";
       src: string;
     }[];
     warning: any[];
@@ -62,7 +62,7 @@ const adaptResponseToManual = (data: ITestBenchResponse): Manual => {
             warnings: instruction.warning,
             title: "Hello World",
             animations: instruction.sources
-              .filter(({ type }) => type === "AR")
+              .filter(({ type }) => type === "3D")
               .map((src) => ({
                 id: src.id,
                 src: src.src,

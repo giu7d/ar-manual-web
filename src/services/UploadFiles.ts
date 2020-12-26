@@ -11,15 +11,6 @@ export const uploadThumbnail = async (thumbnail: FileSource) => {
   return thumbnail;
 };
 
-export const uploadModel = async (model: FileSource) => {
-  if (model.file) {
-    const [response] = await uploadFiles("instructions", [model.file]);
-    model.src = response.url;
-  }
-
-  return model;
-};
-
 export const uploadInstruction = async (instruction: Instruction) => {
   instruction.images = await Promise.all(
     instruction.images.map(async (image) => {
@@ -28,6 +19,16 @@ export const uploadInstruction = async (instruction: Instruction) => {
         image.src = response.url;
       }
       return image;
+    })
+  );
+
+  instruction.animations = await Promise.all(
+    instruction.animations.map(async (animation) => {
+      if (animation.file) {
+        const [response] = await uploadFiles("instructions", [animation.file]);
+        animation.src = response.url;
+      }
+      return animation;
     })
   );
 
@@ -42,8 +43,9 @@ export const uploadInstructions = async (instructions: Instruction[]) => {
 
 export const uploadManual = async (manual: Manual) => {
   try {
-    if (manual.thumbnail)
+    if (manual.thumbnail) {
       manual.thumbnail = await uploadThumbnail(manual.thumbnail);
+    }
 
     manual.instructions = await uploadInstructions(manual.instructions);
 
