@@ -21,7 +21,7 @@ export class Instruction {
 
   images!: FileSource[];
 
-  animation!: string;
+  animations!: FileSource[];
 
   warnings!: Warning[];
 

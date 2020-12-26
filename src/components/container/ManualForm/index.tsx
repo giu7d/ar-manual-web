@@ -32,18 +32,13 @@ const createEmptyManualErrors = () => ({
   testBenchSerialNumber: undefined,
   instructions: undefined,
   thumbnail: undefined,
-  model: undefined,
 });
 
 export const ManualForm: React.FC<{ externalManual?: Manual }> = observer(
   ({ externalManual }) => {
-    // Router
     const route = useHistory();
-    // Services
-    const { createManual, editManual } = useManual();
-    // Utils
     const theme = useTheme() as ITheme;
-    // States
+    const { createManual, editManual } = useManual();
     const { globalStore, manualManagerStore } = useStores();
     const [manual, setManual] = useState(externalManual || createNewManual());
     const [error, setError] = useState(createEmptyManualErrors());
@@ -105,7 +100,6 @@ export const ManualForm: React.FC<{ externalManual?: Manual }> = observer(
           await editManual(data);
         }
 
-        console.log("success");
         route.goBack();
       } catch (error) {
         if (error instanceof ValidationError) {
@@ -127,7 +121,9 @@ export const ManualForm: React.FC<{ externalManual?: Manual }> = observer(
       <Wrapper>
         <div className="header">
           <div>
-            <Typography.Title>Create Manual</Typography.Title>
+            <Typography.Title>
+              {!externalManual ? "Create" : "Edit"} Manual
+            </Typography.Title>
             <Typography.SubTitle>
               Complete the form below to create a new manual.
             </Typography.SubTitle>
@@ -169,15 +165,6 @@ export const ManualForm: React.FC<{ externalManual?: Manual }> = observer(
             onChange={(files) => handleUpload("thumbnail", files)}
             onRemove={() => handleClearUpload("thumbnail")}
           />
-          <FormUpload
-            label="Component 3D Model"
-            subLabel="Add Collada Format model with animations."
-            error={error.model}
-            limit={1}
-            files={manual.model ? [manual.model] : undefined}
-            onChange={(files) => handleUpload("model", files)}
-            onRemove={() => handleClearUpload("model")}
-          />
         </div>
 
         <div className="instructions-form">
@@ -190,7 +177,10 @@ export const ManualForm: React.FC<{ externalManual?: Manual }> = observer(
           )}
           <div className="instructions">
             <IconButton
-              onClick={() => globalStore.setBottomSheet(true)}
+              onClick={() => {
+                manualManagerStore.setSelectedInstructionId(undefined);
+                globalStore.setBottomSheet(true);
+              }}
               style={{ color: theme.colors.primary }}
             >
               <FiPlus size={24} />
@@ -206,7 +196,7 @@ export const ManualForm: React.FC<{ externalManual?: Manual }> = observer(
                   title={instruction.title}
                   description={instruction.description}
                   imageBadge={instruction.images.length}
-                  animationBadge={instruction.animation !== ""}
+                  animationBadge={instruction.animations.length}
                   onMovement={handleMovement}
                   onEdit={() => {
                     manualManagerStore.setSelectedInstructionId(instruction.id);

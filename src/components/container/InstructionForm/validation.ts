@@ -10,6 +10,6 @@ export const InstructionSchema = Yup.object().shape({
   title: Yup.string().min(5).required(),
   description: Yup.string().min(24).required(),
   images: Yup.array(FileSourceSchema).min(1).max(3).required(),
-  animation: Yup.string(),
+  animations: Yup.array(FileSourceSchema).max(1),
   step: Yup.number().required(),
 });

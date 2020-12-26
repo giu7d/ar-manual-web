@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { FormEvent, useCallback, useEffect, useState } from "react";
 import { observer } from "mobx-react";
 import { v4 as uuid } from "uuid";
 
@@ -9,7 +9,7 @@ import { FormInput } from "../../fragments/Form/FormInput";
 import { FormUpload } from "../../fragments/Form/FormUpload";
 import { FormTextEditor } from "../../fragments/Form/FormTextEditor";
 import { NavigationButton } from "../../fragments/Buttons/NavigationButton";
-import { Instruction, FileSource } from "../../../models/Instruction";
+import { Instruction } from "../../../models/Instruction";
 import { InstructionSchema } from "./validation";
 import { ValidationError } from "yup";
 
@@ -18,7 +18,7 @@ const createNewInstruction = () =>
     title: "",
     description: "",
     images: [],
-    animation: "",
+    animations: [],
     warnings: [],
     step: 0,
   });
@@ -27,7 +27,7 @@ const createEmptyError = () => ({
   title: undefined,
   description: undefined,
   images: undefined,
-  animation: undefined,
+  animations: undefined,
 });
 
 interface IProps {
@@ -51,50 +51,47 @@ export const InstructionForm: React.FC<IProps> = observer(
       }
     }, [externalInstruction, manualManagerStore.instructions]);
 
-    const handleImageUpload = useCallback((files: File[]) => {
-      const newImages: FileSource[] = files.map((file) => ({
-        id: uuid(),
-        src: file.name,
-        file,
-      }));
+    const handleInput = useCallback(
+      (key: keyof Instruction, value: string | File[]) => {
+        if (
+          value instanceof Array &&
+          (key === "animations" || key === "images")
+        ) {
+          const files = value.map((file: File) => ({
+            id: uuid(),
+            src: file.name,
+            file,
+          }));
 
-      setInstruction((state) => ({
-        ...state,
-        images: [...state.images, ...newImages],
-      }));
-    }, []);
-
-    const handleImageRemove = useCallback(
-      (id: string) => {
-        const { images } = instruction;
-        const index = images.findIndex((img) => img.id === id);
-
-        if (index === -1) {
-          return;
+          return setInstruction((state) => ({
+            ...state,
+            [key]: [...state[key], ...files],
+          }));
         }
 
-        images.splice(index, 1);
-
-        setInstruction((state) => ({
+        return setInstruction((state) => ({
           ...state,
-          images: [...images],
+          [key]: value,
         }));
       },
-      [instruction]
+      []
     );
 
-    const handleInput = useCallback((key: string, value: string) => {
-      setInstruction((state) => ({
-        ...state,
-        [key]: value,
-      }));
+    const handleRemove = useCallback((key: "animations" | "images") => {
+      setInstruction((state) => {
+        return {
+          ...state,
+          [key]: [],
+        };
+      });
     }, []);
 
     const handleClose = () => {
       globalStore.setBottomSheet(false);
     };
 
-    const handleSubmit = async () => {
+    const handleSubmit = async (e: FormEvent) => {
+      e.preventDefault();
       setError(createEmptyError());
 
       try {
@@ -122,10 +119,12 @@ export const InstructionForm: React.FC<IProps> = observer(
     };
 
     return (
-      <>
+      <form onSubmit={handleSubmit}>
         <Wrapper>
           <div className="header">
-            <Typography.Title>Create Instruction</Typography.Title>
+            <Typography.Title>
+              {!externalInstruction ? "Create" : "Edit"} Instruction
+            </Typography.Title>
             <Typography.SubTitle>
               Complete the form below to create a new instruction.
             </Typography.SubTitle>
@@ -156,28 +155,27 @@ export const InstructionForm: React.FC<IProps> = observer(
               error={error.images}
               limit={3}
               files={instruction.images}
-              onChange={handleImageUpload}
-              onRemove={handleImageRemove}
+              onChange={(files) => handleInput("images", files)}
+              onRemove={() => handleRemove("images")}
             />
-            <FormInput
-              label="Animation ID"
-              error={error.animation}
-              inputProps={{
-                placeholder:
-                  "Animation timeline identification. (Ex: Default,...)",
-                value: instruction.animation,
-                onChange: (e) => handleInput("animation", e.target.value),
-              }}
+            <FormUpload
+              label="Instruction 3D Model"
+              subLabel="Add .glb format model with animations."
+              error={error.animations}
+              limit={1}
+              files={instruction.animations}
+              onChange={(files) => handleInput("animations", files)}
+              onRemove={() => handleRemove("animations")}
             />
           </div>
         </Wrapper>
         <ActionWrapper>
           <NavigationButton onClick={handleClose}>Cancel</NavigationButton>
-          <NavigationButton onClick={handleSubmit} selected>
+          <NavigationButton type="submit" selected>
             Save
           </NavigationButton>
         </ActionWrapper>
-      </>
+      </form>
     );
   }
 );

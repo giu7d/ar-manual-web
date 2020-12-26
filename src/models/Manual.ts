@@ -10,8 +10,6 @@ export class Manual {
 
   thumbnail?: FileSource;
 
-  model?: FileSource;
-
   instructions!: Instruction[];
 
   constructor(props: Omit<Manual, "id">, id?: string) {

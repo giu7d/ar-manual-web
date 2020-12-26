@@ -32,7 +32,9 @@ export const LoginForm = observer(() => {
 
     const latestTestBench = await fetchLatestTestBench();
 
-    globalStore.setSelectedTestBenchId(latestTestBench.id);
+    if (latestTestBench) {
+      globalStore.setSelectedTestBenchId(latestTestBench.id);
+    }
 
     globalStore.setAccount({
       initial: "G",
