@@ -29,6 +29,7 @@ export const ManualManagerStore = () =>
     },
     addInstruction(instruction) {
       this.instructions.push(instruction);
+      this.instructions = this.instructions.sort((a, b) => a.step - b.step);
     },
     editInstruction(instruction) {
       const index = this.instructions.findIndex(
@@ -43,7 +44,7 @@ export const ManualManagerStore = () =>
       this.instructions.splice(index, 1);
     },
     setInstruction(instructions) {
-      this.instructions = instructions;
+      this.instructions = instructions.sort((a, b) => a.step - b.step);
     },
     clearInstruction() {
       this.instructions = [];
@@ -63,5 +64,6 @@ export const ManualManagerStore = () =>
 
       this.instructions[currentInstructionIndex].step = newStep;
       this.instructions[replacedInstructionIndex].step = oldStep;
+      this.instructions = this.instructions.sort((a, b) => a.step - b.step);
     },
   });
