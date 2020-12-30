@@ -10,7 +10,7 @@ export const RenderCanvas = () => {
   return (
     <Canvas
       style={{ flex: 1, backgroundColor: "#333" }}
-      camera={{ position: [0, 6, 7] }}
+      camera={{ position: [-50, 50, -50] }}
       gl={{
         antialias: true,
         logarithmicDepthBuffer: true,
@@ -18,7 +18,9 @@ export const RenderCanvas = () => {
     >
       <OrbitCamera />
       <ambientLight />
-      <pointLight position={[10, 10, 10]} />
+      <spotLight position={[-100, -100, -100]} color="#eaeaff" />
+      <spotLight position={[-100, 100, -100]} color="#e4d1d1" />
+      <spotLight position={[100, 100, 100]} color="#f5f5de" />
       <Suspense fallback={null}>
         <GLTFModel {...params} />
       </Suspense>

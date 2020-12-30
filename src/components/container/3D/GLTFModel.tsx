@@ -17,7 +17,7 @@ export const GLTFModel: React.FC<IGLTFModelProps> = ({ folder, file }) => {
 
   useEffect(() => {
     if (clips && mixer && mesh) {
-      clips.forEach((clip) => mixer.clipAction(clip).setDuration(5).play());
+      clips.forEach((clip) => mixer.clipAction(clip).setDuration(10).play());
     }
   }, [mesh, clips, mixer]);
 
