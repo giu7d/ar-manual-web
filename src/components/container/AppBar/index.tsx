@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { observer } from "mobx-react-lite";
-import { FiMenu } from "react-icons/fi";
+import { FiLogOut, FiMenu } from "react-icons/fi";
 import { useRouteMatch } from "react-router-dom";
 
-import { AvatarButton } from "../../fragments/Buttons/AvatarButton";
 import { IconButton } from "../../fragments/Buttons/IconButton";
 import { useStores } from "../../../hooks/useStores";
 import { Wrapper, Title, SubTitle, TitleWrapper } from "./styles";
@@ -41,7 +40,9 @@ export const AppBar = observer(() => {
         <Title>{page?.title}</Title>
         {page?.subtitle && <SubTitle>{page.subtitle}</SubTitle>}
       </TitleWrapper>
-      <AvatarButton onClick={handleLogout}>G</AvatarButton>
+      <IconButton onClick={handleLogout}>
+        <FiLogOut size={24} opacity={0.5} />
+      </IconButton>
     </Wrapper>
   );
 });
