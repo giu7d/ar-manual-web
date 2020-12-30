@@ -7,6 +7,7 @@ import { IndicatorsShimmer } from "../../fragments/Shimmer/IndicatorsShimmer";
 import { useStatistics } from "../../../hooks/useStatistics";
 import { Indicators as data } from "../../../server";
 import { useStores } from "../../../hooks/useStores";
+import { Warning } from "../../fragments/Warning";
 
 export const Indicators = observer(() => {
   const { globalStore } = useStores();
@@ -16,7 +17,10 @@ export const Indicators = observer(() => {
 
   if (isError) {
     return (
-      <div>Problems on load testBench, verify if a testbench was created</div>
+      <Warning
+        title="Error while loading performance indicators!"
+        description={isError.message}
+      />
     );
   }
 

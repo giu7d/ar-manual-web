@@ -56,6 +56,15 @@ export const editTestBench = async (id: string, payload: any) => {
   }
 };
 
+export const deleteTestBench = async (id: string) => {
+  try {
+    await API.delete(`/testbenches/${id}`);
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
 // Files
 export const uploadFiles = async (
   type: "instructions" | "failures" | "thumbnails",
@@ -78,4 +87,9 @@ export const uploadFiles = async (
     console.log(error);
     throw error;
   }
+};
+
+// API
+export const setAuthorizationHeader = async (token: string) => {
+  API.defaults.headers["Authorization"] = `Bearer ${token}`;
 };

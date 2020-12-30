@@ -56,14 +56,19 @@ export const Wrapper = styled.div`
   @media only screen and (min-width: 900px) {
     display: grid;
     grid-template-areas: "layout-header layout-header" "layout-general layout-instructions";
-    margin: 24px 48px;
+    margin: 24px auto;
     gap: 48px;
     justify-content: center;
     max-width: 1000px;
 
-    & > .general-form,
+    & > .general-form {
+      align-self: flex-start;
+      min-width: 380px;
+    }
+
     & > .instructions-form {
       align-self: flex-start;
+      max-width: 400px;
     }
   }
 `;

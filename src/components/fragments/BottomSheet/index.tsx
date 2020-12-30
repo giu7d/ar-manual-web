@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 
-import { Wrapper } from "./styles";
+import { BackdropWrapper, Wrapper } from "./styles";
 import { PanInfo, useDragControls, AnimatePresence } from "framer-motion";
 
 interface IBottomSheetProps {
@@ -25,27 +25,40 @@ export const BottomSheet: React.FC<IBottomSheetProps> = ({
   return (
     <AnimatePresence>
       {visible && (
-        <Wrapper
-          ref={wrapperRef}
-          initial={{
-            y: window.innerHeight,
-          }}
-          animate={{
-            y: 0,
-          }}
-          exit={{
-            y: window.innerHeight,
-          }}
-          transition={{ bounceStiffness: 600, bounceDamping: 10 }}
-          drag="y"
-          dragConstraints={wrapperRef}
-          dragControls={dragControls}
-          dragElastic={0.3}
-          onDragEnd={handleDrag}
-        >
-          <div className="divider" onClick={onClose} />
-          <div className="container">{children}</div>
-        </Wrapper>
+        <>
+          <BackdropWrapper
+            initial={{
+              opacity: 0,
+            }}
+            animate={{
+              opacity: 1,
+            }}
+            exit={{
+              opacity: 0,
+            }}
+          />
+          <Wrapper
+            ref={wrapperRef}
+            initial={{
+              y: window.innerHeight,
+            }}
+            animate={{
+              y: 0,
+            }}
+            exit={{
+              y: window.innerHeight,
+            }}
+            transition={{ bounceStiffness: 600, bounceDamping: 10 }}
+            drag="y"
+            dragConstraints={wrapperRef}
+            dragControls={dragControls}
+            dragElastic={0.3}
+            onDragEnd={handleDrag}
+          >
+            <div className="divider" onClick={onClose} />
+            <div className="container">{children}</div>
+          </Wrapper>
+        </>
       )}
     </AnimatePresence>
   );

@@ -26,7 +26,7 @@ export const ActionsWrapper = styled.div<IDefaultStyledProps>`
 export const ManualsWrapper = styled.div<IDefaultStyledProps>`
   display: flex;
   flex-direction: column;
-
+  gap: 14px;
   align-items: center;
   justify-content: center;
 

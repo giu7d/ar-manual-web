@@ -186,24 +186,24 @@ export const ManualForm: React.FC<{ externalManual?: Manual }> = observer(
               <FiPlus size={24} />
             </IconButton>
 
-            {manualManagerStore.instructions
-              .slice()
-              .sort((a, b) => a.step - b.step)
-              .map((instruction) => (
-                <InstructionCard
-                  key={uuid()}
-                  step={instruction.step}
-                  title={instruction.title}
-                  description={instruction.description}
-                  imageBadge={instruction.images.length}
-                  animationBadge={instruction.animations.length}
-                  onMovement={handleMovement}
-                  onEdit={() => {
-                    manualManagerStore.setSelectedInstructionId(instruction.id);
-                    globalStore.setBottomSheet(true);
-                  }}
-                />
-              ))}
+            {manualManagerStore.instructions.map((instruction) => (
+              <InstructionCard
+                key={uuid()}
+                step={instruction.step}
+                title={instruction.title}
+                description={instruction.description}
+                imageBadge={instruction.images.length}
+                animationBadge={instruction.animations.length}
+                onMovement={handleMovement}
+                onEdit={() => {
+                  manualManagerStore.setSelectedInstructionId(instruction.id);
+                  globalStore.setBottomSheet(true);
+                }}
+                onRemove={() => {
+                  manualManagerStore.deleteInstruction(instruction.id);
+                }}
+              />
+            ))}
           </div>
         </div>
       </Wrapper>

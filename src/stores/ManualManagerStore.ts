@@ -7,10 +7,11 @@ interface IManualManagerStore {
   selectedInstruction?: Instruction;
   addInstruction: (instruction: Instruction) => void;
   editInstruction: (instruction: Instruction) => void;
+  deleteInstruction: (id: string) => void;
   setInstruction: (instructions: Instruction[]) => void;
-  switchInstructionStep: (oldStep: number, newStep: number) => void;
   clearInstruction: () => void;
   setSelectedInstructionId: (id?: string) => void;
+  switchInstructionStep: (oldStep: number, newStep: number) => void;
 }
 
 export const ManualManagerStore = () =>
@@ -28,6 +29,7 @@ export const ManualManagerStore = () =>
     },
     addInstruction(instruction) {
       this.instructions.push(instruction);
+      this.instructions = this.instructions.sort((a, b) => a.step - b.step);
     },
     editInstruction(instruction) {
       const index = this.instructions.findIndex(
@@ -35,8 +37,22 @@ export const ManualManagerStore = () =>
       );
       this.instructions[index] = instruction;
     },
+    deleteInstruction(id) {
+      const index = this.instructions.findIndex(
+        (instruction) => instruction.id === id
+      );
+
+      this.instructions.splice(index, 1);
+
+      this.instructions = this.instructions
+        .sort((a, b) => a.step - b.step)
+        .map((instruction, i) => ({
+          ...instruction,
+          step: i + 1,
+        }));
+    },
     setInstruction(instructions) {
-      this.instructions = instructions;
+      this.instructions = instructions.sort((a, b) => a.step - b.step);
     },
     clearInstruction() {
       this.instructions = [];
@@ -56,5 +72,6 @@ export const ManualManagerStore = () =>
 
       this.instructions[currentInstructionIndex].step = newStep;
       this.instructions[replacedInstructionIndex].step = oldStep;
+      this.instructions = this.instructions.sort((a, b) => a.step - b.step);
     },
   });

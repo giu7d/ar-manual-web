@@ -6,6 +6,7 @@ export const Wrapper = styled.div`
   gap: 24px;
   margin: 24px 48px;
   align-self: center;
+  max-width: 900px;
 
   & > .header {
     display: flex;

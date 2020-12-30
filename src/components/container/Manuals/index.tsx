@@ -9,12 +9,21 @@ import { Manual } from "../../fragments/Manual";
 import { NavigationButton } from "../../fragments/Buttons/NavigationButton";
 import { useTestBenches } from "../../../hooks/useTestBenches";
 import { ActionsWrapper, ManualsWrapper, Wrapper } from "./styles";
+import { useManual } from "../../../hooks/useManual";
+import { Warning } from "../../fragments/Warning";
 
 export const Manuals = observer(() => {
   const { testBenches, isLoading, isError } = useTestBenches();
+  const { deleteManual } = useManual();
   const history = useHistory();
 
-  if (isLoading || isError) {
+  if (isError) {
+    return (
+      <Warning title="Error on load manuals!" description={isError.message} />
+    );
+  }
+
+  if (isLoading) {
     return (
       <Wrapper>
         <ManualsWrapper>
@@ -46,6 +55,15 @@ export const Manuals = observer(() => {
             componentSeries={testBench.componentSerialNumber}
             onOpenQRCode={() => window.open(testBench.qrCodeSrc)}
             onOpenManual={() => history.push(`/manuals/edit/${testBench.id}`)}
+            onRemove={() => {
+              const isApproved = window.confirm(
+                `Are you sure, you want to delete the manual id: ${testBench.id}?`
+              );
+
+              if (isApproved) {
+                deleteManual(testBench.id);
+              }
+            }}
           />
         ))}
       </ManualsWrapper>
