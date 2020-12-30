@@ -41,7 +41,15 @@ export const ManualManagerStore = () =>
       const index = this.instructions.findIndex(
         (instruction) => instruction.id === id
       );
+
       this.instructions.splice(index, 1);
+
+      this.instructions = this.instructions
+        .sort((a, b) => a.step - b.step)
+        .map((instruction, i) => ({
+          ...instruction,
+          step: i + 1,
+        }));
     },
     setInstruction(instructions) {
       this.instructions = instructions.sort((a, b) => a.step - b.step);
