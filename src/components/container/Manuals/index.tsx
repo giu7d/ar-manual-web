@@ -10,13 +10,20 @@ import { NavigationButton } from "../../fragments/Buttons/NavigationButton";
 import { useTestBenches } from "../../../hooks/useTestBenches";
 import { ActionsWrapper, ManualsWrapper, Wrapper } from "./styles";
 import { useManual } from "../../../hooks/useManual";
+import { Warning } from "../../fragments/Warning";
 
 export const Manuals = observer(() => {
   const { testBenches, isLoading, isError } = useTestBenches();
   const { deleteManual } = useManual();
   const history = useHistory();
 
-  if (isLoading || isError) {
+  if (isError) {
+    return (
+      <Warning title="Error on load manuals!" description={isError.message} />
+    );
+  }
+
+  if (isLoading) {
     return (
       <Wrapper>
         <ManualsWrapper>
