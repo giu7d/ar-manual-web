@@ -1,7 +1,7 @@
 import { observer } from "mobx-react";
 import React from "react";
 import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
-import { useToken } from "../hooks/useToken";
+import { useAccount } from "../hooks/useAccount";
 import { Login } from "../pages/Login";
 import { RenderCanvas } from "../pages/RenderCanvas";
 
@@ -33,7 +33,7 @@ export const PrivateRoutes = () => {
 };
 
 export const Routes = observer(() => {
-  const { token } = useToken();
+  const { token } = useAccount();
 
   if (!token) {
     return <PublicRoutes />;

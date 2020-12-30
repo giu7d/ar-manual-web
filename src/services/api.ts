@@ -88,3 +88,8 @@ export const uploadFiles = async (
     throw error;
   }
 };
+
+// API
+export const setAuthorizationHeader = async (token: string) => {
+  API.defaults.headers["Authorization"] = `Bearer ${token}`;
+};

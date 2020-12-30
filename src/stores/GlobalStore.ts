@@ -1,32 +1,46 @@
 import { makeAutoObservable } from "mobx";
 
-interface IAccount {
+interface IGlobalStore {
+  navigationBar: boolean;
+  toggleNavigationBar(): void;
+
+  bottomSheet: boolean;
+  setBottomSheet(state: boolean): void;
+
   initial: string;
-  token: string;
+  setInitial(initial: string): void;
+
+  token?: string;
+  setToken(token: string | undefined): void;
+
+  selectedTestBenchId?: string;
+  setSelectedTestBenchId(id: string): void;
 }
 
 export const GlobalStore = () =>
-  makeAutoObservable({
-    // UI
+  makeAutoObservable<IGlobalStore>({
     navigationBar: false,
-    bottomSheet: false,
     toggleNavigationBar() {
       this.navigationBar = !this.navigationBar;
     },
-    setBottomSheet(state: boolean) {
+
+    bottomSheet: false,
+    setBottomSheet(state) {
       this.bottomSheet = state;
     },
-    // Account
-    account: {
-      initial: "",
-      token: "",
-    } as IAccount,
-    setAccount(account: IAccount) {
-      this.account = account;
+
+    initial: "",
+    setInitial(initial) {
+      this.initial = initial;
     },
-    // TestBench
-    selectedTestBenchId: undefined as string | undefined,
-    setSelectedTestBenchId(id: string) {
+
+    token: undefined,
+    setToken(token) {
+      this.token = token;
+    },
+
+    selectedTestBenchId: undefined,
+    setSelectedTestBenchId(id) {
       this.selectedTestBenchId = id;
     },
   });
