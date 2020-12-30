@@ -11,6 +11,7 @@ import { useStatistics } from "../../../hooks/useStatistics";
 import { ChartsWrapper, Wrapper } from "./styles";
 import { useStores } from "../../../hooks/useStores";
 import { observer } from "mobx-react";
+import { Warning } from "../../fragments/Warning";
 
 export const Statistics = observer(() => {
   const theme = useTheme() as ITheme;
@@ -21,7 +22,10 @@ export const Statistics = observer(() => {
 
   if (isError) {
     return (
-      <div>Problems on load testBench, verify if a testbench was created</div>
+      <Warning
+        title="Error on load statistics!"
+        description={isError.message}
+      />
     );
   }
 
