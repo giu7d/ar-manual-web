@@ -12,9 +12,9 @@ export const RenderCanvas = () => {
       style={{ flex: 1, backgroundColor: "#333" }}
       camera={{ position: [-50, 50, -50] }}
       gl={{
-        antialias: true,
-        logarithmicDepthBuffer: true,
+        precision: "lowp",
       }}
+      concurrent
     >
       <OrbitCamera />
       <ambientLight />
