@@ -4,6 +4,9 @@ const { REACT_APP_API_URL } = process.env;
 
 export const API = Axios.create({
   baseURL: REACT_APP_API_URL,
+  headers: {
+    "Client-Type": "MANAGEMENT_WEB_APP", // Identify app to get API permission
+  },
 });
 
 export const fetcher = (url: string, configs?: AxiosRequestConfig) =>
