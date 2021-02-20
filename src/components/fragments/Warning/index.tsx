@@ -5,16 +5,17 @@ import { useTheme } from "styled-components";
 import { Wrapper } from "./styles";
 
 interface IProps {
+  hideIcon?: boolean;
   title?: string;
   description: string;
 }
 
-export const Warning: React.FC<IProps> = ({ title, description }) => {
-  const theme = useTheme() as ITheme;
+export const Warning: React.FC<IProps> = ({ title, description, hideIcon }) => {
+  const theme = useTheme();
 
   return (
     <Wrapper>
-      <FiAlertTriangle color={theme.colors.danger} size={18} />
+      {!hideIcon && <FiAlertTriangle color={theme.colors.danger} size={18} />}
       <div className="content">
         {title && <h4>{title}</h4>}
         <p>{description}</p>

@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const Wrapper = styled.section<IDefaultStyledProps>`
+export const Wrapper = styled.section`
   display: flex;
   padding: 24px;
   width: 100%;
@@ -13,7 +13,7 @@ export const Wrapper = styled.section<IDefaultStyledProps>`
   }
 `;
 
-export const ChartsWrapper = styled.section<IDefaultStyledProps>`
+export const ChartsWrapper = styled.section`
   display: flex;
   flex-direction: column;
   justify-content: center;

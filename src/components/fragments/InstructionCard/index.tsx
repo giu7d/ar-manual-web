@@ -30,7 +30,7 @@ export const InstructionCard: React.FC<IInstructionCardProps> = ({
 }) => {
   const wrapperRef = useRef(null);
   const dragControls = useDragControls();
-  const theme = useTheme() as ITheme;
+  const theme = useTheme();
 
   const handleDrag = (event: any, pan: PanInfo) => {
     const THRESHOLD = 150;

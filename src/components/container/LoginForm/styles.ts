@@ -1,7 +1,7 @@
 import { rgba } from "polished";
 import styled from "styled-components";
 
-export const Wrapper = styled.section<IDefaultStyledProps>`
+export const Wrapper = styled.section`
   display: flex;
   flex-direction: column;
   padding: 24px;
@@ -19,7 +19,7 @@ export const Wrapper = styled.section<IDefaultStyledProps>`
   }
 `;
 
-export const FormWrapper = styled.form<IDefaultStyledProps>`
+export const FormWrapper = styled.form`
   display: flex;
   flex-direction: column;
   width: 100%;

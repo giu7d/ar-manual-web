@@ -6,14 +6,14 @@ import { CommonLayout } from "../components/layouts/CommonLayout";
 import { BottomSheet } from "../components/fragments/BottomSheet";
 import { observer } from "mobx-react";
 import { useStores } from "../hooks/useStores";
-import { FilterForm } from "../components/container/FilterForm";
+import { Filter } from "../components/container/Statistics/Filter";
 import { fetchLatestTestBench } from "../services/api";
 
 export const Dashboard = observer(() => {
   const { globalStore } = useStores();
 
   useEffect(() => {
-    setupLatestTestbench();
+    if (!globalStore.selectedTestBenchId) setupLatestTestbench();
   });
 
   const setupLatestTestbench = async () => {
@@ -36,7 +36,7 @@ export const Dashboard = observer(() => {
         visible={globalStore.bottomSheet}
         onClose={() => globalStore.setBottomSheet(false)}
       >
-        <FilterForm />
+        <Filter />
       </BottomSheet>
     </>
   );

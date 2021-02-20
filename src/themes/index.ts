@@ -1,4 +1,4 @@
-export const Theme: ITheme = {
+export const Theme = {
   name: "default",
   colors: {
     primary: "#0070F3",

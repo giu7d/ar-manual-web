@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const SideScroll = styled.div<IDefaultStyledProps>`
+export const SideScroll = styled.div`
   display: flex;
   flex-direction: row;
   margin: 24px 0;

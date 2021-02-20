@@ -1,19 +1,17 @@
+import { v4 } from "uuid";
 import React from "react";
 import { observer } from "mobx-react";
+import { useTheme } from "styled-components";
 
 import { Indicator } from "../../fragments/Indicator";
 import { SideScroll } from "../../fragments/SideScroll";
 import { IndicatorsShimmer } from "../../fragments/Shimmer/IndicatorsShimmer";
-import { useStatistics } from "../../../hooks/useStatistics";
-import { Indicators as data } from "../../../server";
-import { useStores } from "../../../hooks/useStores";
 import { Warning } from "../../fragments/Warning";
+import { useTestBenches } from "../../../hooks/useTestBenches";
 
-export const Indicators = observer(() => {
-  const { globalStore } = useStores();
-  const { isLoading, isError } = useStatistics(
-    globalStore.selectedTestBenchId || ""
-  );
+export const Indicators: React.FC = observer(() => {
+  const { isLoading, isError } = useTestBenches();
+  const theme = useTheme();
 
   if (isError) {
     return (
@@ -30,7 +28,26 @@ export const Indicators = observer(() => {
 
   return (
     <SideScroll>
-      {data.map((item) => (
+      {[
+        {
+          id: v4(),
+          title: "Failures Today",
+          value: "14",
+          color: theme.colors.primary,
+        },
+        {
+          id: v4(),
+          title: "Most Failures Component",
+          value: "1697135X",
+          color: theme.colors.danger,
+        },
+        {
+          id: v4(),
+          title: "Manuals Available",
+          value: "2",
+          color: theme.colors.text,
+        },
+      ].map((item) => (
         <Indicator key={item.id} {...item} />
       ))}
     </SideScroll>

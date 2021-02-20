@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { observer } from "mobx-react";
 
 import { useStores } from "../../hooks/useStores";
@@ -9,6 +9,10 @@ import { InstructionForm } from "../../components/container/InstructionForm";
 
 export const CreateManual = observer(() => {
   const { globalStore, manualManagerStore } = useStores();
+
+  useEffect(() => {
+    manualManagerStore.clearInstruction();
+  });
 
   return (
     <>

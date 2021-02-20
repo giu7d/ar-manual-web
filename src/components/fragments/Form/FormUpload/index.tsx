@@ -5,7 +5,7 @@ import { v4 as uuid } from "uuid";
 
 import { Typography } from "../../Typography";
 import { Badge } from "../../Badge";
-import { Label } from "../../Input";
+import { Label, Required } from "../../Input";
 import { Wrapper } from "./styles";
 import { FileSource } from "../../../../models/Instruction";
 
@@ -13,6 +13,7 @@ interface IFormUploadProps {
   label?: string;
   subLabel?: string;
   error?: string;
+  required?: boolean;
   limit?: number;
   files?: FileSource[];
   onChange?: (acceptedFiles: File[]) => void;
@@ -22,6 +23,7 @@ interface IFormUploadProps {
 export const FormUpload: React.FC<IFormUploadProps> = ({
   label,
   subLabel,
+  required,
   error,
   limit,
   files = [],
@@ -37,7 +39,12 @@ export const FormUpload: React.FC<IFormUploadProps> = ({
 
   return (
     <Wrapper>
-      {label && <Label>{label}</Label>}
+      {label && (
+        <Label>
+          {label}
+          {required && <Required>*</Required>}
+        </Label>
+      )}
       {subLabel && <Typography.SubTitle>{subLabel}</Typography.SubTitle>}
       {error && <Typography.Warning>{error}</Typography.Warning>}
 

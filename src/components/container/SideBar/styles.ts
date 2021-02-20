@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { motion } from "framer-motion";
 import { rgba } from "polished";
 
-export const Wrapper = styled(motion.nav)<IDefaultStyledProps>`
+export const Wrapper = styled(motion.nav)`
   display: flex;
   flex-direction: row;
 

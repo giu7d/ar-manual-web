@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const Wrapper = styled.section<IDefaultStyledProps>`
+export const Wrapper = styled.section`
   display: flex;
   flex-direction: column;
   margin: auto;
@@ -12,7 +12,7 @@ export const Wrapper = styled.section<IDefaultStyledProps>`
   }
 `;
 
-export const ActionsWrapper = styled.div<IDefaultStyledProps>`
+export const ActionsWrapper = styled.div`
   display: flex;
   flex-direction: row;
   margin: 24px;
@@ -23,7 +23,7 @@ export const ActionsWrapper = styled.div<IDefaultStyledProps>`
   }
 `;
 
-export const ManualsWrapper = styled.div<IDefaultStyledProps>`
+export const ManualsWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 14px;

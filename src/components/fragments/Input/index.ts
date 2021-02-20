@@ -7,6 +7,12 @@ export const Label = styled.label`
   color: ${({ theme }) => rgba(theme.colors.text, 0.75)};
 `;
 
+export const Required = styled.span`
+  font-size: 2rem;
+  margin-left: 8px;
+  color: ${({ theme }) => theme.colors.danger};
+`;
+
 export const Input = styled.input`
   margin: 4px 0;
   padding: 14px 24px;

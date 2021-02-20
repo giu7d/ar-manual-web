@@ -35,6 +35,7 @@ export const LoginForm = observer(() => {
       <h3 className="header">Log In</h3>
       <FormWrapper onSubmit={handleSubmit}>
         <FormInput
+          required
           label="Email"
           inputProps={{
             value: form.email,
@@ -43,6 +44,7 @@ export const LoginForm = observer(() => {
           }}
         />
         <FormInput
+          required
           label="Password"
           inputProps={{
             value: form.password,

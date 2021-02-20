@@ -1,6 +1,6 @@
 import { createGlobalStyle } from "styled-components";
 
-export default createGlobalStyle<IDefaultStyledProps>`
+export default createGlobalStyle`
 	* {
 		margin: 0;
 		padding: 0;
