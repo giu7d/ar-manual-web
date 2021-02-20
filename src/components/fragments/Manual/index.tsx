@@ -1,14 +1,21 @@
 import React from "react";
-import { FiExternalLink, FiTrash2 } from "react-icons/fi";
+import {
+  FiCopy,
+  FiExternalLink,
+  FiMoreVertical,
+  FiTrash2,
+} from "react-icons/fi";
 import { AiOutlineQrcode } from "react-icons/ai";
 import { IconButton } from "../Buttons/IconButton";
 import { Wrapper, ContentWrapper } from "./styles";
-
+import { Menu, MenuItem } from "@szhsin/react-menu";
+import "@szhsin/react-menu/dist/index.css";
 interface IManualProps {
   componentSeries: string;
   thumbnailSrc: string;
   onOpenQRCode?: () => void;
   onOpenManual?: () => void;
+  onDuplicate?: () => void;
   onRemove?: () => void;
 }
 
@@ -17,6 +24,7 @@ export const Manual: React.FC<IManualProps> = ({
   thumbnailSrc,
   onOpenQRCode = () => {},
   onOpenManual = () => {},
+  onDuplicate = () => {},
   onRemove = () => {},
 }) => {
   return (
@@ -33,15 +41,29 @@ export const Manual: React.FC<IManualProps> = ({
           <h3>{componentSeries}</h3>
         </div>
         <div className="actions">
-          <IconButton onClick={onOpenQRCode}>
-            <AiOutlineQrcode size={24} />
-          </IconButton>
-          <IconButton onClick={onRemove}>
-            <FiTrash2 size={24} />
-          </IconButton>
           <IconButton onClick={onOpenManual}>
             <FiExternalLink size={24} />
           </IconButton>
+          <Menu
+            menuButton={
+              <IconButton>
+                <FiMoreVertical size={24} />
+              </IconButton>
+            }
+          >
+            <MenuItem onClick={onOpenQRCode} className="item">
+              <AiOutlineQrcode size={24} />
+              <span>QR Code</span>
+            </MenuItem>
+            <MenuItem onClick={onDuplicate} className="item">
+              <FiCopy size={24} />
+              <span>Duplicate</span>
+            </MenuItem>
+            <MenuItem onClick={onRemove} className="item danger">
+              <FiTrash2 size={24} />
+              <span>Delete</span>
+            </MenuItem>
+          </Menu>
         </div>
       </ContentWrapper>
     </Wrapper>

@@ -4,10 +4,12 @@ import {
   createTestBench,
   deleteTestBench,
   editTestBench,
+  fetchTestBench,
 } from "../services/api";
 import {
   CreateTestBenchAdapter,
   ModifyTestBenchAdapter,
+  ShowTestBenchAdapter,
 } from "../services/adapters";
 
 export const useManual = () => {
@@ -35,6 +37,28 @@ export const useManual = () => {
     }
   };
 
+  const duplicateManual = async (id: string) => {
+    try {
+      const testBench = await fetchTestBench(id);
+
+      const originalManual = ShowTestBenchAdapter(testBench);
+
+      console.log(originalManual);
+
+      const manual = new Manual({
+        ...originalManual,
+        componentSerialNumber: originalManual.componentSerialNumber + "_copy",
+        testBenchSerialNumber: originalManual.componentSerialNumber + "_copy",
+      });
+
+      const payload = CreateTestBenchAdapter(manual);
+      await createTestBench(payload);
+      console.log("duplicateManual", "ok");
+    } catch (error) {
+      console.log("duplicateManual", "error", error);
+    }
+  };
+
   const deleteManual = async (id: string) => {
     try {
       await deleteTestBench(id);
@@ -48,5 +72,6 @@ export const useManual = () => {
     createManual,
     editManual,
     deleteManual,
+    duplicateManual,
   };
 };

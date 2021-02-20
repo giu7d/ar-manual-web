@@ -63,9 +63,25 @@ export const ContentWrapper = styled.div<IDefaultStyledProps>`
     align-self: center;
     margin-top: 14px;
 
-    button {
+    .item {
+      padding: 14px 24px;
+    }
+
+    button,
+    .item {
       font-size: 24px;
       color: ${({ theme }) => rgba(theme.colors.text, 0.5)};
+    }
+
+    .item > span {
+      margin-left: 14px;
+      font-size: 16px;
+      color: ${({ theme }) => rgba(theme.colors.text, 0.75)};
+    }
+
+    .danger,
+    .danger > span {
+      color: ${({ theme }) => rgba(theme.colors.danger, 0.75)} !important;
     }
   }
 

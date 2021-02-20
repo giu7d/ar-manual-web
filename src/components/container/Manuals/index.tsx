@@ -14,7 +14,7 @@ import { Warning } from "../../fragments/Warning";
 
 export const Manuals = observer(() => {
   const { testBenches, isLoading, isError } = useTestBenches();
-  const { deleteManual } = useManual();
+  const { deleteManual, duplicateManual } = useManual();
   const history = useHistory();
 
   if (isError) {
@@ -55,9 +55,10 @@ export const Manuals = observer(() => {
             componentSeries={testBench.componentSerialNumber}
             onOpenQRCode={() => window.open(testBench.qrCodeSrc)}
             onOpenManual={() => history.push(`/manuals/edit/${testBench.id}`)}
+            onDuplicate={() => duplicateManual(testBench.id)}
             onRemove={() => {
               const isApproved = window.confirm(
-                `Are you sure, you want to delete the manual id: ${testBench.id}?`
+                `Are you sure, you want to delete the manual for component ${testBench.componentSerialNumber}?`
               );
 
               if (isApproved) {

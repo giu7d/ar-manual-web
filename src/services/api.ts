@@ -38,6 +38,12 @@ export const fetchLatestTestBench = async () => {
   }
 };
 
+export const fetchTestBench = async (id: string) => {
+  const { data } = await API.get<IShowTestBenchResponse>(`/testbenches/${id}`);
+
+  return data;
+};
+
 export const createTestBench = async (payload: any) => {
   try {
     await API.post(`/testbenches`, payload);

@@ -1,11 +1,7 @@
 import { observer } from "mobx-react";
 import React, { ChangeEvent, FormEvent, useState } from "react";
-import { useStores } from "../../../hooks/useStores";
 import { useAccount } from "../../../hooks/useAccount";
-import {
-  authenticateAccount,
-  fetchLatestTestBench,
-} from "../../../services/api";
+import { authenticateAccount } from "../../../services/api";
 import { NavigationButton } from "../../fragments/Buttons/NavigationButton";
 import { FormInput } from "../../fragments/Form/FormInput";
 import { Wrapper, FormWrapper } from "./styles";
@@ -17,7 +13,6 @@ export const LoginForm = observer(() => {
     email: REACT_APP_USERNAME || "",
     password: REACT_APP_PASSWORD || "",
   });
-  const { globalStore } = useStores();
   const { setAccount } = useAccount();
 
   const handleInput = (key: string, event: ChangeEvent<HTMLInputElement>) => {
@@ -31,12 +26,6 @@ export const LoginForm = observer(() => {
     event.preventDefault();
 
     const data = await authenticateAccount(form.email, form.password);
-
-    const latestTestBench = await fetchLatestTestBench();
-
-    if (latestTestBench) {
-      globalStore.setSelectedTestBenchId(latestTestBench.id);
-    }
 
     setAccount("G", data.token);
   };

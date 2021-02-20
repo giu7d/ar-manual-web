@@ -13,12 +13,14 @@ import { useStores } from "../../../hooks/useStores";
 import { observer } from "mobx-react";
 import { Warning } from "../../fragments/Warning";
 
-export const Statistics = observer(() => {
+interface IStatistics {
+  testBenchId: string;
+}
+
+export const Statistics: React.FC<IStatistics> = observer(({ testBenchId }) => {
   const theme = useTheme() as ITheme;
   const { globalStore } = useStores();
-  const { statistics, isLoading, isError } = useStatistics(
-    globalStore.selectedTestBenchId || ""
-  );
+  const { statistics, isLoading, isError } = useStatistics(testBenchId);
 
   if (isError) {
     return (
