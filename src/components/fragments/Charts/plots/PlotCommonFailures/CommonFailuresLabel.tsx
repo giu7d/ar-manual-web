@@ -15,7 +15,7 @@ export const CommonFailuresLabel: React.FC<ICommonFailuresLabelProps> = ({
     <text
       x={x}
       y={y}
-      dy={-8}
+      dy={-5}
       fill="#333"
       opacity={0.75}
       fontWeight="400"

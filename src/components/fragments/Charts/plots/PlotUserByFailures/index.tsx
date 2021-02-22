@@ -28,7 +28,10 @@ export const PlotUserByFailures: React.FC<IPlotUserByFailuresProps> = ({
 
   return (
     <ResponsiveContainer width="99%" aspect={1.5}>
-      <BarChart data={innerData}>
+      <BarChart
+        data={innerData}
+        style={{ fontSize: 14, textTransform: "capitalize" }}
+      >
         <XAxis
           dataKey="account.fullName"
           axisLine={false}
