@@ -26,6 +26,10 @@ export class Statistics {
     timeVariance: number;
   }[];
 
+  failuresToday!: number;
+
+  componentMostUsed!: string;
+
   constructor(props: Statistics) {
     Object.assign(this, props);
   }

@@ -27,9 +27,11 @@ export const Dashboard = observer(() => {
   return (
     <>
       <CommonLayout>
-        <Indicators />
         {globalStore.selectedTestBenchId && (
-          <Statistics testBenchId={globalStore.selectedTestBenchId} />
+          <>
+            <Indicators testBenchId={globalStore.selectedTestBenchId} />
+            <Statistics testBenchId={globalStore.selectedTestBenchId} />
+          </>
         )}
       </CommonLayout>
       <BottomSheet

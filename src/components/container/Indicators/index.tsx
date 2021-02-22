@@ -7,10 +7,16 @@ import { Indicator } from "../../fragments/Indicator";
 import { SideScroll } from "../../fragments/SideScroll";
 import { IndicatorsShimmer } from "../../fragments/Shimmer/IndicatorsShimmer";
 import { Warning } from "../../fragments/Warning";
+import { useStatistics } from "../../../hooks/useStatistics";
 import { useTestBenches } from "../../../hooks/useTestBenches";
 
-export const Indicators: React.FC = observer(() => {
-  const { isLoading, isError } = useTestBenches();
+interface IIndicators {
+  testBenchId: string;
+}
+
+export const Indicators: React.FC<IIndicators> = observer(({ testBenchId }) => {
+  const { statistics, isLoading, isError } = useStatistics(testBenchId);
+  const { testBenches } = useTestBenches();
   const theme = useTheme();
 
   if (isError) {
@@ -32,19 +38,19 @@ export const Indicators: React.FC = observer(() => {
         {
           id: v4(),
           title: "Failures Today",
-          value: "14",
+          value: statistics.failuresToday.toString(),
           color: theme.colors.primary,
         },
         {
           id: v4(),
           title: "Most Failures Component",
-          value: "1697135X",
+          value: statistics.componentMostUsed.toString(),
           color: theme.colors.danger,
         },
         {
           id: v4(),
           title: "Manuals Available",
-          value: "2",
+          value: testBenches.length.toString(),
           color: theme.colors.text,
         },
       ].map((item) => (
