@@ -26,7 +26,7 @@ export const PlotFailureByTime: React.FC<IPlotFailureByTimeProps> = ({
 
   return (
     <ResponsiveContainer width="99%" aspect={1.5}>
-      <AreaChart data={innerData}>
+      <AreaChart data={innerData} style={{ fontSize: 14 }}>
         <defs>
           <linearGradient id="failure-area" x1="0" y1="0" x2="0" y2="1">
             <stop offset="5%" stopColor={color} stopOpacity={0.8} />
@@ -35,11 +35,24 @@ export const PlotFailureByTime: React.FC<IPlotFailureByTimeProps> = ({
         </defs>
         <XAxis
           dataKey="timestamp"
+          type="category"
+          tickMargin={14}
+          tickLine={false}
+          angle={45}
           axisLine={false}
           tickFormatter={maskDateDayAndMonth}
         />
         <CartesianGrid horizontal={false} strokeDasharray="2 5" />
-        <Tooltip />
+        <Tooltip
+          itemStyle={{
+            textTransform: "capitalize",
+          }}
+          labelFormatter={(value) => {
+            const [date] = value.toString().split("T");
+            const formattedLabel = date.replace(/-/g, "/");
+            return formattedLabel;
+          }}
+        />
         <Area
           type="monotone"
           dataKey="failures"

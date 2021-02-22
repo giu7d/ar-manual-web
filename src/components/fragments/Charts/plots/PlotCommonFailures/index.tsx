@@ -26,13 +26,13 @@ export const PlotCommonFailures: React.FC<IProps> = ({ data = [] }) => {
 
   return (
     <ResponsiveContainer width="99%" aspect={1.5}>
-      <BarChart layout="vertical" margin={{ top: 24 }} data={innerData}>
+      <BarChart layout="vertical" margin={{ top: 14 }} data={innerData}>
         <Bar
           isAnimationActive={false}
           dataKey="qtd"
-          minPointSize={15}
           barSize={20}
           radius={4}
+          style={{ margin: 14 }}
         >
           {innerData.map((entry, index) => (
             <Cell key={`cell-${index}`} fill={getColor() || "#413ea0"} />
