@@ -4,6 +4,9 @@ const { REACT_APP_API_URL } = process.env;
 
 export const API = Axios.create({
   baseURL: REACT_APP_API_URL,
+  headers: {
+    "Client-Type": "MANAGEMENT_WEB_APP", // Identify app to get API permission
+  },
 });
 
 export const fetcher = (url: string, configs?: AxiosRequestConfig) =>
@@ -36,6 +39,12 @@ export const fetchLatestTestBench = async () => {
     console.log(error);
     return error;
   }
+};
+
+export const fetchTestBench = async (id: string) => {
+  const { data } = await API.get<IShowTestBenchResponse>(`/testbenches/${id}`);
+
+  return data;
 };
 
 export const createTestBench = async (payload: any) => {

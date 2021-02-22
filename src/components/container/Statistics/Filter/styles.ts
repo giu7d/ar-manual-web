@@ -1,7 +1,7 @@
 import { rgba } from "polished";
 import styled from "styled-components";
 
-export const FormWrapper = styled.form<IDefaultStyledProps>`
+export const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -19,6 +19,7 @@ export const FormWrapper = styled.form<IDefaultStyledProps>`
 
   @media only screen and (min-width: 760px) {
     flex-direction: row;
+    min-width: 350px;
 
     .section {
       margin: 0 14px;
@@ -26,7 +27,7 @@ export const FormWrapper = styled.form<IDefaultStyledProps>`
   }
 `;
 
-export const ActionWrapper = styled.div<IDefaultStyledProps>`
+export const ActionWrapper = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: flex-end;

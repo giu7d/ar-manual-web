@@ -2,7 +2,6 @@ import { rgba } from "polished";
 import styled from "styled-components";
 
 interface INavigationButtonProps {
-  theme: ITheme;
   selected?: boolean;
 }
 

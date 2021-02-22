@@ -6,7 +6,7 @@ import { v4 as uuid } from "uuid";
 import { toJS } from "mobx";
 
 import { Wrapper } from "./styles";
-import { Label } from "../../fragments/Input";
+import { Required } from "../../fragments/Input";
 import { Manual } from "../../../models/Manual";
 import { useStores } from "../../../hooks/useStores";
 import { Typography } from "../../fragments/Typography";
@@ -37,7 +37,7 @@ const createEmptyManualErrors = () => ({
 export const ManualForm: React.FC<{ externalManual?: Manual }> = observer(
   ({ externalManual }) => {
     const route = useHistory();
-    const theme = useTheme() as ITheme;
+    const theme = useTheme();
     const { createManual, editManual } = useManual();
     const { globalStore, manualManagerStore } = useStores();
     const [manual, setManual] = useState(externalManual || createNewManual());
@@ -138,6 +138,7 @@ export const ManualForm: React.FC<{ externalManual?: Manual }> = observer(
 
         <div className="general-form">
           <FormInput
+            required
             label="Component Series"
             error={error.componentSerialNumber}
             inputProps={{
@@ -148,9 +149,11 @@ export const ManualForm: React.FC<{ externalManual?: Manual }> = observer(
             }}
           />
           <FormInput
+            required
             label="Test Bench Series"
             error={error.testBenchSerialNumber}
             inputProps={{
+              required: true,
               placeholder: "Test bench identification series",
               value: manual.testBenchSerialNumber,
               onChange: (e) =>
@@ -165,10 +168,26 @@ export const ManualForm: React.FC<{ externalManual?: Manual }> = observer(
             onChange={(files) => handleUpload("thumbnail", files)}
             onRemove={() => handleClearUpload("thumbnail")}
           />
+
+          {/* <Typography.SectionTitle>
+            Operator Autocontrole Cycle
+          </Typography.SectionTitle>
+          <Typography.SubTitle>
+            Create the operator autocontrole available operations.
+          </Typography.SubTitle>
+
+          <FormInput
+            label="Description"
+            inputProps={{
+              placeholder: "...",
+            }}
+          /> */}
         </div>
 
         <div className="instructions-form">
-          <Label>Instructions</Label>
+          <Typography.SectionTitle>
+            Instructions <Required>*</Required>
+          </Typography.SectionTitle>
           <Typography.SubTitle>
             Create and order the instructions in the correct order.
           </Typography.SubTitle>

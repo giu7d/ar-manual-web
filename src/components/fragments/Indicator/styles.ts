@@ -1,8 +1,7 @@
 import styled from "styled-components";
 
 interface IWrapperProps {
-  theme: ITheme;
-  color: Omit<IThemeColors, "background" | "foreground">;
+  color?: string;
 }
 
 export const Wrapper = styled.div<IWrapperProps>`
@@ -18,7 +17,7 @@ export const Wrapper = styled.div<IWrapperProps>`
   min-width: 150px;
   border-radius: ${({ theme }) => theme.roundness}px;
 
-  background-color: ${({ theme, color = "primary" }) => theme.colors[color]};
+  background-color: ${({ theme, color }) => color || theme.colors.primary};
   color: ${({ theme }) => theme.colors.background};
 
   :first-child {

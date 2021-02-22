@@ -1,3 +1,5 @@
+import { v4 } from "uuid";
+import { Instruction } from "../models/Instruction";
 import { Manual } from "../models/Manual";
 
 export const CreateTestBenchAdapter = (manual: Manual) => {
@@ -5,10 +7,12 @@ export const CreateTestBenchAdapter = (manual: Manual) => {
     testBenchSerialNumber: manual.testBenchSerialNumber,
     componentSerialNumber: manual.componentSerialNumber,
     thumbnailSrc: manual.thumbnail?.src,
-    cao: {
-      description: "hello world",
-      items: [],
-    },
+    cao: !manual.cao
+      ? undefined
+      : {
+          description: manual.cao.description,
+          items: manual.cao.items.map(({ id, ...item }) => item),
+        },
     instructions: manual.instructions.map((instruction) => ({
       title: instruction.title,
       description: instruction.description,
@@ -32,10 +36,12 @@ export const ModifyTestBenchAdapter = (manual: Manual) => {
     testBenchSerialNumber: manual.testBenchSerialNumber,
     componentSerialNumber: manual.componentSerialNumber,
     thumbnailSrc: manual.thumbnail?.src,
-    cao: {
-      description: "hello world",
-      items: [],
-    },
+    cao: !manual.cao
+      ? undefined
+      : {
+          description: manual.cao.description,
+          items: manual.cao.items,
+        },
     instructions: manual.instructions.map((instruction) => ({
       id: instruction.id,
       title: instruction.title,
@@ -52,5 +58,42 @@ export const ModifyTestBenchAdapter = (manual: Manual) => {
         })),
       ],
     })),
+  };
+};
+
+export const ShowTestBenchAdapter = (data: IShowTestBenchResponse): Manual => {
+  return {
+    id: data.id,
+    componentSerialNumber: data.componentSerialNumber,
+    testBenchSerialNumber: data.testBenchSerialNumber,
+    thumbnail: {
+      id: v4(),
+      src: data.thumbnailSrc,
+    },
+    cao: data.cao,
+    instructions: data.instructions.map(
+      (instruction) =>
+        new Instruction(
+          {
+            description: instruction.description,
+            images: instruction.sources
+              .filter(({ type }) => type === "image")
+              .map((src) => ({
+                id: src.id,
+                src: src.src,
+              })),
+            step: instruction.step,
+            warnings: instruction.warning,
+            title: instruction.title,
+            animations: instruction.sources
+              .filter(({ type }) => type === "3D")
+              .map((src) => ({
+                id: src.id,
+                src: src.src,
+              })),
+          },
+          instruction.id
+        )
+    ),
   };
 };

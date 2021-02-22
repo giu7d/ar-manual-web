@@ -1,7 +1,7 @@
 import { rgba } from "polished";
 import styled from "styled-components";
 
-export const Wrapper = styled.div<IDefaultStyledProps>`
+export const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   margin: 24px 0;
@@ -35,7 +35,7 @@ export const Wrapper = styled.div<IDefaultStyledProps>`
   }
 `;
 
-export const ContentWrapper = styled.div<IDefaultStyledProps>`
+export const ContentWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -63,9 +63,25 @@ export const ContentWrapper = styled.div<IDefaultStyledProps>`
     align-self: center;
     margin-top: 14px;
 
-    button {
+    .item {
+      padding: 14px 24px;
+    }
+
+    button,
+    .item {
       font-size: 24px;
       color: ${({ theme }) => rgba(theme.colors.text, 0.5)};
+    }
+
+    .item > span {
+      margin-left: 14px;
+      font-size: 16px;
+      color: ${({ theme }) => rgba(theme.colors.text, 0.75)};
+    }
+
+    .danger,
+    .danger > span {
+      color: ${({ theme }) => rgba(theme.colors.danger, 0.75)} !important;
     }
   }
 

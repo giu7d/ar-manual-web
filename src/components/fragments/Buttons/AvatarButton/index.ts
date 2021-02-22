@@ -3,7 +3,7 @@ import { rgba } from "polished";
 
 import { IconButton } from "../IconButton";
 
-export const AvatarButton = styled(IconButton)<IDefaultStyledProps>`
+export const AvatarButton = styled(IconButton)`
   font-weight: bold;
   color: ${({ theme }) => rgba(theme.colors.text, 0.75)};
   background-color: ${({ theme }) => rgba(theme.colors.foreground, 1)};

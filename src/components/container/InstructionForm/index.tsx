@@ -131,6 +131,7 @@ export const InstructionForm: React.FC<IProps> = observer(
           </div>
           <div className="form">
             <FormInput
+              required
               label="Title"
               error={error.title}
               inputProps={{
@@ -140,6 +141,7 @@ export const InstructionForm: React.FC<IProps> = observer(
               }}
             />
             <FormTextEditor
+              required
               label="Description"
               error={error.description}
               inputProps={{
@@ -151,6 +153,7 @@ export const InstructionForm: React.FC<IProps> = observer(
           </div>
           <div className="form">
             <FormUpload
+              required
               label="Instruction Image"
               error={error.images}
               limit={3}

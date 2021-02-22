@@ -11,7 +11,7 @@ import {
 } from "draft-js";
 import { convertToHTML } from "draft-convert";
 
-import { Label } from "../../Input";
+import { Label, Required } from "../../Input";
 import { Wrapper, TextInputWrapper } from "./styles";
 import { BlockStyleControls } from "./BlockStyleControls";
 import { InlineStyleControls } from "./InlineStyleControls";
@@ -20,6 +20,7 @@ import { Typography } from "../../Typography";
 interface IFormTextEditorProps {
   label?: string;
   error?: string;
+  required?: boolean;
   inputProps?: {
     placeholder: string;
     defaultValue: string;
@@ -30,6 +31,7 @@ interface IFormTextEditorProps {
 export const FormTextEditor: React.FC<IFormTextEditorProps> = ({
   label,
   error,
+  required,
   inputProps = { onChange: () => {}, defaultValue: "", placeholder: "" },
 }) => {
   const [editorState, setEditorState] = useState(() => {
@@ -79,7 +81,12 @@ export const FormTextEditor: React.FC<IFormTextEditorProps> = ({
 
   return (
     <Wrapper>
-      {label && <Label>{label}</Label>}
+      {label && (
+        <Label>
+          {label}
+          {required && <Required>*</Required>}
+        </Label>
+      )}
       {error && <Typography.Warning>{error}</Typography.Warning>}
       <TextInputWrapper>
         <div>

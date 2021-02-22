@@ -4,21 +4,10 @@ import { Wrapper } from "./styles";
 interface IProps {
   title: string;
   value: string;
-  color?:
-    | "primary"
-    | "secondary"
-    | "danger"
-    | "text"
-    | "info"
-    | "success"
-    | "warn";
+  color?: string;
 }
 
-export const Indicator: React.FC<IProps> = ({
-  title,
-  value,
-  color = "primary",
-}) => {
+export const Indicator: React.FC<IProps> = ({ title, value, color }) => {
   return (
     <Wrapper color={color}>
       <h3>{title}</h3>

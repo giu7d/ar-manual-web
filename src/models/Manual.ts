@@ -10,6 +10,23 @@ export class Manual {
 
   thumbnail?: FileSource;
 
+  cao?: {
+    id: string;
+    description: string;
+    items: {
+      id: string;
+      description: string;
+      frequency:
+        | {
+            series: string;
+            reforce: string;
+          }
+        | string;
+      method: string;
+      conformity: string;
+    }[];
+  };
+
   instructions!: Instruction[];
 
   constructor(props: Omit<Manual, "id">, id?: string) {

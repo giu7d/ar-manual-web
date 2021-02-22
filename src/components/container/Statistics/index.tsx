@@ -12,24 +12,28 @@ import { ChartsWrapper, Wrapper } from "./styles";
 import { useStores } from "../../../hooks/useStores";
 import { observer } from "mobx-react";
 import { Warning } from "../../fragments/Warning";
+import { useTestBench } from "../../../hooks/useTestBench";
 
-export const Statistics = observer(() => {
-  const theme = useTheme() as ITheme;
+interface IStatistics {
+  testBenchId: string;
+}
+
+export const Statistics: React.FC<IStatistics> = observer(({ testBenchId }) => {
+  const theme = useTheme();
   const { globalStore } = useStores();
-  const { statistics, isLoading, isError } = useStatistics(
-    globalStore.selectedTestBenchId || ""
-  );
+  const testBench = useTestBench(testBenchId);
+  const { statistics, isLoading, isError } = useStatistics(testBenchId);
 
-  if (isError) {
+  if (isError || testBench.isError) {
     return (
       <Warning
         title="Error on load statistics!"
-        description={isError.message}
+        description={isError.message || testBench.isError.message}
       />
     );
   }
 
-  if (isLoading) {
+  if (isLoading || testBench.isLoading || !testBench.manual) {
     return (
       <Wrapper>
         <ChartsWrapper>
@@ -47,39 +51,59 @@ export const Statistics = observer(() => {
       <ChartFilter
         onClick={() => globalStore.setBottomSheet(true)}
         filters={[
-          { label: "Components", value: "1697135X" },
-          { label: "Period", value: "2020" },
+          {
+            label: "Component",
+            value: testBench.manual.componentSerialNumber.toUpperCase(),
+          },
         ]}
       />
       <ChartsWrapper>
-        <ChartCard title="Common Failures">
-          <PlotCommonFailures
-            data={statistics.commonFailures
-              .sort((a, b) => b.qtd - a.qtd)
-              .slice(0, 5)}
-          />
-        </ChartCard>
-        <ChartCard
-          title={
-            <>
-              Failures <small>x</small> Time
-            </>
-          }
-        >
-          <PlotFailureByTime
-            color={theme.colors.primary}
-            data={statistics.failuresByTime}
-          />
-        </ChartCard>
-        <ChartCard
-          title={
-            <>
-              Failures <small>x</small> User
-            </>
-          }
-        >
-          <PlotUserByFailures data={statistics.failuresByUsers} />
-        </ChartCard>
+        {statistics.commonFailures.length !== 0 && (
+          <ChartCard title="Common Failures">
+            <PlotCommonFailures
+              data={statistics.commonFailures
+                .sort((a, b) => b.qtd - a.qtd)
+                .slice(0, 5)}
+            />
+          </ChartCard>
+        )}
+        {statistics.failuresByTime.length !== 0 && (
+          <ChartCard
+            title={
+              <>
+                Failures <small>x</small> Time
+              </>
+            }
+          >
+            <PlotFailureByTime
+              color={theme.colors.primary}
+              data={statistics.failuresByTime}
+            />
+          </ChartCard>
+        )}
+        {statistics.failuresByUsers.length !== 0 && (
+          <ChartCard
+            title={
+              <>
+                Failures <small>x</small> User
+              </>
+            }
+          >
+            <PlotUserByFailures data={statistics.failuresByUsers} />
+          </ChartCard>
+        )}
+
+        {statistics.commonFailures.length === 0 &&
+          statistics.failuresByTime.length === 0 &&
+          statistics.failuresByUsers.length === 0 && (
+            <div>
+              <Warning
+                title="No Statistics Available!"
+                description={`We were not able to provide statistics for the ${testBench.manual.componentSerialNumber.toUpperCase()} component! Make sure that at least two analysis have been made.`}
+                hideIcon
+              />
+            </div>
+          )}
       </ChartsWrapper>
     </Wrapper>
   );
