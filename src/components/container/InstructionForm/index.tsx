@@ -155,18 +155,21 @@ export const InstructionForm: React.FC<IProps> = observer(
             <FormUpload
               required
               label="Instruction Image"
+              subLabel="Add instruction image in .png or .jpeg format."
               error={error.images}
-              limit={3}
+              limit={1}
               files={instruction.images}
               onChange={(files) => handleInput("images", files)}
               onRemove={() => handleRemove("images")}
+              accept={["image/jpeg", "image/png"]}
             />
             <FormUpload
               label="Instruction 3D Model"
-              subLabel="Add .glb format model with animations."
+              subLabel="Add instruction animation in .glb format."
               error={error.animations}
               limit={1}
               files={instruction.animations}
+              accept=".glb"
               onChange={(files) => handleInput("animations", files)}
               onRemove={() => handleRemove("animations")}
             />

@@ -13,6 +13,7 @@ interface IFormUploadProps {
   label?: string;
   subLabel?: string;
   error?: string;
+  accept?: string | string[];
   required?: boolean;
   limit?: number;
   files?: FileSource[];
@@ -25,6 +26,7 @@ export const FormUpload: React.FC<IFormUploadProps> = ({
   subLabel,
   required,
   error,
+  accept,
   limit,
   files = [],
   onChange = () => {},
@@ -33,6 +35,7 @@ export const FormUpload: React.FC<IFormUploadProps> = ({
   const { getRootProps, getInputProps } = useDropzone({
     onDrop: onChange,
     maxFiles: limit,
+    accept,
   });
 
   const isLimit = !limit ? true : files.length < limit ? true : false;
