@@ -19,6 +19,7 @@ import { ValidationError } from "yup";
 import { ManualSchema } from "./validation";
 import { useManual } from "../../../hooks/useManual";
 import { useHistory } from "react-router-dom";
+import { Warning } from "../../fragments/Warning";
 
 const createNewManual = () =>
   new Manual({
@@ -31,7 +32,7 @@ const createEmptyManualErrors = () => ({
   componentSerialNumber: undefined,
   testBenchSerialNumber: undefined,
   instructions: undefined,
-  thumbnail: undefined,
+  "thumbnail.src": undefined,
 });
 
 export const ManualForm: React.FC<{ externalManual?: Manual }> = observer(
@@ -42,6 +43,7 @@ export const ManualForm: React.FC<{ externalManual?: Manual }> = observer(
     const { globalStore, manualManagerStore } = useStores();
     const [manual, setManual] = useState(externalManual || createNewManual());
     const [error, setError] = useState(createEmptyManualErrors());
+    const [httpError, setHTTPError] = useState<Error>();
 
     useLayoutEffect(() => {
       manualManagerStore.clearInstruction();
@@ -81,6 +83,7 @@ export const ManualForm: React.FC<{ externalManual?: Manual }> = observer(
 
     const handleSubmit = async () => {
       setError(createEmptyManualErrors());
+      setHTTPError(undefined);
 
       try {
         const data = {
@@ -107,6 +110,8 @@ export const ManualForm: React.FC<{ externalManual?: Manual }> = observer(
               [path]: message,
             }))
           );
+        } else {
+          setHTTPError(error);
         }
       }
     };
@@ -116,58 +121,68 @@ export const ManualForm: React.FC<{ externalManual?: Manual }> = observer(
     };
 
     return (
-      <Wrapper>
-        <div className="header">
-          <div>
-            <Typography.Title>
-              {!externalManual ? "Create" : "Edit"} Manual
-            </Typography.Title>
-            <Typography.SubTitle>
-              Complete the form below to create a new manual.
-            </Typography.SubTitle>
+      <>
+        {httpError && (
+          <Warning
+            title="Error on saving the manual!"
+            description={httpError.message}
+          />
+        )}
+        <Wrapper>
+          <div className="header">
+            <div>
+              <Typography.Title>
+                {!externalManual ? "Create" : "Edit"} Manual
+              </Typography.Title>
+              <Typography.SubTitle>
+                Complete the form below to create a new manual.
+              </Typography.SubTitle>
+            </div>
+            <div>
+              <NavigationButton onClick={handleCancel}>Cancel</NavigationButton>
+              <NavigationButton onClick={handleSubmit} selected>
+                Save
+              </NavigationButton>
+            </div>
           </div>
-          <div>
-            <NavigationButton onClick={handleCancel}>Cancel</NavigationButton>
-            <NavigationButton onClick={handleSubmit} selected>
-              Save
-            </NavigationButton>
-          </div>
-        </div>
 
-        <div className="general-form">
-          <FormInput
-            required
-            label="Component Series"
-            error={error.componentSerialNumber}
-            inputProps={{
-              placeholder: "Component identification series",
-              value: manual.componentSerialNumber,
-              onChange: (e) =>
-                handleInput("componentSerialNumber", e.target.value),
-            }}
-          />
-          <FormInput
-            required
-            label="Test Bench Series"
-            error={error.testBenchSerialNumber}
-            inputProps={{
-              required: true,
-              placeholder: "Test bench identification series",
-              value: manual.testBenchSerialNumber,
-              onChange: (e) =>
-                handleInput("testBenchSerialNumber", e.target.value),
-            }}
-          />
-          <FormUpload
-            label="Component Thumbnail"
-            error={error.thumbnail}
-            limit={1}
-            files={manual.thumbnail ? [manual.thumbnail] : undefined}
-            onChange={(files) => handleUpload("thumbnail", files)}
-            onRemove={() => handleClearUpload("thumbnail")}
-          />
+          <div className="general-form">
+            <FormInput
+              required
+              label="Component Series"
+              error={error.componentSerialNumber}
+              inputProps={{
+                placeholder: "Component identification series",
+                value: manual.componentSerialNumber,
+                onChange: (e) =>
+                  handleInput("componentSerialNumber", e.target.value),
+              }}
+            />
+            <FormInput
+              required
+              label="Test Bench Series"
+              error={error.testBenchSerialNumber}
+              inputProps={{
+                required: true,
+                placeholder: "Test bench identification series",
+                value: manual.testBenchSerialNumber,
+                onChange: (e) =>
+                  handleInput("testBenchSerialNumber", e.target.value),
+              }}
+            />
+            <FormUpload
+              required
+              label="Component Thumbnail"
+              subLabel="Add the component thumbnail image in .png or .jpeg format."
+              error={error["thumbnail.src"] && "Thumbnail is a required field"}
+              accept={["image/jpeg", "image/png"]}
+              limit={1}
+              files={manual.thumbnail ? [manual.thumbnail] : undefined}
+              onChange={(files) => handleUpload("thumbnail", files)}
+              onRemove={() => handleClearUpload("thumbnail")}
+            />
 
-          {/* <Typography.SectionTitle>
+            {/* <Typography.SectionTitle>
             Operator Autocontrole Cycle
           </Typography.SectionTitle>
           <Typography.SubTitle>
@@ -180,50 +195,51 @@ export const ManualForm: React.FC<{ externalManual?: Manual }> = observer(
               placeholder: "...",
             }}
           /> */}
-        </div>
+          </div>
 
-        <div className="instructions-form">
-          <Typography.SectionTitle>
-            Instructions <Required>*</Required>
-          </Typography.SectionTitle>
-          <Typography.SubTitle>
-            Create and order the instructions in the correct order.
-          </Typography.SubTitle>
-          {error.instructions && (
-            <Typography.Warning>{error.instructions}</Typography.Warning>
-          )}
-          <div className="instructions">
-            <IconButton
-              onClick={() => {
-                manualManagerStore.setSelectedInstructionId(undefined);
-                globalStore.setBottomSheet(true);
-              }}
-              style={{ color: theme.colors.primary }}
-            >
-              <FiPlus size={24} />
-            </IconButton>
-
-            {manualManagerStore.instructions.map((instruction) => (
-              <InstructionCard
-                key={uuid()}
-                step={instruction.step}
-                title={instruction.title}
-                description={instruction.description}
-                imageBadge={instruction.images.length}
-                animationBadge={instruction.animations.length}
-                onMovement={handleMovement}
-                onEdit={() => {
-                  manualManagerStore.setSelectedInstructionId(instruction.id);
+          <div className="instructions-form">
+            <Typography.SectionTitle>
+              Instructions <Required>*</Required>
+            </Typography.SectionTitle>
+            <Typography.SubTitle>
+              Create and order the instructions in the correct order.
+            </Typography.SubTitle>
+            {error.instructions && (
+              <Typography.Warning>{error.instructions}</Typography.Warning>
+            )}
+            <div className="instructions">
+              <IconButton
+                onClick={() => {
+                  manualManagerStore.setSelectedInstructionId(undefined);
                   globalStore.setBottomSheet(true);
                 }}
-                onRemove={() => {
-                  manualManagerStore.deleteInstruction(instruction.id);
-                }}
-              />
-            ))}
+                style={{ color: theme.colors.primary }}
+              >
+                <FiPlus size={24} />
+              </IconButton>
+
+              {manualManagerStore.instructions.map((instruction) => (
+                <InstructionCard
+                  key={uuid()}
+                  step={instruction.step}
+                  title={instruction.title}
+                  description={instruction.description}
+                  imageBadge={instruction.images.length}
+                  animationBadge={instruction.animations.length}
+                  onMovement={handleMovement}
+                  onEdit={() => {
+                    manualManagerStore.setSelectedInstructionId(instruction.id);
+                    globalStore.setBottomSheet(true);
+                  }}
+                  onRemove={() => {
+                    manualManagerStore.deleteInstruction(instruction.id);
+                  }}
+                />
+              ))}
+            </div>
           </div>
-        </div>
-      </Wrapper>
+        </Wrapper>
+      </>
     );
   }
 );
