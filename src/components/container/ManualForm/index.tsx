@@ -44,9 +44,7 @@ export const ManualForm: React.FC<{ externalManual?: Manual }> = observer(
     const [error, setError] = useState(createEmptyManualErrors());
 
     useLayoutEffect(() => {
-      return () => {
-        manualManagerStore.clearInstruction();
-      };
+      manualManagerStore.clearInstruction();
     }, [manualManagerStore]);
 
     const handleMovement = (movement: "up" | "down", step: number) => {

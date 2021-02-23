@@ -21,7 +21,6 @@ export const EditManual = observer(() => {
   return (
     <>
       <CommonLayout>
-        {console.log(manual)}
         <ManualForm externalManual={manual} />
       </CommonLayout>
       <BottomSheet
