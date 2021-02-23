@@ -26,7 +26,7 @@ export const ActionsWrapper = styled.div`
 export const ManualsWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 24px;
   align-items: center;
   justify-content: center;
 

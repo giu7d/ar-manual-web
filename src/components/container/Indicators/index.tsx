@@ -6,7 +6,6 @@ import { useTheme } from "styled-components";
 import { Indicator } from "../../fragments/Indicator";
 import { SideScroll } from "../../fragments/SideScroll";
 import { IndicatorsShimmer } from "../../fragments/Shimmer/IndicatorsShimmer";
-import { Warning } from "../../fragments/Warning";
 import { useStatistics } from "../../../hooks/useStatistics";
 import { useTestBenches } from "../../../hooks/useTestBenches";
 
@@ -20,12 +19,7 @@ export const Indicators: React.FC<IIndicators> = observer(({ testBenchId }) => {
   const theme = useTheme();
 
   if (isError) {
-    return (
-      <Warning
-        title="Error while loading performance indicators!"
-        description={isError.message}
-      />
-    );
+    return null;
   }
 
   if (isLoading) {

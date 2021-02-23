@@ -13,9 +13,26 @@ import { useManual } from "../../../hooks/useManual";
 import { Warning } from "../../fragments/Warning";
 
 export const Manuals = observer(() => {
-  const { testBenches, isLoading, isError } = useTestBenches();
+  const { testBenches, isLoading, isError, revalidate } = useTestBenches();
   const { deleteManual, duplicateManual } = useManual();
   const history = useHistory();
+
+  const handleDuplication = async (id: string) => {
+    await duplicateManual(id);
+    revalidate();
+  };
+
+  const handleDeletion = async (id: string, componentSerialNumber: string) => {
+    const isApproved = window.confirm(
+      `Are you sure, you want to delete the manual for component ${componentSerialNumber}?`
+    );
+
+    if (isApproved) {
+      await deleteManual(id);
+    }
+
+    revalidate();
+  };
 
   if (isError) {
     return (
@@ -55,16 +72,10 @@ export const Manuals = observer(() => {
             componentSeries={testBench.componentSerialNumber}
             onOpenQRCode={() => window.open(testBench.qrCodeSrc)}
             onOpenManual={() => history.push(`/manuals/edit/${testBench.id}`)}
-            onDuplicate={() => duplicateManual(testBench.id)}
-            onRemove={() => {
-              const isApproved = window.confirm(
-                `Are you sure, you want to delete the manual for component ${testBench.componentSerialNumber}?`
-              );
-
-              if (isApproved) {
-                deleteManual(testBench.id);
-              }
-            }}
+            onDuplicate={() => handleDuplication(testBench.id)}
+            onRemove={() =>
+              handleDeletion(testBench.id, testBench.componentSerialNumber)
+            }
           />
         ))}
       </ManualsWrapper>

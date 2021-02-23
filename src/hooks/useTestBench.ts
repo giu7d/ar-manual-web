@@ -6,7 +6,7 @@ import { fetcher } from "../services/api";
 import { useStores } from "./useStores";
 
 export const useTestBench = (id: string) => {
-  const { data, error } = useSWR<IShowTestBenchResponse>(
+  const { data, error, revalidate } = useSWR<IShowTestBenchResponse>(
     `/testbenches/${id}`,
     fetcher
   );
@@ -22,6 +22,7 @@ export const useTestBench = (id: string) => {
   }, [data, manualManagerStore]);
 
   return {
+    revalidate,
     manual: data ? ShowTestBenchAdapter(data) : undefined,
     isLoading: !error && !data,
     isError: error,

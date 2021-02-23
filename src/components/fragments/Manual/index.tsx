@@ -29,14 +29,14 @@ export const Manual: React.FC<IManualProps> = ({
 }) => {
   return (
     <Wrapper>
-      <div className="cover">
+      <div className="cover" onClick={onOpenManual}>
         <img
           src={thumbnailSrc}
           alt={`manual for component ${componentSeries} `}
         />
       </div>
       <ContentWrapper>
-        <div className="content">
+        <div className="content" onClick={onOpenManual}>
           <small>Component</small>
           <h3>{componentSeries}</h3>
         </div>

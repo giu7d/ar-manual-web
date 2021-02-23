@@ -24,15 +24,6 @@ export const Statistics: React.FC<IStatistics> = observer(({ testBenchId }) => {
   const testBench = useTestBench(testBenchId);
   const { statistics, isLoading, isError } = useStatistics(testBenchId);
 
-  if (isError || testBench.isError) {
-    return (
-      <Warning
-        title="Error on load statistics!"
-        description={isError.message || testBench.isError.message}
-      />
-    );
-  }
-
   if (isLoading || testBench.isLoading || !testBench.manual) {
     return (
       <Wrapper>
@@ -42,6 +33,49 @@ export const Statistics: React.FC<IStatistics> = observer(({ testBenchId }) => {
           <CardShimmer />
           <CardShimmer />
         </ChartsWrapper>
+      </Wrapper>
+    );
+  }
+
+  if (isError || testBench.isError) {
+    const status = isError?.message.match(/[0-9]/g)?.join("");
+
+    if (status === "404") {
+      return (
+        <Wrapper>
+          <ChartFilter
+            onClick={() => globalStore.setBottomSheet(true)}
+            filters={[
+              {
+                label: "Component",
+                value: testBench.manual.componentSerialNumber.toUpperCase(),
+              },
+            ]}
+          />
+          <Warning
+            title="No Statistics Available!"
+            description={`We were not able to provide statistics for the ${testBench.manual.componentSerialNumber.toUpperCase()} component! Make sure that at least two analysis have been made.`}
+            hideIcon
+          />
+        </Wrapper>
+      );
+    }
+
+    return (
+      <Wrapper>
+        <ChartFilter
+          onClick={() => globalStore.setBottomSheet(true)}
+          filters={[
+            {
+              label: "Component",
+              value: testBench.manual.componentSerialNumber.toUpperCase(),
+            },
+          ]}
+        />
+        <Warning
+          title="Error on load statistics!"
+          description={isError.message || testBench.isError.message}
+        />
       </Wrapper>
     );
   }

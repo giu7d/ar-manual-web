@@ -4,7 +4,6 @@ import styled from "styled-components";
 export const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  margin: 24px 0;
   border-radius: ${({ theme }) => theme.roundness}px;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
   overflow: hidden;
@@ -12,6 +11,7 @@ export const Wrapper = styled.div`
   & > .cover {
     width: 100%;
     height: 200px;
+    cursor: pointer;
 
     overflow: hidden;
     img {
@@ -20,16 +20,13 @@ export const Wrapper = styled.div`
   }
 
   @media only screen and (min-width: 560px) {
-    min-width: 350px;
-    max-width: 370px;
-    margin: 24px;
+    max-width: 300px;
 
     & > .cover {
       height: 250px;
 
       img {
         width: 100%;
-        transform: translateY(0);
       }
     }
   }
@@ -42,8 +39,10 @@ export const ContentWrapper = styled.div`
   padding: 24px;
 
   & > .content {
+    cursor: pointer;
     align-self: flex-start;
     background-color: ${({ theme }) => theme.colors.background};
+    overflow: hidden;
 
     h3 {
       margin-top: 8px;
@@ -62,6 +61,7 @@ export const ContentWrapper = styled.div`
   & > .actions {
     align-self: center;
     margin-top: 14px;
+    min-width: 100px;
 
     .item {
       padding: 14px 24px;
