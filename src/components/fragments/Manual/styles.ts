@@ -44,6 +44,7 @@ export const ContentWrapper = styled.div`
   & > .content {
     align-self: flex-start;
     background-color: ${({ theme }) => theme.colors.background};
+    overflow: hidden;
 
     h3 {
       margin-top: 8px;
@@ -62,6 +63,7 @@ export const ContentWrapper = styled.div`
   & > .actions {
     align-self: center;
     margin-top: 14px;
+    min-width: 100px;
 
     .item {
       padding: 14px 24px;
