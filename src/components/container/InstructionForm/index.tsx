@@ -12,6 +12,19 @@ import { NavigationButton } from "../../fragments/Buttons/NavigationButton";
 import { Instruction } from "../../../models/Instruction";
 import { InstructionSchema } from "./validation";
 import { ValidationError } from "yup";
+import Select from "react-select";
+import { Label, Required } from "../../fragments/Input";
+
+const INSPECTION_TYPE_OPTIONS = [
+  {
+    value: "VISUAL-INSPECTION",
+    label: "Visual Inspection",
+  },
+  {
+    value: "GEOMETRIC-INSPECTION",
+    label: "Geometric Inspection",
+  },
+];
 
 const createNewInstruction = () =>
   new Instruction({
@@ -20,6 +33,7 @@ const createNewInstruction = () =>
     images: [],
     animations: [],
     warnings: [],
+    inspectionType: "VISUAL-INSPECTION",
     step: 0,
   });
 
@@ -149,6 +163,30 @@ export const InstructionForm: React.FC<IProps> = observer(
                 defaultValue: instruction.description,
                 onChange: (e) => handleInput("description", e),
               }}
+            />
+            <Label>
+              Instruction Type <Required>*</Required>
+            </Label>
+            <Select
+              styles={{
+                valueContainer: () => ({
+                  padding: 8,
+                  fontSize: 14,
+                }),
+                input: () => ({
+                  width: 350,
+                }),
+                menuList: () => ({
+                  fontSize: 14,
+                }),
+              }}
+              value={INSPECTION_TYPE_OPTIONS.find(
+                ({ value }) => value === instruction.inspectionType
+              )}
+              options={INSPECTION_TYPE_OPTIONS}
+              onChange={(value) =>
+                value?.value && handleInput("inspectionType", value.value)
+              }
             />
           </div>
           <div className="form">

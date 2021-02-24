@@ -19,6 +19,8 @@ export class Instruction {
 
   step!: number;
 
+  inspectionType!: "VISUAL-INSPECTION" | "GEOMETRIC-INSPECTION";
+
   images!: FileSource[];
 
   animations!: FileSource[];

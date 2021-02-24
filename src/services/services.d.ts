@@ -22,6 +22,7 @@ type IShowTestBenchResponse = {
   instructions: {
     id: string;
     step: number;
+    inspectionType: "VISUAL-INSPECTION" | "GEOMETRIC-INSPECTION";
     nextInstructionId?: string;
     title: string;
     description: string;
