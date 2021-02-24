@@ -90,7 +90,6 @@ export const ManualForm: React.FC<{ externalManual?: Manual }> = observer(
           ...manual,
           instructions: toJS(manualManagerStore.instructions),
         };
-
         await ManualSchema.validate(data, {
           abortEarly: false,
         });

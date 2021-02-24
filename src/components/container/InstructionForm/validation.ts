@@ -12,4 +12,5 @@ export const InstructionSchema = Yup.object().shape({
   images: Yup.array(FileSourceSchema).min(1).max(3).required(),
   animations: Yup.array(FileSourceSchema).max(1),
   step: Yup.number().required(),
+  inspectionType: Yup.string().required(),
 });

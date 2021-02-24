@@ -16,6 +16,7 @@ export const CreateTestBenchAdapter = (manual: Manual) => {
     instructions: manual.instructions.map((instruction) => ({
       title: instruction.title,
       description: instruction.description,
+      inspectionType: instruction.inspectionType,
       step: instruction.step,
       sources: [
         ...instruction.images.map((image) => ({
@@ -47,6 +48,7 @@ export const ModifyTestBenchAdapter = (manual: Manual) => {
       title: instruction.title,
       description: instruction.description,
       step: instruction.step,
+      inspectionType: instruction.inspectionType,
       sources: [
         ...instruction.images.map((image) => ({
           type: "image",
@@ -76,15 +78,16 @@ export const ShowTestBenchAdapter = (data: IShowTestBenchResponse): Manual => {
         new Instruction(
           {
             description: instruction.description,
+            inspectionType: instruction.inspectionType,
+            step: instruction.step,
+            warnings: instruction.warning,
+            title: instruction.title,
             images: instruction.sources
               .filter(({ type }) => type === "image")
               .map((src) => ({
                 id: src.id,
                 src: src.src,
               })),
-            step: instruction.step,
-            warnings: instruction.warning,
-            title: instruction.title,
             animations: instruction.sources
               .filter(({ type }) => type === "3D")
               .map((src) => ({
